@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 const SPEED := 300.0
 const ACCELERATION := 30.0
 const JUMP_VELOCITY := -550.0
@@ -18,6 +17,9 @@ var hit_wall: bool
 var queued_jump := false
 
 var previous_velocity := Vector2.ZERO
+
+var attached := false
+var attachment_point: Node2D
 
 func _physics_process(delta: float) -> void:
 	# coyote time
@@ -72,8 +74,31 @@ func _physics_process(delta: float) -> void:
 		# handle offsets less than the acceleration amount
 		if abs(velocity.x) < ACCELERATION: velocity.x = 0
 
+	# rope attachment
+	if Input.is_action_just_pressed("attach_rope"):
+		if not attached:
+			# attach rope
+			attached = true
+			CreateRope(position, attachment_point.position)
+		else:
+			# detach rope
+			attached = false
+			# TODO: put shit here
+
 	previous_velocity = velocity
 	move_and_slide()
+
+func CreateRope(start: Vector2, end: Vector2):
+	pass
+
+# TODO: what happens if there's multiple points in range?
+func _on_AttachmentDetector_body_entered(body: Node2D) -> void:
+	if body.name == "AttachmentPoint":
+		attachment_point = body
+	
+func _on_AttachmentDetector_body_exited(body: Node2D) -> void:
+	if body.name == "AttachmentPoint":
+		attachment_point = null
 
 func clamp(value, minimum, maximum):
 	return min(max(value, minimum), maximum)
