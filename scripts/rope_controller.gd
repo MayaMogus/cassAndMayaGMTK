@@ -55,8 +55,7 @@ func attachRope(length, amount, pivot:StaticBody2D):
 		
 		ropeSegment.pointA = pointA
 		ropeSegment.pointB = pointB
-		
-		
+
 
 
 func removeRope():
