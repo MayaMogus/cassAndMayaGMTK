@@ -1,10 +1,14 @@
 extends RigidBody2D
 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
 
-var amount = 50
+const SPEED := 300.0
+const ACCELERATION := 30.0
+const JUMP_VELOCITY := -550.0
+const COYOTE_TIME_SECONDS := 0.1
+const WALL_HIT_SAVE_TIME_SECONDS := 0.075
+
+var amount = 100
 var length = 0.2
 var pivotCandidate : StaticBody2D = null
 var ropeAttached : bool = false

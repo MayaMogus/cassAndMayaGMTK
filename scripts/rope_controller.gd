@@ -17,10 +17,9 @@ func attachRope(length, amount, pivot:StaticBody2D):
 	for i in amount:
 		var ropeSegment = ropeScene.instantiate()
 		add_child(ropeSegment)
-		ropeSegment.global_position.y = pivot.global_position.y
+		ropeSegment.global_position = pivot.global_position
 		#print(pivot.global_position.y)
 		#print(distanceToPlayer, 'dosta')
-		ropeSegment.global_position.x = pivot.global_position.x + toTheLeft * (5*distanceToPlayer/amount * i)
 		var Spring :PinJoint2D= ropeSegment.get_node('RigidBody2D/Spring')
 		var Spring2 :PinJoint2D= ropeSegment.get_node('RigidBody2D/Spring2')
 		var ropeBody : RigidBody2D = ropeSegment.get_node("RigidBody2D")
@@ -44,8 +43,7 @@ func attachRope(length, amount, pivot:StaticBody2D):
 			Spring.node_a = player.get_path()
 			print('RAHH')
 			ropeSegment.global_position = player.global_position
-			
-			
+			print()
 			Spring2.node_a = ropeSegment.get_node("RigidBody2D").get_path()
 			Spring2.node_b = prevRope.get_path()
 			pointB = prevRope

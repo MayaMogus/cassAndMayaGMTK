@@ -11,7 +11,7 @@ height = 48.0
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_agfs1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rkhd4"]
-radius = 48.6621
+radius = 160.2
 
 [node name="player" type="Node2D"]
 
