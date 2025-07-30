@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddk1ge4xsr0cy"]
+
+[ext_resource type="Script" uid="uid://b0lkak1eedomp" path="res://scripts/rope.gd" id="1_icxtj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_icxtj"]
+friction = 0.06
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wmsjs"]
+radius = 3.0
+height = 14.0
+
+[node name="rope" type="Node2D"]
+script = ExtResource("1_icxtj")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+mass = 0.118
+physics_material_override = SubResource("PhysicsMaterial_icxtj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_wmsjs")
+
+[node name="Spring" type="PinJoint2D" parent="RigidBody2D"]
+rotation = 1.5708
+node_b = NodePath("..")
+softness = 1.52
+
+[node name="Spring2" type="PinJoint2D" parent="RigidBody2D"]
+rotation = 1.5708
+node_b = NodePath("..")
+
+[node name="Line2D" type="Line2D" parent="RigidBody2D"]
+width = 2.5
+default_color = Color(0.854902, 0.0627451, 0.0509804, 1)

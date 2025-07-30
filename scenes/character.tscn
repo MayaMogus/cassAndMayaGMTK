@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsggn81s16x4c"]
+
+[ext_resource type="Script" uid="uid://dyqa1io55ill2" path="res://scripts/character_body_2d.gd" id="1_agfs1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_agfs1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dkjbp"]
+radius = 13.0
+height = 48.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_agfs1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rkhd4"]
+radius = 48.6621
+
+[node name="player" type="Node2D"]
+
+[node name="CharacterBody2D" type="RigidBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_agfs1")
+lock_rotation = true
+script = ExtResource("1_agfs1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CapsuleShape2D_dkjbp")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CharacterBody2D"]
+position = Vector2(0, 2.92063e-06)
+scale = Vector2(26, 24)
+mesh = SubResource("CapsuleMesh_agfs1")
+
+[node name="pivotDetector" type="Area2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/pivotDetector"]
+shape = SubResource("CircleShape2D_rkhd4")
+
+[connection signal="body_entered" from="CharacterBody2D/pivotDetector" to="CharacterBody2D" method="_on_pivot_detector_body_entered"]
+[connection signal="body_exited" from="CharacterBody2D/pivotDetector" to="CharacterBody2D" method="_on_pivot_detector_body_exited"]

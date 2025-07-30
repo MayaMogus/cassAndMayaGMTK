@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://2e1kmufrifn4"]
+
+[ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://ddk1ge4xsr0cy" path="res://scenes/rope.tscn" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="4_jyhfs"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sgp6g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
+size = Vector2(128, 496)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tbgi4"]
+height = 128.0
+
+[node name="main" type="Node2D"]
+
+[node name="ground" type="Node2D" parent="."]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="ground"]
+position = Vector2(-1.14441e-05, 63.75)
+scale = Vector2(512, 128.5)
+mesh = SubResource("BoxMesh_sgp6g")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ground"]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ground/StaticBody2D"]
+position = Vector2(0, 64)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ground/StaticBody2D"]
+position = Vector2(-248, 64)
+shape = SubResource("CapsuleShape2D_tbgi4")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ground/StaticBody2D"]
+position = Vector2(248, 64)
+shape = SubResource("CapsuleShape2D_tbgi4")
+
+[node name="player" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(0, -24)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Pivot" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(56, -32)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -240.0
+offset_right = -208.0
+offset_bottom = -217.0
+
+[node name="ropeController" type="Node2D" parent="."]
+script = ExtResource("4_jyhfs")
+ropeScene = ExtResource("3_sugp2")
