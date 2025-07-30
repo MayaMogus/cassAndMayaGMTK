@@ -1,25 +1,79 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const SPEED := 300.0
+const ACCELERATION := 30.0
+const JUMP_VELOCITY := -550.0
+const COYOTE_TIME_SECONDS := 0.1
+const WALL_HIT_SAVE_TIME_SECONDS := 0.075
 
+var grounded: bool
+var coyote_timer := 0.0
+
+var wall_hit_save_timer := 0.0
+var wall_hit_save_velocity: float
+var wall_hit_save_active: bool
+var hit_wall: bool
+
+var queued_jump := false
+
+var previous_velocity := Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	# coyote time
+	if is_on_floor():
+		grounded = true
+	elif not is_on_floor() and grounded:
+		coyote_timer += delta
+		if coyote_timer > COYOTE_TIME_SECONDS:
+			grounded = false
+			coyote_timer = 0
+	
+	# preserve velocity when clipping a corner
+	if is_on_wall():
+		if not hit_wall: # only when initially hitting the wall
+			wall_hit_save_velocity = previous_velocity.x
+			hit_wall = true
+		wall_hit_save_timer += delta
+	
+	if not is_on_wall() and hit_wall: # if it just stopped hitting the wall
+		if wall_hit_save_timer <= WALL_HIT_SAVE_TIME_SECONDS and velocity.x == 0:
+			velocity.x = wall_hit_save_velocity
+		wall_hit_save_timer = 0
+		hit_wall = false
+	
+	# gravity
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity += get_gravity() * delta * (1.0 if velocity.y > 0 else 2.0)
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	# jumping
+	if Input.is_action_just_pressed("move_up") and not grounded:
+		queued_jump = true
+	elif grounded and (
+		Input.is_action_just_pressed("move_up") or 
+		queued_jump and Input.is_action_pressed("move_up")
+	):
 		velocity.y = JUMP_VELOCITY
+		queued_jump = false
+		grounded = false
+		coyote_timer = 0
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
+	# acceleration
+	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x += direction * ACCELERATION * (
+			# slow down faster if trying to move in opposite direction
+			1.0 if sign(direction) == sign(velocity.x) else 2.0
+		)
+		velocity.x = clamp(velocity.x, -SPEED, SPEED)
+	elif velocity.x != 0:
+		# deccelerate faster on the ground
+		velocity.x -= sign(velocity.x) * ACCELERATION / (2.0 if is_on_floor() else 4.0)
+		# handle offsets less than the acceleration amount
+		if abs(velocity.x) < ACCELERATION: velocity.x = 0
 
+	previous_velocity = velocity
 	move_and_slide()
+
+func clamp(value, minimum, maximum):
+	return min(max(value, minimum), maximum)
