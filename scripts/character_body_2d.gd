@@ -140,9 +140,9 @@ func _physics_process(delta: float) -> void:
 			var correction = directionImpulse * (distance - maxDist)
 			#global_position.x = lerp(global_position.x, currentPivot.x , delta*.01)
 			#global_position.y = lerp(global_position.y, currentPivot.y , delta*10)
-			var force = correction * 50
+			var force = correction * distance
 			apply_central_impulse(force)
-			
+			print('AAAAAAAAAAAAAAAAAA')
 	else:
 		$Sprite2D.rotation = 0
 		isUpsideDown = 1
