@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj5bb7fut2tjb"]
+
+[ext_resource type="Script" uid="uid://dy68uao6xahxi" path="res://scripts/spike.gd" id="1_3jkcx"]
+
+[node name="SpikeRow" type="Node2D"]
+script = ExtResource("1_3jkcx")

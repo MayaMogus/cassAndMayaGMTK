@@ -9,28 +9,28 @@ friction = 0.06
 radius = 3.0
 height = 14.0
 
-[node name="rope" type="Node2D"]
-script = ExtResource("1_icxtj")
-
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="RigidBody2D" type="RigidBody2D"]
 collision_layer = 0
 collision_mask = 4
-mass = 0.01
+mass = 0.165
 physics_material_override = SubResource("PhysicsMaterial_icxtj")
+continuous_cd = 2
+script = ExtResource("1_icxtj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_wmsjs")
-
-[node name="Spring" type="PinJoint2D" parent="RigidBody2D"]
+[node name="Spring" type="PinJoint2D" parent="."]
 rotation = 1.5708
 node_b = NodePath("..")
-softness = 2.35
+bias = 0.159
+softness = 1.48
 
-[node name="Spring2" type="PinJoint2D" parent="RigidBody2D"]
+[node name="Spring2" type="PinJoint2D" parent="."]
 rotation = 1.5708
 node_b = NodePath("..")
 
-[node name="Line2D" type="Line2D" parent="RigidBody2D"]
+[node name="Line2D" type="Line2D" parent="."]
 width = 2.5
 default_color = Color(0.854902, 0.0627451, 0.0509804, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_wmsjs")

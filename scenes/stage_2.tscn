@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://d32njeoapnf5r"]
+
+[ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_281x5"]
+[ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="2_frapx"]
+[ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="3_cg3n2"]
+[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="4_chck5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_usctx"]
+size = Vector2(392, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_281x5"]
+size = Vector2(170, 385)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_frapx"]
+size = Vector2(250, 20)
+
+[node name="stage2" type="Node2D"]
+
+[node name="groundCollision" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(-380, 32)
+shape = SubResource("RectangleShape2D_usctx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(816, 255.5)
+shape = SubResource("RectangleShape2D_281x5")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(448, 712)
+shape = SubResource("RectangleShape2D_frapx")
+
+[node name="Pivots" type="Node2D" parent="."]
+
+[node name="Pivot" parent="Pivots" instance=ExtResource("1_281x5")]
+position = Vector2(880, -136)
+
+[node name="Pivot2" parent="Pivots" instance=ExtResource("1_281x5")]
+position = Vector2(-544, -96)
+
+[node name="spikes" type="Node2D" parent="."]
+
+[node name="boostPads" type="Node2D" parent="."]
+
+[node name="BoostPad" parent="boostPads" instance=ExtResource("2_frapx")]
+position = Vector2(-240, -72)
+rotation = 1.5708
+scale = Vector2(4.48, 2.56)
+boostPadForce = 425.0
+collider_width = 224.0
+collider_height = 128.0
+
+[node name="player" parent="." instance=ExtResource("3_cg3n2")]
+position = Vector2(-440, -32)
+
+[node name="ropeController" type="Node2D" parent="."]
+script = ExtResource("4_chck5")

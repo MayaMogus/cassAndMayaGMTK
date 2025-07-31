@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://vn1t4xsatlfa"]
+
+[ext_resource type="Script" uid="uid://o0815it1bkv4" path="res://scripts/boost_pad.gd" id="1_sndxi"]
+[ext_resource type="Texture2D" uid="uid://brnk3vdak7j3g" path="res://icon.svg" id="2_k3ilj"]
+[ext_resource type="Shader" uid="uid://b13v5xsalq0yn" path="res://assets/shaders/boost_pad.gdshader" id="2_r7em4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3ilj"]
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aeare"]
+resource_local_to_scene = true
+shader = ExtResource("2_r7em4")
+shader_parameter/shine_color = Vector4(-0.105, 0.37, 0.67, 0.84)
+shader_parameter/cycle_interval = 1.618
+shader_parameter/shine_speed = 25.9333
+shader_parameter/shine_width = 0.5
+shader_parameter/rotation_degrees = 38.447
+shader_parameter/show_only_shine = 1.0
+
+[node name="BoostPad" type="Node2D"]
+script = ExtResource("1_sndxi")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(32, 32)
+shape = SubResource("RectangleShape2D_k3ilj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D/CollisionShape2D"]
+material = SubResource("ShaderMaterial_aeare")
+scale = Vector2(0.008, 0.008)
+texture = ExtResource("2_k3ilj")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

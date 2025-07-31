@@ -1,37 +1,105 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsggn81s16x4c"]
+[gd_scene load_steps=8 format=3 uid="uid://bsggn81s16x4c"]
 
 [ext_resource type="Script" uid="uid://dyqa1io55ill2" path="res://scripts/character_body_2d.gd" id="1_agfs1"]
+[ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_rkhd4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_agfs1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_agfs1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dkjbp"]
 radius = 13.0
 height = 48.0
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_agfs1"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_rkhd4"]
-radius = 160.2
+radius = 256.125
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_agfs1"]
+radius = 8.0
+height = 48.0
 
 [node name="player" type="Node2D"]
 
 [node name="CharacterBody2D" type="RigidBody2D" parent="."]
+mass = 83.467
 physics_material_override = SubResource("PhysicsMaterial_agfs1")
 lock_rotation = true
 script = ExtResource("1_agfs1")
 
+[node name="grabRadius" type="MeshInstance2D" parent="CharacterBody2D"]
+self_modulate = Color(0.329412, 0.654902, 0.894118, 0.152941)
+position = Vector2(7.62939e-06, 5.72205e-05)
+scale = Vector2(512.581, 512)
+mesh = SubResource("SphereMesh_agfs1")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_dkjbp")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="CharacterBody2D"]
-position = Vector2(0, 2.92063e-06)
-scale = Vector2(26, 24)
-mesh = SubResource("CapsuleMesh_agfs1")
-
 [node name="pivotDetector" type="Area2D" parent="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/pivotDetector"]
+visible = false
 shape = SubResource("CircleShape2D_rkhd4")
+
+[node name="Raycasts" type="Node2D" parent="CharacterBody2D"]
+visible = false
+
+[node name="groundLeftDetection" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
+position = Vector2(-8, 16)
+target_position = Vector2(0, 16)
+collision_mask = 8
+
+[node name="wallLeftDetection" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
+rotation = 1.5708
+scale = Vector2(6.87, 1)
+target_position = Vector2(0, 16)
+collision_mask = 16
+
+[node name="wallRightDetection" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
+rotation = 1.5708
+scale = Vector2(7.13, 1)
+target_position = Vector2(-6.99382e-07, -16)
+collision_mask = 16
+
+[node name="groundRightDetection" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
+position = Vector2(8, 16)
+target_position = Vector2(0, 16)
+collision_mask = 17
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(0.66, 0.66)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="CharacterBody2D"]
+node_a = NodePath("..")
+softness = 5.65
+
+[node name="RayCast2D" type="RayCast2D" parent="CharacterBody2D"]
+collision_mask = 15
+
+[node name="Line2D" type="Line2D" parent="CharacterBody2D"]
+width = 5.72
+default_color = Color(0.854642, 0.0695992, 0, 1)
+
+[node name="SpikeDetector" type="Area2D" parent="CharacterBody2D"]
+visible = false
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/SpikeDetector"]
+shape = SubResource("CapsuleShape2D_agfs1")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+scale = Vector2(0.215, 0.215)
+texture = ExtResource("2_rkhd4")
+
+[node name="Label" type="Label" parent="CharacterBody2D"]
+offset_left = -128.0
+offset_top = 104.0
+offset_right = -88.0
+offset_bottom = 127.0
 
 [connection signal="body_entered" from="CharacterBody2D/pivotDetector" to="CharacterBody2D" method="_on_pivot_detector_body_entered"]
 [connection signal="body_exited" from="CharacterBody2D/pivotDetector" to="CharacterBody2D" method="_on_pivot_detector_body_exited"]
+[connection signal="body_entered" from="CharacterBody2D/SpikeDetector" to="CharacterBody2D" method="_on_spike_detector_body_entered"]

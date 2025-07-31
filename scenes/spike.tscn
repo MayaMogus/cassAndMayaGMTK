@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://nka02266lutw"]
+
+[ext_resource type="Texture2D" uid="uid://brnk3vdak7j3g" path="res://icon.svg" id="1_ljd5v"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ljd5v"]
+height = 48.0
+
+[node name="Spike" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.19, 0.451)
+texture = ExtResource("1_ljd5v")
+
+[node name="Spike" type="StaticBody2D" parent="."]
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spike"]
+shape = SubResource("CapsuleShape2D_ljd5v")

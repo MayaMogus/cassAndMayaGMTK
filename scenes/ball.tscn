@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwdrd47t6au8e"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7s4qf"]
+radius = 16.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_n1dj2"]
+
+[node name="Pivot" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7s4qf")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(-4.76837e-07, 5.00679e-06)
+scale = Vector2(32.0363, 32)
+mesh = SubResource("SphereMesh_n1dj2")

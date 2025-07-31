@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3s555kd7r8t5"]
+[gd_scene load_steps=4 format=3 uid="uid://cxkp57ap4bemf"]
 
-[ext_resource type="Script" uid="uid://dk5spot74b7dk" path="res://scripts/pivot.gd" id="1_7xuic"]
+[ext_resource type="Script" uid="uid://dk5spot74b7dk" path="res://scripts/pivot.gd" id="1_vrt2j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5r1id"]
 radius = 43.8356
@@ -8,10 +8,11 @@ radius = 43.8356
 [sub_resource type="SphereMesh" id="SphereMesh_7xuic"]
 
 [node name="Pivot" type="StaticBody2D"]
+position = Vector2(880, -136)
 disable_mode = 1
 collision_layer = 9
 collision_mask = 8
-script = ExtResource("1_7xuic")
+script = ExtResource("1_vrt2j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.365, 0.365)
