@@ -20,6 +20,14 @@ var previous_velocity := Vector2.ZERO
 
 var attached := false
 var attachment_point: Node2D
+var rope_visual := Line2D.new()
+var rope_segments: Array[RigidBody2D] = []
+
+func _ready() -> void:
+	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
+	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
+	base_node.add_child.call_deferred(rope_visual)
 
 func _physics_process(delta: float) -> void:
 	# coyote time
@@ -47,7 +55,7 @@ func _physics_process(delta: float) -> void:
 	# gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta * (1.0 if velocity.y > 0 else 2.0)
-
+	
 	# jumping
 	if Input.is_action_just_pressed("move_up") and not grounded:
 		queued_jump = true
@@ -59,7 +67,7 @@ func _physics_process(delta: float) -> void:
 		queued_jump = false
 		grounded = false
 		coyote_timer = 0
-
+	
 	# acceleration
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
@@ -70,33 +78,96 @@ func _physics_process(delta: float) -> void:
 		velocity.x = clamp(velocity.x, -SPEED, SPEED)
 	elif velocity.x != 0:
 		# deccelerate faster on the ground
-		velocity.x -= sign(velocity.x) * ACCELERATION / (2.0 if is_on_floor() else 4.0)
+		velocity.x -= sign(velocity.x) * ACCELERATION / (2.0 if is_on_floor() else 8.0)
 		# handle offsets less than the acceleration amount
 		if abs(velocity.x) < ACCELERATION: velocity.x = 0
-
+	
 	# rope attachment
-	if Input.is_action_just_pressed("attach_rope"):
+	if Input.is_action_just_pressed("attach_rope") and attachment_point != null:
 		if not attached:
 			# attach rope
 			attached = true
-			CreateRope(position, attachment_point.position)
+			CreateRope(position, attachment_point.position, 10, 50)
 		else:
 			# detach rope
 			attached = false
 			# TODO: put shit here
-
+	
 	previous_velocity = velocity
 	move_and_slide()
 
-func CreateRope(start: Vector2, end: Vector2):
-	pass
+func _process(_delta: float) -> void:
+	if attached:
+		var points: PackedVector2Array
+		for segment in rope_segments:
+			points.append(segment.position)
+		rope_visual.points = points
+
+@onready var base_node := $".."
+const SPRING_DAMPING := 1.0
+const SPRING_STIFFNESS := 200.0
+const SPRING_REST_LENGTH_FRACTION := 1.0
+const ROPE_MASS := 20.0
+
+func CreateRope(start: Vector2, end: Vector2, segments: int, length: float):
+	var segment_difference = (end - start) / segments
+	var segment_length = length / segments
+	var segment_mass = ROPE_MASS / segments
+	var current_position = start
+	
+	var rope_base = Node.new()
+	rope_base.name = "Rope"
+	base_node.add_child(rope_base)
+	
+	# create rope segments
+	for i in range(segments - 1):
+		current_position += segment_difference
+		var spring = DampedSpringJoint2D.new()
+		spring.name = "RopeSpring" + str(i)
+		spring.length = segment_length
+		spring.rest_length = segment_length * SPRING_REST_LENGTH_FRACTION
+		spring.stiffness = SPRING_STIFFNESS
+		spring.damping = SPRING_DAMPING
+		rope_base.add_child(spring)
+		
+		if i == 0:
+			spring.node_a = attachment_point.get_path()
+			continue
+		elif i == segments - 1:
+			spring.node_b = self.get_path()
+		
+		# don't create the first and last node (they already exist)
+		if i != 0:
+			var node = RigidBody2D.new()
+			node.name = "RopeSegment" + str(i)
+			node.position = current_position
+			node.mass = segment_mass
+			node.collision_layer = 0 # don't collide with self
+			node.collision_mask = 1 # collide with normal geo
+			rope_base.add_child(node)
+			rope_segments.append(node)
+			
+			var collision = CollisionShape2D.new()
+			var collision_shape = CircleShape2D.new()
+			collision_shape.radius = 1.0
+			collision.shape = collision_shape
+			node.add_child(collision)
+			
+			# connect springs to this node
+			var last_spring = get_node("/root/Main/Rope/RopeSpring" + str(i - 1))
+			spring.node_a = node.get_path()
+			last_spring.node_b = node.get_path()
+
+func DestroyRope():
+	rope_segments = []
+	
 
 # TODO: what happens if there's multiple points in range?
-func _on_AttachmentDetector_body_entered(body: Node2D) -> void:
+func _on_attachment_detector_body_entered(body: Node2D) -> void:
 	if body.name == "AttachmentPoint":
 		attachment_point = body
 	
-func _on_AttachmentDetector_body_exited(body: Node2D) -> void:
+func _on_attachment_detector_body_exited(body: Node2D) -> void:
 	if body.name == "AttachmentPoint":
 		attachment_point = null
 

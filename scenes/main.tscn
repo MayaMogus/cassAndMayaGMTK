@@ -9,7 +9,7 @@
 size = Vector2(39, 65)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
-radius = 88.0909
+radius = 88.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("2_sugp2")
@@ -358,8 +358,12 @@ tile_set = SubResource("TileSet_tefeu")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -118)
 
-[node name="AttachmentPoint" type="StaticBody2D" parent="."]
+[node name="AttachmentPoint" type="RigidBody2D" parent="."]
 position = Vector2(-38, -57)
+collision_layer = 2
+collision_mask = 2
+can_sleep = false
+freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttachmentPoint"]
 shape = SubResource("CircleShape2D_tefeu")
@@ -368,3 +372,8 @@ shape = SubResource("CircleShape2D_tefeu")
 position = Vector2(2.38419e-07, -0.0415035)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("4_jyhfs")
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[connection signal="body_entered" from="CharacterBody2D/AttachmentDetector" to="CharacterBody2D" method="_on_attachment_detector_body_entered"]
+[connection signal="body_exited" from="CharacterBody2D/AttachmentDetector" to="CharacterBody2D" method="_on_attachment_detector_body_exited"]
