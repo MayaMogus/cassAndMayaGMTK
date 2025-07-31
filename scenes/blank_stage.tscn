@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cf0ass8e3bsdu"]
+
+[ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="1_0f7fi"]
+[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="2_mu0b0"]
+
+[node name="blankStage" type="Node2D"]
+
+[node name="groundCollision" type="StaticBody2D" parent="."]
+
+[node name="Pivots" type="Node2D" parent="."]
+
+[node name="spikes" type="Node2D" parent="."]
+
+[node name="boostPads" type="Node2D" parent="."]
+
+[node name="player" parent="." instance=ExtResource("1_0f7fi")]
+position = Vector2(-680, -32)
+
+[node name="ropeController" type="Node2D" parent="."]
+script = ExtResource("2_mu0b0")
+
+[node name="Keys" type="Node2D" parent="."]
+
+[node name="Gates" type="Node2D" parent="."]

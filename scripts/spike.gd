@@ -1,7 +1,7 @@
 @tool
-extends Node2D
-@export var spike_scene : PackedScene
-@export_range(32, 512, 32) var spike_width: float = 32
+extends GridContainer
+var spike_scene : PackedScene = preload("res://scenes/spike.tscn")
+@export_range(32, 2048, 32) var spike_width: float = 32
 
 func _ready():
 	_update_spikes()
@@ -21,8 +21,10 @@ func _process(_delta):
 func _update_spikes():
 	for child in get_children():
 		child.queue_free()
-	for i in spike_width/32:
+	var spikeAmount = spike_width/32
+	columns = spikeAmount
+	for i in spikeAmount:
 		
 		var spike = spike_scene.instantiate()
 		add_child(spike)
-		spike.position.x = global_position.x + (32 * i)
+		#spike.global_position.x = global_position.x + (32 * i)

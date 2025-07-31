@@ -1,28 +1,94 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/main.tscn" id="1_8rem4"]
+[ext_resource type="PackedScene" path="res://scenes/character.tscn" id="1_6c5u0"]
+[ext_resource type="Script" path="res://scripts/rope_controller.gd" id="2_vcsse"]
+[ext_resource type="PackedScene" path="res://scenes/pivot.tscn" id="3_2so7o"]
+[ext_resource type="PackedScene" path="res://scenes/boost_pad.tscn" id="4_st0q7"]
 
-[sub_resource type="World3D" id="World3D_gi7kc"]
+[sub_resource type="BoxMesh" id="BoxMesh_sgp6g"]
 
-[node name="root" type="Window"]
-process_mode = 1
-auto_translate_mode = 1
-world_3d = SubResource("World3D_gi7kc")
-audio_listener_enable_2d = true
-audio_listener_enable_3d = true
-physics_object_picking = true
-gui_embed_subwindows = true
-positional_shadow_atlas_size = 4096
-mode = 3
-title = "gmtk-2025"
-position = Vector2i(1, 1)
-size = Vector2i(1918, 1078)
-min_size = Vector2i(64, 64)
-content_scale_size = Vector2i(1920, 1080)
-content_scale_aspect = 1
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
+size = Vector2(127.999, 1072)
 
-[node name="main" parent="." instance=ExtResource("1_8rem4")]
+[node name="main" type="Node2D"]
 
-[node name="_RigidBody2D_13" type="RigidBody2D" parent="main"]
-position = Vector2(1187.6, 768.001)
-freeze = true
+[node name="ground" type="Node2D" parent="."]
+position = Vector2(32, 120)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="ground"]
+position = Vector2(-1.14441e-05, 63.75)
+scale = Vector2(512, 128.5)
+mesh = SubResource("BoxMesh_sgp6g")
+
+[node name="groundCollider" type="StaticBody2D" parent="ground"]
+collision_layer = 31
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ground/groundCollider"]
+position = Vector2(280, 64.001)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ground/groundCollider"]
+position = Vector2(624, 584)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ground/groundCollider"]
+position = Vector2(2256, 264)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="ground/groundCollider"]
+position = Vector2(752, -536)
+rotation = 3.14159
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="ground"]
+position = Vector2(344, 584)
+scale = Vector2(512, 128.5)
+mesh = SubResource("BoxMesh_sgp6g")
+
+[node name="player" parent="." instance=ExtResource("1_6c5u0")]
+position = Vector2(264, 96)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 32.0
+offset_top = 120.0
+offset_right = 72.0
+offset_bottom = 160.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -240.0
+offset_right = -208.0
+offset_bottom = -217.0
+metadata/_edit_use_anchors_ = true
+
+[node name="ropeController" type="Node2D" parent="."]
+position = Vector2(32, 120)
+script = ExtResource("2_vcsse")
+
+[node name="Pivot3" parent="." instance=ExtResource("3_2so7o")]
+position = Vector2(-464, -40)
+
+[node name="Pivot5" parent="." instance=ExtResource("3_2so7o")]
+position = Vector2(880, 512)
+
+[node name="Pivot6" parent="." instance=ExtResource("3_2so7o")]
+position = Vector2(3056, -72)
+
+[node name="Pivot" parent="." instance=ExtResource("3_2so7o")]
+position = Vector2(1648, -192)
+
+[node name="BoostPad" parent="." instance=ExtResource("4_st0q7")]
+position = Vector2(-56, 40)
+rotation = 0.785397
+scale = Vector2(10.24, 5.12)
+boostPadForce = 125.0
+collider_width = 512.0
+collider_height = 256.0

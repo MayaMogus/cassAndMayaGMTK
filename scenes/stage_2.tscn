@@ -1,34 +1,42 @@
-[gd_scene load_steps=8 format=3 uid="uid://d32njeoapnf5r"]
+[gd_scene load_steps=10 format=3 uid="uid://d32njeoapnf5r"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_281x5"]
+[ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_cg3n2"]
 [ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="2_frapx"]
 [ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="3_cg3n2"]
 [ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="4_chck5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_usctx"]
-size = Vector2(392, 64)
+size = Vector2(392, 192)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_281x5"]
-size = Vector2(170, 385)
+size = Vector2(294.5, 86.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frapx"]
-size = Vector2(250, 20)
+size = Vector2(643.75, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cg3n2"]
+size = Vector2(912, 72)
 
 [node name="stage2" type="Node2D"]
 
 [node name="groundCollision" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="groundCollision"]
-position = Vector2(-380, 32)
+position = Vector2(-380, 160)
 shape = SubResource("RectangleShape2D_usctx")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="groundCollision"]
-position = Vector2(816, 255.5)
+position = Vector2(814.5, 269.625)
 shape = SubResource("RectangleShape2D_281x5")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="groundCollision"]
-position = Vector2(448, 712)
+position = Vector2(641.25, 712)
 shape = SubResource("RectangleShape2D_frapx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(272, 284)
+shape = SubResource("RectangleShape2D_cg3n2")
 
 [node name="Pivots" type="Node2D" parent="."]
 
@@ -36,9 +44,26 @@ shape = SubResource("RectangleShape2D_frapx")
 position = Vector2(880, -136)
 
 [node name="Pivot2" parent="Pivots" instance=ExtResource("1_281x5")]
-position = Vector2(-544, -96)
+position = Vector2(760, 712)
 
 [node name="spikes" type="Node2D" parent="."]
+
+[node name="SpikeRow" parent="spikes" instance=ExtResource("2_cg3n2")]
+offset_left = 1648.0
+offset_top = 752.0
+offset_right = 2640.0
+offset_bottom = 752.0
+rotation = -1.5708
+columns = 32
+spike_width = 1024.0
+
+[node name="SpikeRow2" parent="spikes" instance=ExtResource("2_cg3n2")]
+offset_left = -160.0
+offset_top = 218.0
+offset_right = 704.0
+offset_bottom = 218.0
+columns = 28
+spike_width = 896.0
 
 [node name="boostPads" type="Node2D" parent="."]
 
@@ -49,6 +74,13 @@ scale = Vector2(4.48, 2.56)
 boostPadForce = 425.0
 collider_width = 224.0
 collider_height = 128.0
+
+[node name="BoostPad2" parent="boostPads" instance=ExtResource("2_frapx")]
+position = Vector2(1296, 808)
+scale = Vector2(18.24, 5.12)
+boostPadForce = 75.0
+collider_width = 912.0
+collider_height = 256.0
 
 [node name="player" parent="." instance=ExtResource("3_cg3n2")]
 position = Vector2(-440, -32)

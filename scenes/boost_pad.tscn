@@ -12,12 +12,13 @@ resource_local_to_scene = true
 shader = ExtResource("2_r7em4")
 shader_parameter/shine_color = Vector4(-0.105, 0.37, 0.67, 0.84)
 shader_parameter/cycle_interval = 1.618
-shader_parameter/shine_speed = 25.9333
+shader_parameter/shine_speed = 5.4
 shader_parameter/shine_width = 0.5
 shader_parameter/rotation_degrees = 38.447
 shader_parameter/show_only_shine = 1.0
 
 [node name="BoostPad" type="Node2D"]
+scale = Vector2(0.64, 0.64)
 script = ExtResource("1_sndxi")
 
 [node name="Area2D" type="Area2D" parent="."]

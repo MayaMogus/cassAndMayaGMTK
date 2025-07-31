@@ -1,24 +1,133 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxkp57ap4bemf"]
+[gd_scene load_steps=14 format=3 uid="uid://cxkp57ap4bemf"]
 
-[ext_resource type="Script" uid="uid://dk5spot74b7dk" path="res://scripts/pivot.gd" id="1_vrt2j"]
+[ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_usctx"]
+[ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="1_vrt2j"]
+[ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_kx1yv"]
+[ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="3_u47qm"]
+[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="4_e77qm"]
+[ext_resource type="PackedScene" uid="uid://d4l21mu40wmpr" path="res://scenes/key.tscn" id="6_e4xaw"]
+[ext_resource type="PackedScene" uid="uid://dc8aoldh4c1iq" path="res://scenes/gate.tscn" id="7_tgiw8"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5r1id"]
-radius = 43.8356
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_usctx"]
+size = Vector2(392, 192)
 
-[sub_resource type="SphereMesh" id="SphereMesh_7xuic"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_281x5"]
+size = Vector2(294.5, 86.125)
 
-[node name="Pivot" type="StaticBody2D"]
-position = Vector2(880, -136)
-disable_mode = 1
-collision_layer = 9
-collision_mask = 8
-script = ExtResource("1_vrt2j")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_frapx"]
+size = Vector2(643.75, 20)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.365, 0.365)
-shape = SubResource("CircleShape2D_5r1id")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e77qm"]
+size = Vector2(309, 225)
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-position = Vector2(0, 5.00679e-06)
-scale = Vector2(32.0363, 32)
-mesh = SubResource("SphereMesh_7xuic")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kx1yv"]
+size = Vector2(581, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e4xaw"]
+size = Vector2(426, 1782)
+
+[node name="stage2" type="Node2D"]
+
+[node name="groundCollision" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(-712, 96)
+shape = SubResource("RectangleShape2D_usctx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(19.25, 43.0625)
+shape = SubResource("RectangleShape2D_281x5")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(518.125, -248)
+shape = SubResource("RectangleShape2D_frapx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(37.5, 968.5)
+shape = SubResource("RectangleShape2D_e77qm")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(488, -1232)
+shape = SubResource("RectangleShape2D_kx1yv")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="groundCollision"]
+position = Vector2(1528, 904)
+shape = SubResource("RectangleShape2D_e4xaw")
+
+[node name="Pivots" type="Node2D" parent="."]
+
+[node name="Pivot" parent="Pivots" instance=ExtResource("1_usctx")]
+position = Vector2(960, 632)
+
+[node name="Pivot2" parent="Pivots" instance=ExtResource("1_usctx")]
+position = Vector2(160, 0)
+
+[node name="Pivot3" parent="Pivots" instance=ExtResource("1_usctx")]
+position = Vector2(336, 1096)
+
+[node name="spikes" type="Node2D" parent="."]
+
+[node name="SpikeRow" parent="spikes" instance=ExtResource("2_kx1yv")]
+offset_left = -104.0
+offset_top = 840.0
+offset_right = 184.0
+offset_bottom = 840.0
+columns = 10
+spike_width = 320.0
+
+[node name="SpikeRow2" parent="spikes" instance=ExtResource("2_kx1yv")]
+offset_left = 984.0
+offset_top = 1448.0
+offset_right = 1944.0
+offset_bottom = 1448.0
+columns = 11
+spike_width = 352.0
+
+[node name="SpikeRow3" parent="spikes" instance=ExtResource("2_kx1yv")]
+offset_left = 224.0
+offset_top = 840.0
+offset_right = 512.0
+offset_bottom = 840.0
+rotation = -0.547052
+columns = 22
+spike_width = 704.0
+
+[node name="boostPads" type="Node2D" parent="."]
+
+[node name="BoostPad" parent="boostPads" instance=ExtResource("1_vrt2j")]
+position = Vector2(-320, 40)
+scale = Vector2(12.16, 2.56)
+collider_width = 608.0
+collider_height = 128.0
+
+[node name="BoostPad2" parent="boostPads" instance=ExtResource("1_vrt2j")]
+position = Vector2(-312, 1040)
+scale = Vector2(12.16, 2.56)
+boostPadForce = 150.0
+collider_width = 608.0
+collider_height = 128.0
+
+[node name="player" parent="." instance=ExtResource("3_u47qm")]
+position = Vector2(-680, -32)
+
+[node name="ropeController" type="Node2D" parent="."]
+script = ExtResource("4_e77qm")
+
+[node name="Keys" type="Node2D" parent="."]
+
+[node name="Key" parent="Keys" instance=ExtResource("6_e4xaw")]
+position = Vector2(448, -344)
+
+[node name="Gates" type="Node2D" parent="."]
+
+[node name="Gate" parent="Gates" instance=ExtResource("7_tgiw8")]
+position = Vector2(-312, 920)
+scale = Vector2(24, 8)
+width = 384.0
+height = 128.0
+
+[node name="Gate2" parent="Gates" instance=ExtResource("7_tgiw8")]
+position = Vector2(0, 1272)
+scale = Vector2(6, 24)
+width = 96.0
+height = 384.0

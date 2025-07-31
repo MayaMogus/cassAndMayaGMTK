@@ -15,6 +15,11 @@ run/main_scene="uid://2e1kmufrifn4"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+KeyGlobalController="*res://scripts/keyGlobalController.gd"
+StageLoader="*res://scripts/stageLoader.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -60,4 +65,4 @@ E={
 
 [physics]
 
-common/physics_ticks_per_second=120
+common/physics_ticks_per_second=240

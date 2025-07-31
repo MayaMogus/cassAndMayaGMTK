@@ -21,7 +21,7 @@ height = 48.0
 [node name="player" type="Node2D"]
 
 [node name="CharacterBody2D" type="RigidBody2D" parent="."]
-mass = 83.467
+mass = 20.725
 physics_material_override = SubResource("PhysicsMaterial_agfs1")
 lock_rotation = true
 script = ExtResource("1_agfs1")
@@ -73,7 +73,7 @@ zoom = Vector2(0.66, 0.66)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="CharacterBody2D"]
 node_a = NodePath("..")
-softness = 5.65
+softness = 16.0
 
 [node name="RayCast2D" type="RayCast2D" parent="CharacterBody2D"]
 collision_mask = 15

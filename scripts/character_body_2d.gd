@@ -1,7 +1,8 @@
 extends RigidBody2D
+class_name Player
 
-const SPEED := 1400.0
-const ACCELERATION := 30.0
+const SPEED := 500.0
+const ACCELERATION := 15.0
 const JUMP_VELOCITY := -550.0
 const COYOTE_TIME_SECONDS := 0.1
 const WALL_HIT_SAVE_TIME_SECONDS := 0.075
@@ -33,7 +34,7 @@ var currentPivot = null
 
 func _ready() -> void:
 	main = get_parent().get_parent()
-	$PinJoint2D.softness = 16
+	$PinJoint2D.softness = 1000
 var move_force = 2000.0
 
 var storedVelocity = 0
@@ -47,10 +48,14 @@ var boostPadSpeed = Vector2(0,0)
 var isUpsideDown :int=1
 
 func _physics_process(delta: float) -> void:
+	
+	$Sprite2D.scale.y = lerp($Sprite2D.scale.y, 0.215, delta*10)
+	
+	
 	# Check grounded state with rays
 	var was_grounded = grounded
 	grounded = ray_floor_left.is_colliding() or ray_floor_right.is_colliding()
-
+	
 	# Coyote time logic
 	if grounded:
 		coyote_timer = 0
@@ -76,7 +81,7 @@ func _physics_process(delta: float) -> void:
 	if not grounded:
 		var gravity_force = GRAVITY * (1.0 if linear_velocity.y > 0 else 2.0)
 		linear_velocity.y += gravity_force * delta
-
+		 
 	# Jumping
 	if Input.is_action_just_pressed("up") and not grounded:
 		queued_jump = true
@@ -84,11 +89,17 @@ func _physics_process(delta: float) -> void:
 		Input.is_action_just_pressed("up") or
 		(queued_jump and Input.is_action_pressed("up"))
 	):
+		
 		linear_velocity.y = JUMP_VELOCITY
 		queued_jump = false
 		coyote_timer = 0
 		
-	
+	if linear_velocity.x < 0:
+		
+		$Sprite2D.scale.x = -0.215
+
+	elif linear_velocity.x > 0:
+		$Sprite2D.scale.x = 0.215
 	
 	#print(boostPadSpeed)
 	# Acceleration
@@ -97,21 +108,19 @@ func _physics_process(delta: float) -> void:
 		distance = global_position.distance_to(currentPivot)
 	var direction := Input.get_axis("left", "right")
 	if direction != 0:
+		
 		$Sprite2D.texture = load("res://assets/spriteTurn.png")
 		
-		if distance < maxDist or currentPivot == null:
-			if direction == -1 * isUpsideDown:
-				$Sprite2D.scale.x = -0.215
+		
 
-			else:
-				$Sprite2D.scale.x = 0.215
-
-			linear_velocity.x += direction * ACCELERATION * (
-				1.0 if sign(direction) == sign(linear_velocity.x) else 2.0
-			)
+		linear_velocity.x += direction * ACCELERATION * (
+			1.0 if sign(direction) == sign(linear_velocity.x) else 2.0
+		)
+		
 		
 	else:
 		# Decelerate
+		
 		$Sprite2D.texture = load("res://assets/spriteStand.png")
 		var decel = ACCELERATION / (2.0 if grounded else 4.0)
 		linear_velocity.x -= sign(linear_velocity.x) * decel
@@ -121,7 +130,7 @@ func _physics_process(delta: float) -> void:
 	previous_velocity = linear_velocity
 	linear_velocity += Vector2(-boostPadSpeed.y, boostPadSpeed.x)
 	
-	linear_velocity.x = clamp(linear_velocity.x, -SPEED*2, SPEED*2)
+	linear_velocity.x = clamp(linear_velocity.x, -SPEED*8, SPEED*8)
 	if currentPivot != null:
 		$Label.text = str(distance, ' / ', maxDist)
 		if not grounded:
@@ -140,12 +149,12 @@ func _physics_process(delta: float) -> void:
 			var correction = directionImpulse * (distance - maxDist)
 			#global_position.x = lerp(global_position.x, currentPivot.x , delta*.01)
 			#global_position.y = lerp(global_position.y, currentPivot.y , delta*10)
-			var force = correction * distance
+			var force = correction * distance/10
 			apply_central_impulse(force)
-			print('AAAAAAAAAAAAAAAAAA')
 	else:
 		$Sprite2D.rotation = 0
 		isUpsideDown = 1
+		
 func _input(event: InputEvent) -> void:
 	var ropeController : Node2D = main.get_node('ropeController')
 	if Input.is_action_just_pressed("space"):
@@ -156,13 +165,18 @@ func _input(event: InputEvent) -> void:
 				ropeController.attachRope(length, amount, pivotCandidate)
 				$PinJoint2D.node_b = pivotCandidate.get_path()
 				$PinJoint2D.node_a = $".".get_path()
+				$Sprite2D.scale.y = .1
 		else:
 			ropeAttached = false
 			#print('REMOVE')
 			ropeController.removeRope()
 	if Input.is_action_just_pressed("ui_down"):
 		reload_scene()
-			
+	
+	if Input.is_action_just_pressed("left") or Input.is_action_just_pressed("right"):
+		
+		$Sprite2D.scale.y = .1
+	
 func _on_pivot_detector_body_entered(body: Node2D) -> void:
 	#print(body.name)
 	if body is Pivot:

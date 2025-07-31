@@ -37,7 +37,7 @@ func  _physics_process(delta: float) -> void:
 		var distanceRatio = 1 #- (global_position.distance_to(rigidBody.global_position) / $Area2D/CollisionShape2D.scale.x * 8)
 		var direction = Vector2.RIGHT.rotated(rotation)
 		rigidBody.boostPadSpeed = -boostPadForce * direction
-		print(-boostPadForce * direction)
+		
 		
 		
 func _on_area_2d_body_entered(body: Node2D) -> void:

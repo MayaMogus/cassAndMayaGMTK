@@ -2,5 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dy68uao6xahxi" path="res://scripts/spike.gd" id="1_3jkcx"]
 
-[node name="SpikeRow" type="Node2D"]
+[node name="SpikeRow" type="GridContainer"]
+theme_override_constants/h_separation = 32
 script = ExtResource("1_3jkcx")

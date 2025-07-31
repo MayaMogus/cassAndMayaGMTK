@@ -99,20 +99,22 @@ func _process(delta: float) -> void:
 		#print(joint.node_b)
 		var query = PhysicsRayQueryParameters2D.create(player.global_position, current_hinge_pos)
 		var result = space_state.intersect_ray(query)
+		
 		#print("Raycast result: ", result)
 		
 		if result :
-			var hit_pos = result.position
-			#print(hit_pos, 'AAAAAAAAAAAAAAAAAA')
-			if rope_points.is_empty() or rope_points.back() != hit_pos:
-				rope_points.append(hit_pos)
-				distance = current_hinge_pos.distance_to(hit_pos)
-				
-				distanceList.append(distance)
-				current_hinge_pos = hit_pos  
-				#print('minus :' , distance)
-				player.maxDist -= distance
-				player.currentPivot = hit_pos
+			if result.collider.name == 'groundCollision' or result.collider is Pivot or Gate:
+				var hit_pos = result.position
+				#print(hit_pos, 'AAAAAAAAAAAAAAAAAA')
+				if rope_points.is_empty() or rope_points.back() != hit_pos:
+					rope_points.append(hit_pos)
+					distance = current_hinge_pos.distance_to(hit_pos)
+					
+					distanceList.append(distance)
+					current_hinge_pos = hit_pos  
+					#print('minus :' , distance)
+					player.maxDist -= distance
+					player.currentPivot = hit_pos
 
 		if rope_points.size() >= 2:
 			var last_dir = (rope_points[-1] - rope_points[-2]).normalized()
