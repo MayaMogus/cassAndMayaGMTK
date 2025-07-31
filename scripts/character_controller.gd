@@ -28,6 +28,8 @@ func _ready() -> void:
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
+	
+	$"../AttachmentPoint".mass = INF
 
 func _physics_process(delta: float) -> void:
 	# coyote time
@@ -98,16 +100,17 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	if attached:
-		var points: PackedVector2Array
+		var points: PackedVector2Array #= [attachment_point.position]
 		for segment in rope_segments:
 			points.append(segment.position)
+		points.append(position)
 		rope_visual.points = points
 
 @onready var base_node := $".."
-const SPRING_DAMPING := 1.0
-const SPRING_STIFFNESS := 200.0
+const SPRING_DAMPING := 0.5
+const SPRING_STIFFNESS := 20.0
 const SPRING_REST_LENGTH_FRACTION := 1.0
-const ROPE_MASS := 20.0
+const ROPE_MASS := 0.5
 
 func CreateRope(start: Vector2, end: Vector2, segments: int, length: float):
 	var segment_difference = (end - start) / segments
@@ -125,7 +128,7 @@ func CreateRope(start: Vector2, end: Vector2, segments: int, length: float):
 		var spring = DampedSpringJoint2D.new()
 		spring.name = "RopeSpring" + str(i)
 		spring.length = segment_length
-		spring.rest_length = segment_length * SPRING_REST_LENGTH_FRACTION
+		spring.rest_length = 0
 		spring.stiffness = SPRING_STIFFNESS
 		spring.damping = SPRING_DAMPING
 		rope_base.add_child(spring)
@@ -147,6 +150,9 @@ func CreateRope(start: Vector2, end: Vector2, segments: int, length: float):
 			rope_base.add_child(node)
 			rope_segments.append(node)
 			
+			spring.reparent(node)
+			spring.global_position = node.global_position
+			
 			var collision = CollisionShape2D.new()
 			var collision_shape = CircleShape2D.new()
 			collision_shape.radius = 1.0
@@ -155,12 +161,15 @@ func CreateRope(start: Vector2, end: Vector2, segments: int, length: float):
 			
 			# connect springs to this node
 			var last_spring = get_node("/root/Main/Rope/RopeSpring" + str(i - 1))
+			if last_spring == null: continue
+			last_spring.global_rotation = last_spring.get_angle_to(node.global_position)
 			spring.node_a = node.get_path()
 			last_spring.node_b = node.get_path()
 
 func DestroyRope():
 	rope_segments = []
-	
+	$"../Rope".queue_free()
+	rope_visual.points = []
 
 # TODO: what happens if there's multiple points in range?
 func _on_attachment_detector_body_entered(body: Node2D) -> void:
