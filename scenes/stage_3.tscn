@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dh07qx6ybxpit"]
+[gd_scene load_steps=14 format=3 uid="uid://dh07qx6ybxpit"]
 
 [ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="1_8ao8k"]
 [ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="1_aaynw"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="2_556kb"]
 [ext_resource type="PackedScene" uid="uid://d4l21mu40wmpr" path="res://scenes/key.tscn" id="3_3fpcl"]
 [ext_resource type="PackedScene" uid="uid://dc8aoldh4c1iq" path="res://scenes/gate.tscn" id="3_556kb"]
+[ext_resource type="PackedScene" uid="uid://damw45et3uy6p" path="res://scenes/exit.tscn" id="7_aac7f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_556kb"]
 size = Vector2(1280, 256)
@@ -108,3 +109,6 @@ position = Vector2(-656, 177)
 position = Vector2(56, -64)
 scale = Vector2(2, 8)
 height = 128.0
+
+[node name="Exit" parent="." instance=ExtResource("7_aac7f")]
+position = Vector2(288, -64)

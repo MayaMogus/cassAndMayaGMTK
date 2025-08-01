@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://ctynp87jalko0"]
 
-[ext_resource type="PackedScene" path="res://scenes/character.tscn" id="1_6c5u0"]
-[ext_resource type="Script" path="res://scripts/rope_controller.gd" id="2_vcsse"]
-[ext_resource type="PackedScene" path="res://scenes/pivot.tscn" id="3_2so7o"]
-[ext_resource type="PackedScene" path="res://scenes/boost_pad.tscn" id="4_st0q7"]
+[ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="1_6c5u0"]
+[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="2_vcsse"]
+[ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="3_2so7o"]
+[ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="4_st0q7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sgp6g"]
 

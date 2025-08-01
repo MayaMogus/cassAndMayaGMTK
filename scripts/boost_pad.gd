@@ -25,26 +25,33 @@ func _update_collider():
 	var target_size = Vector2(collider_width, collider_height)
 	var base_size =  Vector2(50, 50)
 	scale = target_size / base_size
-	$Area2D/CollisionShape2D/Sprite2D.material.set_shader_parameter("shine_speed", lerp(1, 45, boostPadForce/750))
+	$Area2D/Sprite2D.material.set_shader_parameter("shine_speed", lerp(1, 45, boostPadForce/450))
 	
 	
 var bodies = []
 
+var soundDelay :float= 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func  _physics_process(delta: float) -> void:
+	
+	soundDelay -= delta
+
+	
 	for rigidBody:RigidBody2D in bodies:
 		var distanceRatio = 1 #- (global_position.distance_to(rigidBody.global_position) / $Area2D/CollisionShape2D.scale.x * 8)
-		var direction = Vector2.RIGHT.rotated(rotation)
-		rigidBody.boostPadSpeed = -boostPadForce * direction
-		
-		
+		var direction = Vector2.UP.rotated(rotation)
+		#rigidBody.boostPadSpeed = -boostPadForce * direction
+		var force = boostPadForce * direction
+		rigidBody.apply_central_force(force*200)
+		#print('AAAAAA')
 		
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is RigidBody2D:
 		bodies.append(body)
-	
-
+		if soundDelay < 0:
+			$AudioStreamPlayer.play()
+			soundDelay = 1
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if bodies.has(body):
 		bodies.erase(body)

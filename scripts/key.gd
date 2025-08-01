@@ -34,10 +34,16 @@ func collectKey():
 	var gateController = get_parent().get_parent().get_node('Gates')
 	for child in gateController.get_children():
 		if child.gateIndex == keyIndex:
-			child.queue_free()
-	queue_free()
-
+			child.call_deferred('disappear')
+	visible = false
+	$Area2D/CollisionShape2D.disabled = true
+	
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	
 	if body is Player:
 		collectKey()
+		body.collectedKeys.append(keyIndex)
+
+func showKey():
+	visible = true
+	$Area2D/CollisionShape2D.disabled = false

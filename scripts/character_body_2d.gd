@@ -1,8 +1,12 @@
 extends RigidBody2D
 class_name Player
 
+@export var ropeClick : AudioStream
+@export var ropeSound2 : AudioStream
+
+
 const SPEED := 500.0
-const ACCELERATION := 15.0
+const ACCELERATION := 10.0
 const JUMP_VELOCITY := -550.0
 const COYOTE_TIME_SECONDS := 0.1
 const WALL_HIT_SAVE_TIME_SECONDS := 0.075
@@ -31,10 +35,16 @@ var main : Node2D
 
 var currentPivot = null
 
+var respawnLocation : Vector2
+
+var collectedKeys = []
+var savedKeys = []
 
 func _ready() -> void:
 	main = get_parent().get_parent()
 	$PinJoint2D.softness = 1000
+	respawnLocation = global_position
+
 var move_force = 2000.0
 
 var storedVelocity = 0
@@ -157,7 +167,7 @@ func _physics_process(delta: float) -> void:
 		
 func _input(event: InputEvent) -> void:
 	var ropeController : Node2D = main.get_node('ropeController')
-	if Input.is_action_just_pressed("space"):
+	if Input.is_action_just_pressed("attach_rope"):
 		#print(pivotCandidate)
 		if not ropeAttached:
 			if pivotCandidate != null:
@@ -166,6 +176,9 @@ func _input(event: InputEvent) -> void:
 				$PinJoint2D.node_b = pivotCandidate.get_path()
 				$PinJoint2D.node_a = $".".get_path()
 				$Sprite2D.scale.y = .1
+				currentPivot = pivotCandidate.global_position
+				playSound(ropeClick)
+				
 		else:
 			ropeAttached = false
 			#print('REMOVE')
@@ -180,12 +193,15 @@ func _input(event: InputEvent) -> void:
 func _on_pivot_detector_body_entered(body: Node2D) -> void:
 	#print(body.name)
 	if body is Pivot:
-		
+
 		var RopeUI :Label= main.get_node('UI/Label')
 		#RopeUI.text = str('PIVOT IN RANGE')
 		pivotCandidate = body
+	elif body.name == 'Checkpoint':
 
-
+		respawnLocation = body.global_position 
+		savedKeys = collectedKeys.duplicate()
+		print('SAVING KEYS', savedKeys, collectedKeys)
 func _on_pivot_detector_body_exited(body: Node2D) -> void:
 	if body is Pivot:
 		pivotCandidate = null
@@ -198,4 +214,43 @@ func reload_scene():
 
 func _on_spike_detector_body_entered(body: Node2D) -> void:
 	if body.name == 'Spike':
-		reload_scene()
+	
+		die()
+		
+func die():
+	linear_velocity = Vector2(0,0)
+	
+	ropeAttached = false
+
+	
+	
+	var ropeController : Node2D = main.get_node('ropeController')
+	ropeController.removeRope()
+	
+	var keyController : Node2D = main.get_node('Keys')
+	var gateController : Node2D = main.get_node('Gates')
+	print(savedKeys, 'savedKeys')
+	for key in keyController.get_children():
+		if not savedKeys.has(key.keyIndex):
+			
+			key.call_deferred('showKey')
+		else:
+			print('???')
+		
+	for gate in gateController.get_children():
+		if not savedKeys.has(gate.gateIndex):
+			gate.call_deferred('reappear')
+			
+	
+	collectedKeys = savedKeys.duplicate()
+	await get_tree().process_frame 
+	set_deferred("global_position", respawnLocation)
+
+func playSound(sound:AudioStream):
+	$AudioStreamPlayer.stream = sound
+	$AudioStreamPlayer.play()
+
+
+func _on_music_player_finished() -> void:
+	
+	$MusicPlayer.play()

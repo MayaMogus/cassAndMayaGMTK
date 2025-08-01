@@ -5,8 +5,8 @@ class_name Gate
 enum gateTypes {Yellow, Blue, Red, Green}
 @export var gateIndex : gateTypes
 
-@export_range(32, 912, 32) var width: float = 32
-@export_range(32, 512, 32) var height: float = 32
+@export_range(32, 1024, 32) var width: float = 32
+@export_range(32, 1024, 32) var height: float = 32
 
 var gateColors : Dictionary = {
 	gateTypes.Yellow : Color(.95, .8, 0.18),
@@ -35,4 +35,14 @@ func _update_collider():
 	var base_size =  Vector2(16, 16)
 	scale = target_size / base_size
 	$Sprite2D.self_modulate = gateColors[gateIndex]
-	
+
+func disappear():
+	$StaticBody2D/CollisionShape2D.disabled = true
+	$Sprite2D.visible = false
+	$Shader.visible = false
+
+
+func reappear():
+	$StaticBody2D/CollisionShape2D.disabled = false
+	$Sprite2D.visible = true
+	$Shader.visible = true

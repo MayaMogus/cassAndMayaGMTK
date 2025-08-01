@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://belhfglajbrit"]
+
+[ext_resource type="Script" uid="uid://b2axbsfax4tdb" path="res://scripts/character_controller.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_qhqgy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dqkch"]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
+size = Vector2(38, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
+radius = 125.0
+
+[node name="Player" type="RigidBody2D"]
+position = Vector2(0, -4)
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_dqkch")
+can_sleep = false
+lock_rotation = true
+continuous_cd = 2
+script = ExtResource("1_g2els")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_qlg0r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
+scale = Vector2(0.265, 0.265)
+texture = ExtResource("2_qhqgy")
+
+[node name="AttachmentDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttachmentDetector"]
+position = Vector2(1, -36)
+shape = SubResource("CircleShape2D_tuyoq")
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="FloorLeft" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -1)
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="FloorRight" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -1)
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="WallLeftBottom" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -1)
+target_position = Vector2(3, 0)
+hit_from_inside = true
+
+[node name="WallLeftMiddle" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -32)
+target_position = Vector2(3, 0)
+hit_from_inside = true
+
+[node name="WallLeftTop" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -63)
+target_position = Vector2(3, 0)
+hit_from_inside = true
+
+[node name="WallRightBottom" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -1)
+target_position = Vector2(-3, 0)
+hit_from_inside = true
+
+[node name="WallRightMiddle" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -32)
+target_position = Vector2(-3, 0)
+hit_from_inside = true
+
+[node name="WallRightTop" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -63)
+target_position = Vector2(-3, 0)
+hit_from_inside = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.66, 0.66)
+
+[connection signal="body_entered" from="AttachmentDetector" to="." method="_on_attachment_detector_body_entered"]
+[connection signal="body_exited" from="AttachmentDetector" to="." method="_on_attachment_detector_body_exited"]

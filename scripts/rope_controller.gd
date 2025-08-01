@@ -103,7 +103,7 @@ func _process(delta: float) -> void:
 		#print("Raycast result: ", result)
 		
 		if result :
-			if result.collider.name == 'groundCollision' or result.collider is Pivot or Gate:
+			if result.collider.name == 'groundCollision' or result.collider is Gate:
 				var hit_pos = result.position
 				#print(hit_pos, 'AAAAAAAAAAAAAAAAAA')
 				if rope_points.is_empty() or rope_points.back() != hit_pos:

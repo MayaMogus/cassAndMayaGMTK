@@ -1,7 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsggn81s16x4c"]
+[gd_scene load_steps=12 format=3 uid="uid://bsggn81s16x4c"]
 
 [ext_resource type="Script" uid="uid://dyqa1io55ill2" path="res://scripts/character_body_2d.gd" id="1_agfs1"]
+[ext_resource type="AudioStream" uid="uid://d0s5xld4betjv" path="res://assets/sounds/metalClick.ogg" id="2_dp8ca"]
 [ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_rkhd4"]
+[ext_resource type="AudioStream" uid="uid://1ba2hppqt3qp" path="res://assets/sounds/metalLatch.ogg" id="3_0lw5n"]
+[ext_resource type="AudioStream" uid="uid://dnwyux2c1uadw" path="res://assets/sounds/gmtkBGMusic (2).wav" id="6_0lw5n"]
+[ext_resource type="AudioStream" uid="uid://ci884mxq04sc2" path="res://assets/sounds/footstep_concrete_004.ogg" id="6_irmqu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_agfs1"]
 
@@ -12,7 +16,7 @@ radius = 13.0
 height = 48.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rkhd4"]
-radius = 256.125
+radius = 192.167
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_agfs1"]
 radius = 8.0
@@ -25,26 +29,26 @@ mass = 20.725
 physics_material_override = SubResource("PhysicsMaterial_agfs1")
 lock_rotation = true
 script = ExtResource("1_agfs1")
+ropeClick = ExtResource("2_dp8ca")
+ropeSound2 = ExtResource("3_0lw5n")
 
 [node name="grabRadius" type="MeshInstance2D" parent="CharacterBody2D"]
 self_modulate = Color(0.329412, 0.654902, 0.894118, 0.152941)
-position = Vector2(7.62939e-06, 5.72205e-05)
-scale = Vector2(512.581, 512)
+position = Vector2(1.14441e-05, 5.14984e-05)
+scale = Vector2(384.435, 384)
 mesh = SubResource("SphereMesh_agfs1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_dkjbp")
 
 [node name="pivotDetector" type="Area2D" parent="CharacterBody2D"]
-collision_layer = 8
-collision_mask = 8
+collision_layer = 520
+collision_mask = 520
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/pivotDetector"]
-visible = false
 shape = SubResource("CircleShape2D_rkhd4")
 
 [node name="Raycasts" type="Node2D" parent="CharacterBody2D"]
-visible = false
 
 [node name="groundLeftDetection" type="RayCast2D" parent="CharacterBody2D/Raycasts"]
 position = Vector2(-8, 16)
@@ -83,7 +87,6 @@ width = 5.72
 default_color = Color(0.854642, 0.0695992, 0, 1)
 
 [node name="SpikeDetector" type="Area2D" parent="CharacterBody2D"]
-visible = false
 collision_layer = 128
 collision_mask = 128
 
@@ -91,6 +94,7 @@ collision_mask = 128
 shape = SubResource("CapsuleShape2D_agfs1")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+z_index = 4
 scale = Vector2(0.215, 0.215)
 texture = ExtResource("2_rkhd4")
 
@@ -100,6 +104,15 @@ offset_top = 104.0
 offset_right = -88.0
 offset_bottom = 127.0
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CharacterBody2D"]
+stream = ExtResource("6_irmqu")
+volume_db = 5.333
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="CharacterBody2D"]
+stream = ExtResource("6_0lw5n")
+autoplay = true
+
 [connection signal="body_entered" from="CharacterBody2D/pivotDetector" to="CharacterBody2D" method="_on_pivot_detector_body_entered"]
 [connection signal="body_exited" from="CharacterBody2D/pivotDetector" to="CharacterBody2D" method="_on_pivot_detector_body_exited"]
 [connection signal="body_entered" from="CharacterBody2D/SpikeDetector" to="CharacterBody2D" method="_on_spike_detector_body_entered"]
+[connection signal="finished" from="CharacterBody2D/MusicPlayer" to="CharacterBody2D" method="_on_music_player_finished"]
