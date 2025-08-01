@@ -23,8 +23,8 @@ height = 48.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_smehm"]
 shader = ExtResource("5_tuyoq")
 shader_parameter/dot_color = Color(1, 1, 1, 1)
-shader_parameter/radius = 1.0
-shader_parameter/thickness = 0.022
+shader_parameter/radius = 0.971
+shader_parameter/thickness = 0.03
 shader_parameter/dot_count = 32
 shader_parameter/gap_ratio = 0.257
 shader_parameter/rotation = 0.0

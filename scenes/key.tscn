@@ -1,17 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://d4l21mu40wmpr"]
+[gd_scene load_steps=6 format=3 uid="uid://d4l21mu40wmpr"]
 
 [ext_resource type="Script" uid="uid://bx36j2y4ge1ky" path="res://scripts/key.gd" id="1_yk2u2"]
 [ext_resource type="Texture2D" uid="uid://b668qc5kac8af" path="res://assets/key.png" id="2_fttkb"]
+[ext_resource type="Shader" uid="uid://cb4hq4a0ohxoc" path="res://assets/shaders/shine.gdshader" id="3_wy8tx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yk2u2"]
 radius = 64.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_brs3p"]
+resource_local_to_scene = true
+shader = ExtResource("3_wy8tx")
+shader_parameter/shine_color = Vector4(1, 1, 1, 1)
+shader_parameter/cycle_interval = 0.547
+shader_parameter/shine_speed = 3.0
+shader_parameter/shine_width = 0.038
+shader_parameter/rotation_degrees = 18.728
+shader_parameter/show_only_shine = 1.0
 
 [node name="Key" type="Node2D"]
 script = ExtResource("1_yk2u2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.95, 0.8, 0.18, 1)
-scale = Vector2(0.195, 0.195)
+scale = Vector2(0.27, 0.27)
 texture = ExtResource("2_fttkb")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -21,5 +32,10 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false
 shape = SubResource("CircleShape2D_yk2u2")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_brs3p")
+scale = Vector2(0.27, 0.27)
+texture = ExtResource("2_fttkb")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
