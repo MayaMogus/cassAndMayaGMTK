@@ -130,17 +130,17 @@ func _physics_process(delta: float) -> void:
 	
 	# jumping
 	if jumping:
-		if Input.is_action_pressed("up") and jumping_timer < MAX_JUMP_TIME_SECONDS:
+		if Input.is_action_pressed("jump") and jumping_timer < MAX_JUMP_TIME_SECONDS:
 			jumping_timer += delta
 		else:
 			jumping = false
 			jumping_timer = 0
 	
-	if Input.is_action_just_pressed("up") and not grounded:
+	if Input.is_action_just_pressed("jump") and not grounded:
 		queued_jump = true
 	elif grounded and (
-		Input.is_action_just_pressed("up") or 
-		queued_jump and Input.is_action_pressed("up")
+		Input.is_action_just_pressed("jump") or 
+		queued_jump and Input.is_action_pressed("jump")
 	):
 		SetVelocity(linear_velocity.x, JUMP_VELOCITY) # jump
 		jumping = true
@@ -152,7 +152,7 @@ func _physics_process(delta: float) -> void:
 	$Sprite2D.scale.y = lerp($Sprite2D.scale.y, 0.215, delta*10)
 	
 	# acceleration
-	var direction := Input.get_axis("left", "right")
+	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
 		
 		$Sprite2D.scale.x = 0.265 * direction
@@ -182,21 +182,18 @@ func _physics_process(delta: float) -> void:
 	
 		$Sprite2D.texture = load("res://assets/spriteStand.png")
 	# rope attachment
-	if Input.is_action_just_pressed("E"):
+	if Input.is_action_just_pressed("attach_rope"):
 		if not (attached or attachment_point_candidates.is_empty()):
 			# attach rope
-			
-			attached = true
 			CreateRope(500)
 		elif attached:
 			# detach rope
-			attached = false
 			DestroyRope()
 			
 	if Input.is_action_just_pressed("ui_down"):
-		reload_scene()
-		
-		
+		reset_level()
+	
+	
 	if attached:
 		# rope wrapping
 		# check if the rope needs to wrap
@@ -239,17 +236,15 @@ func _physics_process(delta: float) -> void:
 			apply_central_force(force * stretched_vector)
 	
 	previous_velocity = linear_velocity
-	
-	
-	
+
 func _process(_delta: float) -> void:
 	if attached:
 		var points = rope_points.duplicate()
 		points.append(center_position)
 		rope_visual.points = points
 
-
 func CreateRope(length: float):
+	attached = true
 	rope_remaining_length = length
 	
 	# find the closest attachment point candidate
@@ -269,6 +264,7 @@ func CreateRope(length: float):
 	rope_points.append(attachment_point.global_position)
 
 func DestroyRope():
+	attached = false
 	rope_points.clear()
 	rope_visual.clear_points()
 
@@ -278,22 +274,15 @@ func SetVelocity(x: float, y: float):
 func AddVelocity(x: float, y: float):
 	apply_central_impulse(Vector2(x, y) * mass)
 
-
-
-
-# TODO: what happens if there's multiple points in range?
 func _on_attachment_detector_body_entered(body: Node2D) -> void:
 	if body is Pivot:
-		print('YAYYYYA')
 		attachment_point_candidates[body] = body.global_position
 
 func _on_attachment_detector_body_exited(body: Node2D) -> void:
 	if body is Pivot:
 		attachment_point_candidates.erase(body)
-		
-		
-		
-func reload_scene():
-	var current_scene = get_tree().current_scene
-	var packed_scene = ResourceLoader.load(current_scene.scene_file_path)
-	get_tree().change_scene_to_packed(packed_scene)
+
+func reset_level():
+	DestroyRope()
+	global_position = respawn_position
+	linear_velocity = Vector2.ZERO
