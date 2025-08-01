@@ -1,5 +1,4 @@
 extends RigidBody2D
-class_name Player
 # used for raycasts
 var space_state: PhysicsDirectSpaceState2D:
 	get: return get_world_2d().direct_space_state
@@ -166,7 +165,7 @@ func _physics_process(delta: float) -> void:
 	$Sprite2D.scale.y = lerp($Sprite2D.scale.y, 0.215, delta*10)
 	
 	# acceleration
-	var direction := Input.get_axis("left", "right")
+	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
 		
 		$Sprite2D.scale.x = 0.265 * direction * upsideDown
@@ -196,21 +195,18 @@ func _physics_process(delta: float) -> void:
 	
 		$Sprite2D.texture = load("res://assets/spriteStand.png")
 	# rope attachment
-	if Input.is_action_just_pressed("E"):
+	if Input.is_action_just_pressed("attach_rope"):
 		if not (attached or attachment_point_candidates.is_empty()):
 			# attach rope
-			
-			attached = true
 			CreateRope(500)
 		elif attached:
 			# detach rope
-			attached = false
 			DestroyRope()
 			
 	if Input.is_action_just_pressed("ui_down"):
-		reload_scene()
-		
-		
+		reset_level()
+	
+	
 	if attached:
 		# rope wrapping
 		# check if the rope needs to wrap
@@ -253,9 +249,7 @@ func _physics_process(delta: float) -> void:
 			apply_central_force(force * stretched_vector)
 	
 	previous_velocity = linear_velocity
-	
-	
-	
+
 func _process(_delta: float) -> void:
 	
 	$Sprite2D2.rotation += 0.25 * _delta 
@@ -268,6 +262,7 @@ func _process(_delta: float) -> void:
 		var points = rope_points.duplicate()
 		points.append(center_position)
 		rope_visual.points = points
+
 		if not grounded:
 			$Sprite2D.look_at(rope_points[-1])
 			$Sprite2D.rotation -= PI / 2
@@ -293,6 +288,7 @@ func _input(event: InputEvent) -> void:
 
 
 func CreateRope(length: float):
+	attached = true
 	rope_remaining_length = length
 	
 	# find the closest attachment point candidate
@@ -312,6 +308,7 @@ func CreateRope(length: float):
 	rope_points.append(attachment_point.global_position)
 
 func DestroyRope():
+	attached = false
 	rope_points.clear()
 	rope_visual.clear_points()
 	attached = false
@@ -321,18 +318,18 @@ func SetVelocity(x: float, y: float):
 func AddVelocity(x: float, y: float):
 	apply_central_impulse(Vector2(x, y) * mass)
 
-
-
-
-# TODO: what happens if there's multiple points in range?
 func _on_attachment_detector_body_entered(body: Node2D) -> void:
 	if body is Pivot:
-		print('YAYYYYA')
 		attachment_point_candidates[body] = body.global_position
 
 func _on_attachment_detector_body_exited(body: Node2D) -> void:
 	if body is Pivot:
 		attachment_point_candidates.erase(body)
+
+func reset_level():
+	DestroyRope()
+	global_position = respawn_position
+	linear_velocity = Vector2.ZERO
 		
 		
 		
