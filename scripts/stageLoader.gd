@@ -5,7 +5,7 @@ var currentStage = 0
 var stages = [
 	preload("res://scenes/introStage.tscn"),
 	preload("res://scenes/stage_1.tscn"),
-	
+	preload("res://scenes/stage_2.tscn"),
 	
 ]
 

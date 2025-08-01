@@ -473,7 +473,7 @@ collider_width = 384.0
 collider_height = 160.0
 
 [node name="BoostPad2" parent="boostPads" instance=ExtResource("3_udm74")]
-position = Vector2(4048, 1168)
+position = Vector2(4032, 1168)
 rotation = -1.57079
 scale = Vector2(5.76, 3.84)
 boostPadForce = 175.0
@@ -481,7 +481,7 @@ collider_width = 288.0
 collider_height = 192.0
 
 [node name="BoostPad3" parent="boostPads" instance=ExtResource("3_udm74")]
-position = Vector2(4232, 1168)
+position = Vector2(4248, 1168)
 rotation = 1.57079
 scale = Vector2(5.76, 3.84)
 boostPadForce = 175.0
@@ -501,7 +501,7 @@ script = ExtResource("5_sv3jd")
 [node name="Keys" type="Node2D" parent="."]
 
 [node name="Key" parent="Keys" instance=ExtResource("6_fbmvv")]
-position = Vector2(944, -736)
+position = Vector2(936, -528)
 
 [node name="Key2" parent="Keys" instance=ExtResource("6_fbmvv")]
 position = Vector2(2584, 888)

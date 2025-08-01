@@ -46,11 +46,15 @@ var respawnLocation : Vector2
 var collectedKeys = []
 var savedKeys = []
 
+var upsideDown : int = -1
 
 @onready var base_node := $".."
 
 var boostPadSpeed = Vector2(0,0)
 
+var paused : bool = false
+
+var savedMomentum : Vector2
 
 func _ready() -> void:
 	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
@@ -60,6 +64,9 @@ func _ready() -> void:
 	respawnLocation = global_position
 
 func _physics_process(delta: float) -> void:
+	
+	if paused:
+		return
 	
 	# TODO: this sux major ass
 	# TODO: set false at top and replace elif with if
@@ -162,7 +169,7 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("left", "right")
 	if direction:
 		
-		$Sprite2D.scale.x = 0.265 * direction
+		$Sprite2D.scale.x = 0.265 * direction * upsideDown
 		$Sprite2D.texture = load("res://assets/spriteTurn.png")
 		
 		if sign(direction) != sign(linear_velocity.x):
@@ -250,6 +257,13 @@ func _physics_process(delta: float) -> void:
 	
 	
 func _process(_delta: float) -> void:
+	
+	$Sprite2D2.rotation += 0.25 * _delta 
+	
+	if not attachment_point_candidates.is_empty():
+		$Sprite2D2.material.set_shader_parameter("dot_color", Color(0.3, .75, 0.3))
+	else:
+		$Sprite2D2.material.set_shader_parameter("dot_color", Color(1,1,1))
 	if attached:
 		var points = rope_points.duplicate()
 		points.append(center_position)
@@ -257,12 +271,27 @@ func _process(_delta: float) -> void:
 		if not grounded:
 			$Sprite2D.look_at(rope_points[-1])
 			$Sprite2D.rotation -= PI / 2
+			upsideDown = -1
 		else:
 			$Sprite2D.rotation = 0
+			upsideDown = 1
 	else:
 		$Sprite2D.rotation = 0
+		upsideDown = 1
 		
-		
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed('pause'):
+		if paused:
+			freeze = false
+			paused = false
+			linear_velocity = savedMomentum
+		else:
+			paused = true
+			freeze = true
+			savedMomentum = linear_velocity
+
+
 func CreateRope(length: float):
 	rope_remaining_length = length
 	
