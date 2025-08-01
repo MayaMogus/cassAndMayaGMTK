@@ -7,6 +7,7 @@ uniform float shine_width : hint_range(0.0, 2.0) = 0.5;
 uniform float rotation_degrees : hint_range(0.0, 360.0) = 0.0;
 uniform float show_only_shine : hint_range(0.0, 1.0, .25) = 0.0; // 0 = normal blend, 1 = only shine
 
+
 void fragment() {
     vec4 tex = texture(TEXTURE, UV);
 
@@ -17,9 +18,13 @@ void fragment() {
         sin(angle) * UV.x + cos(angle) * UV.y
     );
 
-    float sine_wave = sin(rotated_uv.y * cycle_interval * 6.2831 + TIME * shine_speed);
+   float wave = sin(rotated_uv.y * cycle_interval * 6.2831 + TIME * shine_speed) * 0.5 + 0.5;
+	float shine_mask = smoothstep(1.0 - shine_width, 1.0, wave);
 
-    float mask = step(1.0 - shine_width, sine_wave);
+	// Use sprite alpha as a shape mask
+	float alpha_mask = step(0.01, tex.a); // Only apply shine where the sprite has non-zero alpha
+
+	float mask = shine_mask * alpha_mask;
 
     // Blended color
     vec3 blended_rgb = mix(tex.rgb, shine_color.rgb, mask * shine_color.a);

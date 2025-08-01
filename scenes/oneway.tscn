@@ -8,6 +8,7 @@ size = Vector2(16, 16)
 [sub_resource type="BoxMesh" id="BoxMesh_qgrbx"]
 
 [node name="Node2D" type="Node2D"]
+scale = Vector2(0.64, 0.64)
 script = ExtResource("1_qgrbx")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
