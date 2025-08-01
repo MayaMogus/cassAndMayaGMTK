@@ -1,13 +1,13 @@
 [gd_scene load_steps=27 format=4 uid="uid://boiv1ajrpeseq"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_47pyx"]
-[ext_resource type="PackedScene" uid="uid://bsggn81s16x4c" path="res://scenes/character.tscn" id="2_dmt7v"]
 [ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_gex7j"]
 [ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="3_gex7j"]
 [ext_resource type="PackedScene" uid="uid://damw45et3uy6p" path="res://scenes/exit.tscn" id="4_uckxj"]
 [ext_resource type="Script" uid="uid://dqpu6stj8o5wm" path="res://scripts/tile_map_layer.gd" id="5_15q1b"]
 [ext_resource type="Texture2D" uid="uid://cdawquxd5ma64" path="res://assets/tileSet.png" id="6_ykt86"]
 [ext_resource type="PackedScene" uid="uid://6wq8gn1wba1w" path="res://scenes/checkpoint.tscn" id="8_gex7j"]
+[ext_resource type="PackedScene" uid="uid://belhfglajbrit" path="res://scenes/player.tscn" id="8_uckxj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gex7j"]
 size = Vector2(832, 3584)
@@ -339,5 +339,5 @@ tile_set = SubResource("TileSet_ua616")
 [node name="Checkpoint" parent="." instance=ExtResource("8_gex7j")]
 position = Vector2(-56, 1120)
 
-[node name="player" parent="." instance=ExtResource("2_dmt7v")]
-position = Vector2(-1168, -1592)
+[node name="Player" parent="." instance=ExtResource("8_uckxj")]
+position = Vector2(-1216, -1592)

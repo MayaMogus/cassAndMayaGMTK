@@ -144,17 +144,17 @@ func _process(delta: float) -> void:
 		#print(points)
 		
 		
-func removeRope():
-	var player = $"../player".get_child(0)
-	var RopeUI :Label= $"../UI/Label"
-	#RopeUI.text = str('ROPE DETTACHED')
-	var joint = player.get_node("PinJoint2D")
-	joint.node_b = NodePath("")
-	rope_points.clear()
-	hinge = null
-	player.get_node("Line2D").points = []
-	if hinge_body:
-		hinge_body.queue_free()
-		hinge_body = null
-	player.currentPivot = hinge
-	player.maxDist = player.trueMaxDist
+#func removeRope():
+	#var player = $"../Player"
+	#var RopeUI :Label= $"../UI/Label"
+	##RopeUI.text = str('ROPE DETTACHED')
+	#var joint = player.get_node("PinJoint2D")
+	#joint.node_b = NodePath("")
+	#rope_points.clear()
+	#hinge = null
+	#player.get_node("Line2D").points = []
+	#if hinge_body:
+		#hinge_body.queue_free()
+		#hinge_body = null
+	#player.currentPivot = hinge
+	#player.maxDist = player.trueMaxDist

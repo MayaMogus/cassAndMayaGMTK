@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://belhfglajbrit"]
+[gd_scene load_steps=10 format=3 uid="uid://belhfglajbrit"]
 
 [ext_resource type="Script" uid="uid://b2axbsfax4tdb" path="res://scripts/character_controller.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_qhqgy"]
+[ext_resource type="AudioStream" uid="uid://ci884mxq04sc2" path="res://assets/sounds/footstep_concrete_004.ogg" id="3_dqkch"]
+[ext_resource type="AudioStream" uid="uid://dnwyux2c1uadw" path="res://assets/sounds/gmtkBGMusic (2).wav" id="4_qlg0r"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dqkch"]
 friction = 0.0
@@ -10,7 +12,13 @@ friction = 0.0
 size = Vector2(38, 64)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
-radius = 125.0
+radius = 191.167
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tuyoq"]
+radius = 8.0
+height = 48.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_dqkch"]
 
 [node name="Player" type="RigidBody2D"]
 position = Vector2(0, -4)
@@ -26,6 +34,7 @@ position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_qlg0r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
 position = Vector2(0, -32)
 scale = Vector2(0.265, 0.265)
 texture = ExtResource("2_qhqgy")
@@ -83,5 +92,28 @@ hit_from_inside = true
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.66, 0.66)
 
+[node name="SpikeDetector" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpikeDetector"]
+shape = SubResource("CapsuleShape2D_tuyoq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dqkch")
+volume_db = 5.333
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qlg0r")
+autoplay = true
+
+[node name="grabRadius" type="MeshInstance2D" parent="."]
+self_modulate = Color(0.329412, 0.654902, 0.894118, 0.152941)
+position = Vector2(0, -36)
+scale = Vector2(384.435, 384)
+mesh = SubResource("SphereMesh_dqkch")
+
 [connection signal="body_entered" from="AttachmentDetector" to="." method="_on_attachment_detector_body_entered"]
 [connection signal="body_exited" from="AttachmentDetector" to="." method="_on_attachment_detector_body_exited"]
+[connection signal="body_entered" from="SpikeDetector" to="." method="_on_spike_detector_body_entered"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]

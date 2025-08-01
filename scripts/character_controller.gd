@@ -1,5 +1,5 @@
 extends RigidBody2D
-
+class_name Player
 # used for raycasts
 var space_state: PhysicsDirectSpaceState2D:
 	get: return get_world_2d().direct_space_state
@@ -40,6 +40,13 @@ var rope_visual := Line2D.new()
 var rope_points: PackedVector2Array = []
 var rope_remaining_length: float
 
+
+var respawnLocation : Vector2
+
+var collectedKeys = []
+var savedKeys = []
+
+
 @onready var base_node := $".."
 
 var boostPadSpeed = Vector2(0,0)
@@ -50,7 +57,7 @@ func _ready() -> void:
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
-	
+	respawnLocation = global_position
 
 func _physics_process(delta: float) -> void:
 	
@@ -130,17 +137,17 @@ func _physics_process(delta: float) -> void:
 	
 	# jumping
 	if jumping:
-		if Input.is_action_pressed("up") and jumping_timer < MAX_JUMP_TIME_SECONDS:
+		if Input.is_action_pressed("jump") and jumping_timer < MAX_JUMP_TIME_SECONDS:
 			jumping_timer += delta
 		else:
 			jumping = false
 			jumping_timer = 0
 	
-	if Input.is_action_just_pressed("up") and not grounded:
+	if Input.is_action_just_pressed("jump") and not grounded:
 		queued_jump = true
 	elif grounded and (
-		Input.is_action_just_pressed("up") or 
-		queued_jump and Input.is_action_pressed("up")
+		Input.is_action_just_pressed("jump") or 
+		queued_jump and Input.is_action_pressed("jump")
 	):
 		SetVelocity(linear_velocity.x, JUMP_VELOCITY) # jump
 		jumping = true
@@ -247,8 +254,15 @@ func _process(_delta: float) -> void:
 		var points = rope_points.duplicate()
 		points.append(center_position)
 		rope_visual.points = points
-
-
+		if not grounded:
+			$Sprite2D.look_at(rope_points[-1])
+			$Sprite2D.rotation -= PI / 2
+		else:
+			$Sprite2D.rotation = 0
+	else:
+		$Sprite2D.rotation = 0
+		
+		
 func CreateRope(length: float):
 	rope_remaining_length = length
 	
@@ -271,7 +285,7 @@ func CreateRope(length: float):
 func DestroyRope():
 	rope_points.clear()
 	rope_visual.clear_points()
-
+	attached = false
 func SetVelocity(x: float, y: float):
 	apply_central_impulse((Vector2(x, y) - linear_velocity) * mass)
 
@@ -297,3 +311,50 @@ func reload_scene():
 	var current_scene = get_tree().current_scene
 	var packed_scene = ResourceLoader.load(current_scene.scene_file_path)
 	get_tree().change_scene_to_packed(packed_scene)
+
+
+func _on_spike_detector_body_entered(body: Node2D) -> void:
+	if body.name == 'Spike':
+	
+		die()
+	elif body.name == 'Checkpoint':
+
+		respawnLocation = body.global_position 
+		savedKeys = collectedKeys.duplicate()
+		
+func die():
+	linear_velocity = Vector2(0,0)
+	
+	var main = get_parent()
+
+	DestroyRope()
+	
+	
+	
+	var keyController : Node2D = main.get_node('Keys')
+	var gateController : Node2D = main.get_node('Gates')
+	print(savedKeys, 'savedKeys')
+	for key in keyController.get_children():
+		if not savedKeys.has(key.keyIndex):
+			
+			key.call_deferred('showKey')
+		else:
+			print('???')
+		
+	for gate in gateController.get_children():
+		if not savedKeys.has(gate.gateIndex):
+			gate.call_deferred('reappear')
+			
+	
+	collectedKeys = savedKeys.duplicate()
+
+	set_deferred("global_position", respawnLocation)
+
+func playSound(sound:AudioStream):
+	$AudioStreamPlayer.stream = sound
+	$AudioStreamPlayer.play()
+
+
+func _on_music_player_finished() -> void:
+	
+	$MusicPlayer.play()
