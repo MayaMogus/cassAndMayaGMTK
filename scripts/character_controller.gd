@@ -1,4 +1,5 @@
 extends RigidBody2D
+
 # used for raycasts
 var space_state: PhysicsDirectSpaceState2D:
 	get: return get_world_2d().direct_space_state
@@ -39,32 +40,45 @@ var rope_visual := Line2D.new()
 var rope_points: PackedVector2Array = []
 var rope_remaining_length: float
 
+var collected_keys = []
+var saved_keys = []
 
-var respawnLocation : Vector2
+var upside_down := false
 
-var collectedKeys = []
-var savedKeys = []
-
-var upsideDown : int = -1
-
+@onready var respawn_position := global_position
+@onready var reset_position := global_position
 @onready var base_node := $".."
 
-var boostPadSpeed = Vector2(0,0)
+@onready var stand_texture := preload("res://assets/spriteStand.png")
+@onready var turn_texture := preload("res://assets/spriteTurn.png")
 
-var paused : bool = false
+var boost_pad_speed := Vector2.ZERO
 
-var savedMomentum : Vector2
+var paused := false
+
+var saved_velocity_paused : Vector2
 
 func _ready() -> void:
 	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
-	respawnLocation = global_position
 
 func _physics_process(delta: float) -> void:
 	
+	# pausing
+	if Input.is_action_just_pressed('pause'):
+		if paused:
+			freeze = false
+			paused = false
+			linear_velocity = saved_velocity_paused
+		else:
+			paused = true
+			freeze = true
+			saved_velocity_paused = linear_velocity
+	
 	if paused:
+		saved_velocity_paused = linear_velocity
 		return
 	
 	# TODO: this sux major ass
@@ -161,31 +175,35 @@ func _physics_process(delta: float) -> void:
 		grounded = false
 		coyote_timer = 0
 	
-	
-	$Sprite2D.scale.y = lerp($Sprite2D.scale.y, 0.215, delta*10)
-	
 	# acceleration
-	var direction := Input.get_axis("move_left", "move_right")
-	if direction:
+	var horizontal_direction := Input.get_axis("move_left", "move_right")
+	var vertical_direction := Input.get_axis("move_up", "move_down")
+	if horizontal_direction:
+		$Sprite2D.scale.x = 0.265 * sign(horizontal_direction) * (-1.0 if upside_down else 1.0)
+		$Sprite2D.texture = (
+			turn_texture if absf(
+				fmod(
+					$Sprite2D.rotation_degrees + 90,
+					180
+					)
+				) > 15
+			else stand_texture
+		)
 		
-		$Sprite2D.scale.x = 0.265 * direction * upsideDown
-		$Sprite2D.texture = load("res://assets/spriteTurn.png")
-		
-		if sign(direction) != sign(linear_velocity.x):
+		if sign(horizontal_direction) != sign(linear_velocity.x):
 			# slow down faster if trying to move in opposite direction
 			# but only if we're under our max speed or grounded
-			AddVelocity(direction * ACCELERATION * (
+			AddVelocity(horizontal_direction * ACCELERATION * (
 				2.0 if abs(linear_velocity.x) < SPEED else 1.0
 				) / (1.0 if is_on_floor else 2.0), 0) # less control when in air
-		elif abs(linear_velocity.x) < SPEED * abs(direction):
-			# multiply by abs(direction) to account for joystick controls
+		elif abs(linear_velocity.x) < SPEED * abs(horizontal_direction):
+			# multiply by abs(horizontal_direction) to account for joystick controls
 			
 			# give normal forward accel when under our max speed
-			AddVelocity(direction * ACCELERATION / (
+			AddVelocity(horizontal_direction * ACCELERATION / (
 				# less control when in air
 				1.0 if is_on_floor else 2.0
 				), 0)
-		
 	elif linear_velocity.x != 0:
 		# deccelerate faster on the ground
 		AddVelocity(-sign(linear_velocity.x) * ACCELERATION / (2.0 if is_on_floor else 32.0), 0)
@@ -193,7 +211,11 @@ func _physics_process(delta: float) -> void:
 		if abs(linear_velocity.x) < ACCELERATION and is_on_floor:
 			SetVelocity(0, linear_velocity.y)
 	
-		$Sprite2D.texture = load("res://assets/spriteStand.png")
+		$Sprite2D.texture = stand_texture
+	
+	if vertical_direction and not is_on_floor:
+		apply_central_force(Vector2(0, vertical_direction * ACCELERATION * 50))
+	
 	# rope attachment
 	if Input.is_action_just_pressed("attach_rope"):
 		if not (attached or attachment_point_candidates.is_empty()):
@@ -203,8 +225,8 @@ func _physics_process(delta: float) -> void:
 			# detach rope
 			DestroyRope()
 			
-	if Input.is_action_just_pressed("ui_down"):
-		reset_level()
+	if Input.is_action_just_pressed("reset"):
+		ResetLevel(true)
 	
 	
 	if attached:
@@ -250,42 +272,37 @@ func _physics_process(delta: float) -> void:
 	
 	previous_velocity = linear_velocity
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	
-	$Sprite2D2.rotation += 0.25 * _delta 
-	
+	# attachment point range visualizer
+	if not paused: $Sprite2D2.rotation += 0.25 * delta 
 	if not attachment_point_candidates.is_empty():
 		$Sprite2D2.material.set_shader_parameter("dot_color", Color(0.3, .75, 0.3))
 	else:
 		$Sprite2D2.material.set_shader_parameter("dot_color", Color(1,1,1))
+	
+	$Sprite2D.scale.y = lerp($Sprite2D.scale.y, 0.215, delta*10) # return sprite to normal size
 	if attached:
+		# rope visual
 		var points = rope_points.duplicate()
 		points.append(center_position)
 		rope_visual.points = points
-
+		
+		# face away from rope pivot
 		if not grounded:
 			$Sprite2D.look_at(rope_points[-1])
 			$Sprite2D.rotation -= PI / 2
-			upsideDown = -1
 		else:
 			$Sprite2D.rotation = 0
-			upsideDown = 1
+		
+		if absf(fmod($"Sprite2D".rotation_degrees, 360)) > 90 \
+			and absf(fmod($"Sprite2D".rotation_degrees, 360)) < 270:
+			upside_down = true
+		else:
+			upside_down = false
 	else:
 		$Sprite2D.rotation = 0
-		upsideDown = 1
-		
-
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed('pause'):
-		if paused:
-			freeze = false
-			paused = false
-			linear_velocity = savedMomentum
-		else:
-			paused = true
-			freeze = true
-			savedMomentum = linear_velocity
-
+		upside_down = false
 
 func CreateRope(length: float):
 	attached = true
@@ -312,6 +329,7 @@ func DestroyRope():
 	rope_points.clear()
 	rope_visual.clear_points()
 	attached = false
+
 func SetVelocity(x: float, y: float):
 	apply_central_impulse((Vector2(x, y) - linear_velocity) * mass)
 
@@ -326,60 +344,47 @@ func _on_attachment_detector_body_exited(body: Node2D) -> void:
 	if body is Pivot:
 		attachment_point_candidates.erase(body)
 
-func reset_level():
+func _on_spike_detector_body_entered(body: Node2D) -> void: # TODO: rename this
+	if body.get_meta("is_spike", false):
+		ResetLevel(false)
+	elif body.get_meta("is_checkpoint", false):
+		respawn_position = body.global_position 
+		saved_keys = collected_keys.duplicate()
+
+func ResetLevel(full_reset: bool):
 	DestroyRope()
-	global_position = respawn_position
+	if full_reset:
+		global_position = reset_position
+	else:
+		global_position = respawn_position
 	linear_velocity = Vector2.ZERO
+	
+	var key_controller : Node2D = base_node.get_node('Keys')
+	var gate_controller : Node2D = base_node.get_node('Gates')
+	
+	if full_reset:
+		collected_keys.clear()
+		saved_keys.clear()
+		for key in key_controller.get_children():
+			key.showKey()
+		for gate in gate_controller.get_children():
+			gate.reappear()
+	else:
+		for key in key_controller.get_children():
+			# show all the keys that weren't saved
+			if not saved_keys.has(key.keyIndex):
+				key.showKey()
 		
+		collected_keys = saved_keys.duplicate()
 		
-		
-func reload_scene():
-	var current_scene = get_tree().current_scene
-	var packed_scene = ResourceLoader.load(current_scene.scene_file_path)
-	get_tree().change_scene_to_packed(packed_scene)
-
-
-func _on_spike_detector_body_entered(body: Node2D) -> void:
-	if body.name == 'Spike':
-	
-		die()
-	elif body.name == 'Checkpoint':
-
-		respawnLocation = body.global_position 
-		savedKeys = collectedKeys.duplicate()
-		
-func die():
-	linear_velocity = Vector2(0,0)
-	
-	var main = get_parent()
-
-	DestroyRope()
-	
-	
-	
-	var keyController : Node2D = main.get_node('Keys')
-	var gateController : Node2D = main.get_node('Gates')
-	print(savedKeys, 'savedKeys')
-	for key in keyController.get_children():
-		if not savedKeys.has(key.keyIndex):
-			
-			key.call_deferred('showKey')
-		else:
-			print('???')
-		
-	for gate in gateController.get_children():
-		if not savedKeys.has(gate.gateIndex):
-			gate.call_deferred('reappear')
-			
-	
-	collectedKeys = savedKeys.duplicate()
-
-	set_deferred("global_position", respawnLocation)
+		for gate in gate_controller.get_children():
+			# show all gates we haven't collected keys for
+			if not saved_keys.has(gate.gateIndex):
+				gate.reappear()
 
 func playSound(sound:AudioStream):
 	$AudioStreamPlayer.stream = sound
 	$AudioStreamPlayer.play()
-
 
 func _on_music_player_finished() -> void:
 	

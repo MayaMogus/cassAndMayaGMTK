@@ -15,6 +15,7 @@ var gateColors : Dictionary = {
 	gateTypes.Green : Color(.2, .6, 0.12),
 }
 
+@onready var collision_shape = $StaticBody2D/CollisionShape2D
 
 func _ready():
 	_update_collider()
@@ -37,12 +38,12 @@ func _update_collider():
 	$Sprite2D.self_modulate = gateColors[gateIndex]
 
 func disappear():
-	$StaticBody2D/CollisionShape2D.disabled = true
+	$StaticBody2D/CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.visible = false
 	$Shader.visible = false
 
 
 func reappear():
-	$StaticBody2D/CollisionShape2D.disabled = false
+	$StaticBody2D/CollisionShape2D.set_deferred("disabled", false)
 	$Sprite2D.visible = true
 	$Shader.visible = true

@@ -55,4 +55,4 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if bodies.has(body):
 		bodies.erase(body)
-		body.boostPadSpeed = Vector2(1,1)
+		body.boost_pad_speed = Vector2.ONE

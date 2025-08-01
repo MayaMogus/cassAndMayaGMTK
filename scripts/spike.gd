@@ -21,7 +21,7 @@ func _process(_delta):
 func _update_spikes():
 	for child in get_children():
 		child.queue_free()
-	var spikeAmount = spike_width/32
+	var spikeAmount := int(spike_width/32)
 	columns = spikeAmount
 	for i in spikeAmount:
 		

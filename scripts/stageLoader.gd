@@ -10,6 +10,6 @@ var stages = [
 ]
 
 func loadNextStage():
-	get_tree().change_scene_to_packed(stages[currentStage])
+	get_tree().call_deferred("change_scene_to_packed", stages[currentStage])
 	currentStage += 1
 	KeyGlobalController.savedKeys.clear()

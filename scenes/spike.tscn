@@ -16,6 +16,7 @@ texture = ExtResource("1_ljd5v")
 [node name="Spike" type="StaticBody2D" parent="."]
 collision_layer = 128
 collision_mask = 128
+metadata/is_spike = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spike"]
 shape = SubResource("CapsuleShape2D_ljd5v")
