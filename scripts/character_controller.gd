@@ -1,5 +1,4 @@
 extends RigidBody2D
-
 # used for raycasts
 var space_state: PhysicsDirectSpaceState2D:
 	get: return get_world_2d().direct_space_state
@@ -40,10 +39,12 @@ var rope_visual := Line2D.new()
 var rope_points: PackedVector2Array = []
 var rope_remaining_length: float
 
+
 var respawnLocation : Vector2
 
 var collectedKeys = []
 var savedKeys = []
+
 
 @onready var base_node := $".."
 
@@ -55,7 +56,6 @@ func _ready() -> void:
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
-	
 	respawnLocation = global_position
 
 func _physics_process(delta: float) -> void:
@@ -282,7 +282,7 @@ func DestroyRope():
 	attached = false
 	rope_points.clear()
 	rope_visual.clear_points()
-
+	attached = false
 func SetVelocity(x: float, y: float):
 	apply_central_impulse((Vector2(x, y) - linear_velocity) * mass)
 
