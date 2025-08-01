@@ -1,27 +1,46 @@
-extends CharacterBody2D
+extends RigidBody2D
 
-const SPEED := 300.0
-const ACCELERATION := 30.0
-const JUMP_VELOCITY := -550.0
+# used for raycasts
+var space_state: PhysicsDirectSpaceState2D:
+	get: return get_world_2d().direct_space_state
+
+const SPEED := 350.0
+const ACCELERATION := 35.0
+const MAX_GROUND_SLOPE := 0.5
+var is_on_floor := true
+var is_on_wall := false
+
+const JUMP_VELOCITY := -750.0
+const MAX_JUMP_TIME_SECONDS := 0.2
+var jumping := false
+var jumping_timer := 0.0
+var queued_jump := false
+
 const COYOTE_TIME_SECONDS := 0.1
-const WALL_HIT_SAVE_TIME_SECONDS := 0.075
-
 var grounded: bool
 var coyote_timer := 0.0
 
+const WALL_HIT_SAVE_TIME_SECONDS := 0.1
 var wall_hit_save_timer := 0.0
 var wall_hit_save_velocity: float
 var wall_hit_save_active: bool
 var hit_wall: bool
 
-var queued_jump := false
-
 var previous_velocity := Vector2.ZERO
+var center_position: Vector2:
+	get: return global_position - Vector2(0, $"CollisionShape2D".shape.size.y / 2)
 
+const SPRING_DAMPING := 10.0
+const SPRING_STIFFNESS := 50.0
+const ROPE_BACKTRACK_TOLERANCE := 2.0
 var attached := false
 var attachment_point: Node2D
+var attachment_point_candidates: Dictionary[Node2D, Vector2]
 var rope_visual := Line2D.new()
-var rope_segments: Array[RigidBody2D] = []
+var rope_points: PackedVector2Array = []
+var rope_remaining_length: float
+
+@onready var base_node := $".."
 
 func _ready() -> void:
 	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
@@ -29,43 +48,99 @@ func _ready() -> void:
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
 	
-	$"../AttachmentPoint".mass = INF
 
 func _physics_process(delta: float) -> void:
+	
+	# TODO: this sux major ass
+	# TODO: set false at top and replace elif with if
+	# check if we're on the floor based on raycasts and the slope of the ground
+	if $Raycasts/FloorLeft.is_colliding():
+		# normal.aspect is slope
+		if abs($Raycasts/FloorLeft.get_collision_normal().aspect()) <= MAX_GROUND_SLOPE:
+			is_on_floor = true
+		else: is_on_floor = false # slope too steep
+	elif $Raycasts/FloorRight.is_colliding():
+		if abs($Raycasts/FloorRight.get_collision_normal().aspect()) <= MAX_GROUND_SLOPE:
+			is_on_floor = true
+		else: is_on_floor = false # slope too steep
+	else: is_on_floor = false # no rays hit
+	
+	# check if we're on a wall based on raycasts and the slope of the ground
+	if $Raycasts/WallLeftBottom.is_colliding():
+		if abs($Raycasts/WallLeftBottom.get_collision_normal().aspect()) >= MAX_GROUND_SLOPE:
+			is_on_wall = true
+		else: is_on_wall = false # slope not steep enough
+	elif $Raycasts/WallLeftMiddle.is_colliding():
+		if abs($Raycasts/WallLeftMiddle.get_collision_normal().aspect()) >= MAX_GROUND_SLOPE:
+			is_on_wall = true
+		else: is_on_wall = false # slope not steep enough
+	elif $Raycasts/WallLeftTop.is_colliding():
+		if abs($Raycasts/WallLeftTop.get_collision_normal().aspect()) >= MAX_GROUND_SLOPE:
+			is_on_wall = true
+		else: is_on_wall = false # slope not steep enough
+	elif $Raycasts/WallRightBottom.is_colliding():
+		if abs($Raycasts/WallRightBottom.get_collision_normal().aspect()) >= MAX_GROUND_SLOPE:
+			is_on_wall = true
+		else: is_on_wall = false # slope not steep enough
+	elif $Raycasts/WallRightMiddle.is_colliding():
+		if abs($Raycasts/WallRightMiddle.get_collision_normal().aspect()) >= MAX_GROUND_SLOPE:
+			is_on_wall = true
+		else: is_on_wall = false # slope not steep enough
+	elif $Raycasts/WallRightTop.is_colliding():
+		if abs($Raycasts/WallRightTop.get_collision_normal().aspect()) >= MAX_GROUND_SLOPE:
+			is_on_wall = true
+		else: is_on_wall = false # slope not steep enough
+	else: is_on_wall = false # no rays hit
+	
 	# coyote time
-	if is_on_floor():
+	if is_on_floor:
 		grounded = true
-	elif not is_on_floor() and grounded:
+	elif not is_on_floor and grounded: # if coyote time is active
 		coyote_timer += delta
 		if coyote_timer > COYOTE_TIME_SECONDS:
 			grounded = false
 			coyote_timer = 0
 	
 	# preserve velocity when clipping a corner
-	if is_on_wall():
+	if is_on_wall:
 		if not hit_wall: # only when initially hitting the wall
 			wall_hit_save_velocity = previous_velocity.x
 			hit_wall = true
 		wall_hit_save_timer += delta
 	
-	if not is_on_wall() and hit_wall: # if it just stopped hitting the wall
-		if wall_hit_save_timer <= WALL_HIT_SAVE_TIME_SECONDS and velocity.x == 0:
-			velocity.x = wall_hit_save_velocity
+	if not is_on_wall and hit_wall: # if it just stopped hitting the wall
+		if wall_hit_save_timer <= WALL_HIT_SAVE_TIME_SECONDS and linear_velocity.x == 0:
+			AddVelocity(wall_hit_save_velocity * (
+				# give more speed back if the hit was shorter
+				1 - wall_hit_save_timer / WALL_HIT_SAVE_TIME_SECONDS
+				), 0)
 		wall_hit_save_timer = 0
 		hit_wall = false
 	
 	# gravity
-	if not is_on_floor():
-		velocity += get_gravity() * delta * (1.0 if velocity.y > 0 else 2.0)
+	if linear_velocity.y > 0:
+		gravity_scale = 2.0 # falling
+	elif not jumping:
+		gravity_scale = 1.5 # normal
+	else:
+		gravity_scale = 1 # jumping (holding jump)
 	
 	# jumping
+	if jumping:
+		if Input.is_action_pressed("move_up") and jumping_timer < MAX_JUMP_TIME_SECONDS:
+			jumping_timer += delta
+		else:
+			jumping = false
+			jumping_timer = 0
+	
 	if Input.is_action_just_pressed("move_up") and not grounded:
 		queued_jump = true
 	elif grounded and (
 		Input.is_action_just_pressed("move_up") or 
 		queued_jump and Input.is_action_pressed("move_up")
 	):
-		velocity.y = JUMP_VELOCITY
+		SetVelocity(linear_velocity.x, JUMP_VELOCITY) # jump
+		jumping = true
 		queued_jump = false
 		grounded = false
 		coyote_timer = 0
@@ -73,112 +148,123 @@ func _physics_process(delta: float) -> void:
 	# acceleration
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
-		velocity.x += direction * ACCELERATION * (
+		if sign(direction) != sign(linear_velocity.x):
 			# slow down faster if trying to move in opposite direction
-			1.0 if sign(direction) == sign(velocity.x) else 2.0
-		)
-		velocity.x = clamp(velocity.x, -SPEED, SPEED)
-	elif velocity.x != 0:
+			# but only if we're under our max speed or grounded
+			AddVelocity(direction * ACCELERATION * (
+				2.0 if abs(linear_velocity.x) < SPEED else 1.0
+				) / (1.0 if is_on_floor else 2.0), 0) # less control when in air
+		elif abs(linear_velocity.x) < SPEED * abs(direction):
+			# multiply by abs(direction) to account for joystick controls
+			
+			# give normal forward accel when under our max speed
+			AddVelocity(direction * ACCELERATION / (
+				# less control when in air
+				1.0 if is_on_floor else 2.0
+				), 0)
+		
+	elif linear_velocity.x != 0:
 		# deccelerate faster on the ground
-		velocity.x -= sign(velocity.x) * ACCELERATION / (2.0 if is_on_floor() else 8.0)
+		AddVelocity(-sign(linear_velocity.x) * ACCELERATION / (2.0 if is_on_floor else 32.0), 0)
 		# handle offsets less than the acceleration amount
-		if abs(velocity.x) < ACCELERATION: velocity.x = 0
+		if abs(linear_velocity.x) < ACCELERATION and is_on_floor:
+			SetVelocity(0, linear_velocity.y)
 	
 	# rope attachment
-	if Input.is_action_just_pressed("attach_rope") and attachment_point != null:
-		if not attached:
+	if Input.is_action_just_pressed("attach_rope"):
+		if not (attached or attachment_point_candidates.is_empty()):
 			# attach rope
 			attached = true
-			CreateRope(position, attachment_point.position, 10, 50)
-		else:
+			CreateRope(500)
+		elif attached:
 			# detach rope
 			attached = false
-			# TODO: put shit here
+			DestroyRope()
 	
-	previous_velocity = velocity
-	move_and_slide()
+	if attached:
+		# rope wrapping
+		# check if the rope needs to wrap
+		var query = PhysicsRayQueryParameters2D.create(
+			center_position,
+			rope_points[-1],
+			1
+			)
+		var result = space_state.intersect_ray(query)
+		if not result.is_empty():
+			var rope_segment_length = result.position.distance_to(rope_points[-1])
+			
+			if true: #rope_remaining_length > rope_segment_length:
+				rope_remaining_length -= rope_segment_length
+				rope_points.append(result.position)
+		
+		# check if the rope is snagged
+		if rope_points.size() > 1:
+			query = PhysicsRayQueryParameters2D.create(
+				center_position,
+				rope_points[-2],
+				1
+				)
+			result = space_state.intersect_ray(query)
+			if result.is_empty():
+				rope_remaining_length += rope_points[-1].distance_to(rope_points[-2])
+				rope_points.remove_at(rope_points.size() - 1)
+			elif result.position.distance_to(rope_points[-2]) < ROPE_BACKTRACK_TOLERANCE:
+				# TODO: try replacing with min dist between x and y?
+				rope_remaining_length += rope_points[-1].distance_to(rope_points[-2])
+				rope_points.remove_at(rope_points.size() - 1)
+		
+		# pull the player back if the rope is at full length
+		if rope_remaining_length - center_position.distance_to(rope_points[-1]) < 0:
+			var stretched_distance = center_position.distance_to(rope_points[-1]) \
+				- rope_remaining_length
+			var stretched_vector = (rope_points[-1] - center_position).normalized()
+			var force = SPRING_STIFFNESS * stretched_distance \
+				- SPRING_DAMPING * linear_velocity.dot(stretched_vector)
+			apply_central_force(force * stretched_vector)
+	
+	previous_velocity = linear_velocity
 
 func _process(_delta: float) -> void:
 	if attached:
-		var points: PackedVector2Array #= [attachment_point.position]
-		for segment in rope_segments:
-			points.append(segment.position)
-		points.append(position)
+		var points = rope_points.duplicate()
+		points.append(center_position)
 		rope_visual.points = points
 
-@onready var base_node := $".."
-const SPRING_DAMPING := 0.5
-const SPRING_STIFFNESS := 20.0
-const SPRING_REST_LENGTH_FRACTION := 1.0
-const ROPE_MASS := 0.5
 
-func CreateRope(start: Vector2, end: Vector2, segments: int, length: float):
-	var segment_difference = (end - start) / segments
-	var segment_length = length / segments
-	var segment_mass = ROPE_MASS / segments
-	var current_position = start
+func CreateRope(length: float):
+	rope_remaining_length = length
 	
-	var rope_base = Node.new()
-	rope_base.name = "Rope"
-	base_node.add_child(rope_base)
+	# find the closest attachment point candidate
+	var closest_distance: float = INF
+	var closest_candidate: Node2D
 	
-	# create rope segments
-	for i in range(segments - 1):
-		current_position += segment_difference
-		var spring = DampedSpringJoint2D.new()
-		spring.name = "RopeSpring" + str(i)
-		spring.length = segment_length
-		spring.rest_length = 0
-		spring.stiffness = SPRING_STIFFNESS
-		spring.damping = SPRING_DAMPING
-		rope_base.add_child(spring)
+	for candidate in attachment_point_candidates:
+		var candidate_position = attachment_point_candidates[candidate]
+		var distance = global_position.distance_to(candidate_position)
 		
-		if i == 0:
-			spring.node_a = attachment_point.get_path()
-			continue
-		elif i == segments - 1:
-			spring.node_b = self.get_path()
-		
-		# don't create the first and last node (they already exist)
-		if i != 0:
-			var node = RigidBody2D.new()
-			node.name = "RopeSegment" + str(i)
-			node.position = current_position
-			node.mass = segment_mass
-			node.collision_layer = 0 # don't collide with self
-			node.collision_mask = 1 # collide with normal geo
-			rope_base.add_child(node)
-			rope_segments.append(node)
-			
-			spring.reparent(node)
-			spring.global_position = node.global_position
-			
-			var collision = CollisionShape2D.new()
-			var collision_shape = CircleShape2D.new()
-			collision_shape.radius = 1.0
-			collision.shape = collision_shape
-			node.add_child(collision)
-			
-			# connect springs to this node
-			var last_spring = get_node("/root/Main/Rope/RopeSpring" + str(i - 1))
-			if last_spring == null: continue
-			last_spring.global_rotation = last_spring.get_angle_to(node.global_position)
-			spring.node_a = node.get_path()
-			last_spring.node_b = node.get_path()
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_candidate = candidate
+	
+	attachment_point = closest_candidate
+	
+	rope_points.append(attachment_point.global_position)
 
 func DestroyRope():
-	rope_segments = []
-	$"../Rope".queue_free()
-	rope_visual.points = []
+	rope_points.clear()
+	rope_visual.clear_points()
+
+func SetVelocity(x: float, y: float):
+	apply_central_impulse((Vector2(x, y) - linear_velocity) * mass)
+
+func AddVelocity(x: float, y: float):
+	apply_central_impulse(Vector2(x, y) * mass)
 
 # TODO: what happens if there's multiple points in range?
 func _on_attachment_detector_body_entered(body: Node2D) -> void:
-	if body.name == "AttachmentPoint":
-		attachment_point = body
-	
-func _on_attachment_detector_body_exited(body: Node2D) -> void:
-	if body.name == "AttachmentPoint":
-		attachment_point = null
+	if body.get_meta("is_attachment_point", false):
+		attachment_point_candidates[body] = body.global_position
 
-func clamp(value, minimum, maximum):
-	return min(max(value, minimum), maximum)
+func _on_attachment_detector_body_exited(body: Node2D) -> void:
+	if body.get_meta("is_attachment_point", false):
+		attachment_point_candidates.erase(body)
