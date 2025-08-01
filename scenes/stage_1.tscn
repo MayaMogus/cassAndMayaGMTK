@@ -515,6 +515,7 @@ spike_width = 1856.0
 [node name="BoostPad" parent="boostPads" instance=ExtResource("1_vrt2j")]
 position = Vector2(-312, 48)
 scale = Vector2(12.16, 2.56)
+boostPadForce = 75.0
 collider_width = 608.0
 collider_height = 128.0
 
@@ -558,7 +559,7 @@ position = Vector2(704, -1312)
 [node name="Player" parent="." instance=ExtResource("10_rxqpy")]
 position = Vector2(-976, -72)
 
-[node name="Node2D" parent="." instance=ExtResource("11_pu7io")]
-position = Vector2(-312, -8.00002)
+[node name="oneway" parent="." instance=ExtResource("11_pu7io")]
+position = Vector2(-312, -11)
 scale = Vector2(24.32, 0.64)
 collider_width = 1216.0

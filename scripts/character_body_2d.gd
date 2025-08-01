@@ -1,5 +1,5 @@
 extends RigidBody2D
-class_name Player
+
 
 @export var ropeClick : AudioStream
 @export var ropeSound2 : AudioStream
@@ -225,7 +225,7 @@ func die():
 	
 	
 	var ropeController : Node2D = main.get_node('ropeController')
-	ropeController.removeRope()
+	
 	
 	var keyController : Node2D = main.get_node('Keys')
 	var gateController : Node2D = main.get_node('Gates')
