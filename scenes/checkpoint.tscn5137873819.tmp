@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://6wq8gn1wba1w"]
+
+[ext_resource type="Texture2D" uid="uid://uqmxajbk8rfb" path="res://assets/checkpoint4.png" id="1_yyywg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ywqth"]
+height = 80.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yyywg"]
+size = Vector2(80, 112)
+
+[node name="Checkpoint" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-16, 16)
+shape = SubResource("CapsuleShape2D_ywqth")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(-16, 56)
+scale = Vector2(0.275, 0.275)
+texture = ExtResource("1_yyywg")
+centered = false
+offset = Vector2(-182.87, -408.755)
+
+[node name="Checkpoint" type="StaticBody2D" parent="."]
+position = Vector2(-22.6, 56.4)
+collision_layer = 128
+collision_mask = 8
+
+[node name="Checkpoint" type="CollisionShape2D" parent="Checkpoint"]
+position = Vector2(24, -56)
+shape = SubResource("RectangleShape2D_yyywg")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-16, 56)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+node_a = NodePath("../RigidBody2D")
+node_b = NodePath("../StaticBody2D")

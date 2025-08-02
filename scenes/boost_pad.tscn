@@ -40,7 +40,7 @@ texture = ExtResource("3_aeare")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_aeare")
-volume_db = -24.533
+volume_db = -80.0
 pitch_scale = 0.77
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,0 +1,132 @@
+[gd_scene load_steps=12 format=3 uid="uid://belhfglajbrit"]
+
+[ext_resource type="Script" uid="uid://b2axbsfax4tdb" path="res://scripts/character_controller.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_qhqgy"]
+[ext_resource type="AudioStream" uid="uid://ci884mxq04sc2" path="res://assets/sounds/footstep_concrete_004.ogg" id="3_dqkch"]
+[ext_resource type="AudioStream" uid="uid://dnwyux2c1uadw" path="res://assets/sounds/gmtkBGMusic (2).wav" id="4_qlg0r"]
+[ext_resource type="Shader" uid="uid://cv2lu848oc18i" path="res://assets/shaders/border.gdshader" id="5_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="6_fjrip"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dqkch"]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
+size = Vector2(38, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
+radius = 231.138
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tuyoq"]
+radius = 8.0
+height = 48.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_smehm"]
+shader = ExtResource("5_tuyoq")
+shader_parameter/dot_color = Color(1, 1, 1, 1)
+shader_parameter/radius = 0.971
+shader_parameter/thickness = 0.03
+shader_parameter/dot_count = 32
+shader_parameter/gap_ratio = 0.257
+shader_parameter/rotation = 0.0
+
+[node name="Player" type="RigidBody2D"]
+position = Vector2(0, -4)
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_dqkch")
+can_sleep = false
+lock_rotation = true
+continuous_cd = 2
+script = ExtResource("1_g2els")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_qlg0r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(0, -32)
+scale = Vector2(0.265, 0.265)
+texture = ExtResource("2_qhqgy")
+
+[node name="AttachmentDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttachmentDetector"]
+position = Vector2(1, -36)
+shape = SubResource("CircleShape2D_tuyoq")
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="FloorLeft" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -1)
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="FloorRight" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -1)
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="WallLeftBottom" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -1)
+target_position = Vector2(3, 0)
+hit_from_inside = true
+
+[node name="WallLeftMiddle" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -32)
+target_position = Vector2(3, 0)
+hit_from_inside = true
+
+[node name="WallLeftTop" type="RayCast2D" parent="Raycasts"]
+position = Vector2(18, -63)
+target_position = Vector2(3, 0)
+hit_from_inside = true
+
+[node name="WallRightBottom" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -1)
+target_position = Vector2(-3, 0)
+hit_from_inside = true
+
+[node name="WallRightMiddle" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -32)
+target_position = Vector2(-3, 0)
+hit_from_inside = true
+
+[node name="WallRightTop" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, -63)
+target_position = Vector2(-3, 0)
+hit_from_inside = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.66, 0.66)
+
+[node name="SpikeDetector" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpikeDetector"]
+visible = false
+shape = SubResource("CapsuleShape2D_tuyoq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dqkch")
+volume_db = 5.333
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qlg0r")
+autoplay = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_smehm")
+position = Vector2(-2.3365e-05, -36)
+scale = Vector2(14.5, 14.0606)
+texture = ExtResource("6_fjrip")
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_mode = 1
+
+[connection signal="body_entered" from="AttachmentDetector" to="." method="_on_attachment_detector_body_entered"]
+[connection signal="body_exited" from="AttachmentDetector" to="." method="_on_attachment_detector_body_exited"]
+[connection signal="body_entered" from="SpikeDetector" to="." method="_on_spike_detector_body_entered"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]
