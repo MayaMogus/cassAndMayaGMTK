@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b8viejgm5mony"]
+[gd_scene load_steps=20 format=3 uid="uid://cfnp1h3cfwvmg"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_mk2rg"]
 [ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_kfkk2"]
@@ -10,11 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://po1mtiwjspxq" path="res://scenes/spike_tile.tscn" id="9_a82cr"]
 [ext_resource type="Texture2D" uid="uid://cbm72t6ispg0q" path="res://assets/tileSetSnow.png" id="9_rxfmc"]
 [ext_resource type="Texture2D" uid="uid://cdawquxd5ma64" path="res://assets/tileSet.png" id="10_1vbfn"]
-[ext_resource type="PackedScene" uid="uid://belhfglajbrit" path="res://scenes/player.tscn" id="10_mk2rg"]
 [ext_resource type="Texture2D" uid="uid://x0am3hcb8jq3" path="res://assets/background0.png" id="12_2wogu"]
 [ext_resource type="Texture2D" uid="uid://dq4ug7rct3qhf" path="res://assets/background3.png" id="13_vhag0"]
 [ext_resource type="Texture2D" uid="uid://d20cdcgfds5a0" path="res://assets/background1.png" id="14_a82cr"]
 [ext_resource type="Texture2D" uid="uid://epibeck06ksa" path="res://assets/background2.png" id="15_1vbfn"]
+[ext_resource type="PackedScene" uid="uid://belhfglajbrit" path="res://scenes/player.tscn" id="15_rxfmc"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_nmwge"]
 scenes/2/scene = ExtResource("9_a82cr")
@@ -258,11 +258,7 @@ tilemaplayers_nodepaths = Array[NodePath]([NodePath("")])
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_nmwge")
 
-[node name="Player" parent="." instance=ExtResource("10_mk2rg")]
-position = Vector2(-528, -160)
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-visible = false
 scroll_offset = Vector2(1280.21, 538.802)
 
 [node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -305,3 +301,6 @@ screen_offset = Vector2(-1445.69, -538.7)
 texture_repeat = 2
 scale = Vector2(5.055, 3.435)
 texture = ExtResource("15_1vbfn")
+
+[node name="Player" parent="." instance=ExtResource("15_rxfmc")]
+position = Vector2(-542, -165)
