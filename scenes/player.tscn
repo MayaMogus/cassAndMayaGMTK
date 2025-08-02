@@ -14,7 +14,7 @@ friction = 0.0
 size = Vector2(38, 64)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
-radius = 231.138
+radius = 320.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tuyoq"]
 radius = 8.0
@@ -30,7 +30,6 @@ shader_parameter/gap_ratio = 0.257
 shader_parameter/rotation = 0.0
 
 [node name="Player" type="RigidBody2D"]
-position = Vector2(0, -4)
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_dqkch")
 can_sleep = false
@@ -53,7 +52,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttachmentDetector"]
-position = Vector2(1, -36)
+position = Vector2(0, -36)
 shape = SubResource("CircleShape2D_tuyoq")
 
 [node name="Raycasts" type="Node2D" parent="."]
@@ -106,7 +105,6 @@ collision_layer = 128
 collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpikeDetector"]
-visible = false
 shape = SubResource("CapsuleShape2D_tuyoq")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -119,8 +117,8 @@ autoplay = true
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_smehm")
-position = Vector2(-2.3365e-05, -36)
-scale = Vector2(14.5, 14.0606)
+position = Vector2(0, -36)
+scale = Vector2(20, 20)
 texture = ExtResource("6_fjrip")
 
 [connection signal="body_entered" from="AttachmentDetector" to="." method="_on_attachment_detector_body_entered"]

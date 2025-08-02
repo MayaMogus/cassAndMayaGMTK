@@ -63,6 +63,8 @@ func _ready() -> void:
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
+	
+	$Sprite2D2.global_position = center_position
 
 func _physics_process(delta: float) -> void:
 	
@@ -213,8 +215,8 @@ func _physics_process(delta: float) -> void:
 	
 		$Sprite2D.texture = stand_texture
 	
-	if vertical_direction and not is_on_floor:
-		apply_central_force(Vector2(0, vertical_direction * ACCELERATION * 50))
+	if vertical_direction and attached and not is_on_floor:
+		apply_central_force(Vector2(0, vertical_direction * ACCELERATION * 25))
 	
 	# rope attachment
 	if Input.is_action_just_pressed("attach_rope"):
@@ -238,12 +240,11 @@ func _physics_process(delta: float) -> void:
 			1
 			)
 		var result = space_state.intersect_ray(query)
-		if not result.is_empty():
+		if not result.is_empty(): # TODO: nudge this until its only barely colliding
 			var rope_segment_length = result.position.distance_to(rope_points[-1])
 			
-			if true: #rope_remaining_length > rope_segment_length:
-				rope_remaining_length -= rope_segment_length
-				rope_points.append(result.position)
+			rope_remaining_length -= rope_segment_length
+			rope_points.append(result.position)
 		
 		# check if the rope is snagged
 		if rope_points.size() > 1:
@@ -346,7 +347,7 @@ func _on_attachment_detector_body_exited(body: Node2D) -> void:
 
 func _on_spike_detector_body_entered(body: Node2D) -> void: # TODO: rename this
 	if body.get_meta("is_spike", false):
-		ResetLevel(false)
+		call_deferred("ResetLevel", false)
 	elif body.get_meta("is_checkpoint", false):
 		respawn_position = body.global_position 
 		saved_keys = collected_keys.duplicate()
@@ -355,6 +356,7 @@ func ResetLevel(full_reset: bool):
 	DestroyRope()
 	if full_reset:
 		global_position = reset_position
+		respawn_position = reset_position
 	else:
 		global_position = respawn_position
 	linear_velocity = Vector2.ZERO

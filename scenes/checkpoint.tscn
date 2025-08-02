@@ -16,7 +16,7 @@ texture = ExtResource("1_yyywg")
 position = Vector2(-22.6, 56.4)
 collision_layer = 128
 collision_mask = 8
-metadata/is_checkpoint = false
+metadata/is_checkpoint = true
 
 [node name="Checkpoint" type="CollisionShape2D" parent="Checkpoint"]
 position = Vector2(24, -56)

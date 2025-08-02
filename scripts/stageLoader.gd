@@ -3,9 +3,9 @@ extends Node
 var currentStage = 0
 
 var stages = [
-	preload("res://scenes/introStage.tscn"),
-	preload("res://scenes/stage_1.tscn"),
-	preload("res://scenes/stage_2.tscn"),
+	preload("res://scenes/stage_intro.tscn"),
+	preload("res://scenes/stage_double_boost.tscn"),
+	preload("res://scenes/stage_needle.tscn"),
 	
 ]
 
