@@ -46,6 +46,7 @@ font_size = 131
 
 [node name="Player" type="RigidBody2D"]
 collision_layer = 2
+collision_mask = 5
 physics_material_override = SubResource("PhysicsMaterial_dqkch")
 can_sleep = false
 lock_rotation = true

@@ -1,5 +1,6 @@
 @tool
 extends Node2D
+class_name Oneway
 
 
 @export_range(32, 2048, 32) var collider_width: float = 32

@@ -7,13 +7,14 @@ size = Vector2(16, 16)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qgrbx"]
 
-[node name="Node2D" type="Node2D"]
+[node name="oneway" type="Node2D"]
 scale = Vector2(0.64, 0.64)
 script = ExtResource("1_qgrbx")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="oneway" type="StaticBody2D" parent="."]
+collision_layer = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="oneway" type="CollisionShape2D" parent="oneway"]
 shape = SubResource("RectangleShape2D_qgrbx")
 one_way_collision = true
 

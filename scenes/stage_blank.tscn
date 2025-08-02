@@ -16,10 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://d20cdcgfds5a0" path="res://assets/background1.png" id="14_a82cr"]
 [ext_resource type="Texture2D" uid="uid://epibeck06ksa" path="res://assets/background2.png" id="15_1vbfn"]
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_nmwge"]
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_rxfmc"]
 scenes/2/scene = ExtResource("9_a82cr")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e0txi"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2wogu"]
 texture = ExtResource("9_rxfmc")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
@@ -47,7 +47,7 @@ texture_region_size = Vector2i(64, 64)
 4:3/0 = 0
 5:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ina5a"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vhag0"]
 texture = ExtResource("10_1vbfn")
 texture_region_size = Vector2i(64, 64)
 1:0/0 = 0
@@ -211,9 +211,9 @@ tile_size = Vector2i(64, 64)
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Corners"
 terrain_set_0/terrain_0/color = Color(1, 1, 1, 1)
-sources/2 = SubResource("TileSetAtlasSource_ina5a")
-sources/0 = SubResource("TileSetScenesCollectionSource_nmwge")
-sources/1 = SubResource("TileSetAtlasSource_e0txi")
+sources/2 = SubResource("TileSetAtlasSource_vhag0")
+sources/0 = SubResource("TileSetScenesCollectionSource_rxfmc")
+sources/1 = SubResource("TileSetAtlasSource_2wogu")
 
 [node name="blankStage" type="Node2D"]
 
