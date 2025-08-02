@@ -4,9 +4,10 @@ var currentStage = 0
 
 var stages = [
 	preload("res://scenes/stage_intro.tscn"),
-	preload("res://scenes/stage_double_boost.tscn"),
-	
 	preload("res://scenes/stage_stalactite.tscn"),
+	preload("res://scenes/stage_double_boost.tscn"),
+	preload("res://scenes/stage_fourloops.tscn"),
+	
 	preload("res://scenes/stage_maze.tscn"),
 	preload("res://scenes/stage_needle.tscn"),
 	
