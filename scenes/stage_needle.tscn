@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=4 uid="uid://d32njeoapnf5r"]
+[gd_scene load_steps=63 format=4 uid="uid://ry5gireuy41v"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_1kkqg"]
 [ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_u60j5"]
@@ -10,6 +10,10 @@
 [ext_resource type="Script" uid="uid://dqpu6stj8o5wm" path="res://scripts/tile_map_layer.gd" id="9_bgl7i"]
 [ext_resource type="Texture2D" uid="uid://cdawquxd5ma64" path="res://assets/tileSet.png" id="10_u60j5"]
 [ext_resource type="PackedScene" uid="uid://belhfglajbrit" path="res://scenes/player.tscn" id="10_udm74"]
+[ext_resource type="Texture2D" uid="uid://x0am3hcb8jq3" path="res://assets/background0.png" id="11_mnlb6"]
+[ext_resource type="Texture2D" uid="uid://dq4ug7rct3qhf" path="res://assets/background3.png" id="12_fcugo"]
+[ext_resource type="Texture2D" uid="uid://d20cdcgfds5a0" path="res://assets/background1.png" id="13_ovvtj"]
+[ext_resource type="Texture2D" uid="uid://epibeck06ksa" path="res://assets/background2.png" id="14_kx7ww"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u60j5"]
 size = Vector2(192, 1024)
@@ -745,3 +749,41 @@ tile_set = SubResource("TileSet_nmwge")
 
 [node name="Player" parent="." instance=ExtResource("10_udm74")]
 position = Vector2(-384, 32)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(3456, 352)
+
+[node name="ParallaxLayer" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.035, 0.035)
+
+[node name="BackgroundWall" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer"]
+texture_repeat = 2
+scale = Vector2(5.055, 3.435)
+texture = ExtResource("11_mnlb6")
+region_rect = Rect2(0, 0, 1920, 1080)
+
+[node name="ParallaxLayer2" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.145, 0.145)
+
+[node name="BackgroundPillar" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer2"]
+texture_repeat = 2
+scale = Vector2(5.055, 3.435)
+texture = ExtResource("12_fcugo")
+
+[node name="ParallaxLayer3" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.38, 0.38)
+
+[node name="Background1" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer3"]
+texture_repeat = 2
+scale = Vector2(5.055, 3.435)
+texture = ExtResource("13_ovvtj")
+
+[node name="ParallaxLayer4" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.57, 0.57)
+
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer4"]
+texture_repeat = 2
+scale = Vector2(5.055, 3.435)
+texture = ExtResource("14_kx7ww")

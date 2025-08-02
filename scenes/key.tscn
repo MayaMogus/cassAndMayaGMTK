@@ -1,8 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://d4l21mu40wmpr"]
+[gd_scene load_steps=10 format=3 uid="uid://d4l21mu40wmpr"]
 
 [ext_resource type="Script" uid="uid://bx36j2y4ge1ky" path="res://scripts/key.gd" id="1_yk2u2"]
 [ext_resource type="Texture2D" uid="uid://b668qc5kac8af" path="res://assets/key.png" id="2_fttkb"]
 [ext_resource type="Shader" uid="uid://cb4hq4a0ohxoc" path="res://assets/shaders/shine.gdshader" id="3_wy8tx"]
+[ext_resource type="Shader" uid="uid://b344wrvhcd7c" path="res://assets/shaders/key.gdshader" id="4_jcln5"]
+[ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="5_b4qnb"]
+[ext_resource type="AudioStream" uid="uid://c463x4c0ea5pp" path="res://assets/sounds/keyCollect.wav" id="6_b4qnb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6t41w"]
+resource_local_to_scene = true
+shader = ExtResource("4_jcln5")
+shader_parameter/color = Color(0.95, 0.8, 0.18, 1)
+shader_parameter/inner_stroke_thickness = 0.925
+shader_parameter/inner_stroke_opacity = 3.27
+shader_parameter/inside_opacity = 0.215
+shader_parameter/frequency = 8.0
+shader_parameter/phase_speed = 8.31
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yk2u2"]
 radius = 64.0
@@ -19,6 +32,12 @@ shader_parameter/show_only_shine = 1.0
 
 [node name="Key" type="Node2D"]
 script = ExtResource("1_yk2u2")
+
+[node name="GlowEffect" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6t41w")
+position = Vector2(-7.62939e-06, 0)
+scale = Vector2(4.335, 4.335)
+texture = ExtResource("5_b4qnb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.95, 0.8, 0.18, 1)
@@ -37,5 +56,8 @@ shape = SubResource("CircleShape2D_yk2u2")
 material = SubResource("ShaderMaterial_brs3p")
 scale = Vector2(0.27, 0.27)
 texture = ExtResource("2_fttkb")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_b4qnb")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

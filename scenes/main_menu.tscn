@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d1l61ghk325kq" path="res://scripts/main_menu.gd" id="1_ekxnf"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="1_l6cm7"]
-[ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="3_bqqt6"]
+[ext_resource type="PackedScene" uid="uid://c8oilciq01851" path="res://scenes/settings_menu.tscn" id="3_bqqt6"]
+[ext_resource type="PackedScene" uid="uid://isubiktaxmm7" path="res://scenes/control_page.tscn" id="4_wu84c"]
+[ext_resource type="AudioStream" uid="uid://608dp67sawhy" path="res://assets/sounds/Cave Song.wav" id="5_8ln24"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ekxnf"]
 
@@ -10,14 +12,6 @@
 font = ExtResource("1_l6cm7")
 font_size = 166
 font_color = Color(0.862854, 0.751033, 0.386998, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_wu84c"]
-font = ExtResource("1_l6cm7")
-font_size = 131
-
-[sub_resource type="LabelSettings" id="LabelSettings_8ln24"]
-font = ExtResource("1_l6cm7")
-font_size = 76
 
 [node name="mainMenu" type="Node2D"]
 script = ExtResource("1_ekxnf")
@@ -52,101 +46,31 @@ offset_left = 808.0
 offset_top = 736.0
 offset_right = 1112.0
 offset_bottom = 827.0
+mouse_filter = 1
 theme_override_fonts/font = ExtResource("1_l6cm7")
 theme_override_font_sizes/font_size = 56
 text = "SETTINGS"
 
-[node name="settingsMenu" type="Control" parent="."]
+[node name="settingsMenu" parent="." instance=ExtResource("3_bqqt6")]
 visible = false
-z_index = 6
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
-[node name="settingsBackground" type="Sprite2D" parent="settingsMenu"]
-modulate = Color(0.152941, 0.133333, 0.254902, 1)
-position = Vector2(964, 543.75)
-scale = Vector2(55.75, 29.1061)
-texture = ExtResource("3_bqqt6")
+[node name="ControlPage" parent="." instance=ExtResource("4_wu84c")]
+visible = false
 
-[node name="SettingsTitle" type="Label" parent="settingsMenu"]
-layout_mode = 0
-offset_left = 432.0
-offset_top = 64.0
-offset_right = 1536.0
-offset_bottom = 375.0
-text = "SETTINGS"
-label_settings = SubResource("LabelSettings_wu84c")
-horizontal_alignment = 1
+[node name="controlButton" type="Button" parent="."]
+offset_left = 808.0
+offset_top = 872.0
+offset_right = 1107.0
+offset_bottom = 963.0
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 56
+text = "CONTROLS"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="settingsMenu"]
-layout_mode = 0
-offset_left = 256.0
-offset_top = 320.0
-offset_right = 1664.0
-offset_bottom = 960.0
-theme_override_constants/separation = 128
-
-[node name="SoundFX" type="Control" parent="settingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="SoundFXTitle" type="Label" parent="settingsMenu/VBoxContainer/SoundFX"]
-layout_mode = 2
-offset_left = 8.0
-offset_top = 64.0
-offset_right = 338.0
-offset_bottom = 177.0
-text = "SoundFX"
-label_settings = SubResource("LabelSettings_8ln24")
-
-[node name="SoundFXValue" type="Label" parent="settingsMenu/VBoxContainer/SoundFX"]
-layout_mode = 0
-offset_left = 352.0
-offset_top = 64.0
-offset_right = 561.0
-offset_bottom = 177.0
-text = "100"
-label_settings = SubResource("LabelSettings_8ln24")
-horizontal_alignment = 1
-
-[node name="SoundFXSlider" type="HSlider" parent="settingsMenu/VBoxContainer/SoundFX"]
-layout_mode = 2
-offset_left = 640.0
-offset_top = 112.0
-offset_right = 1536.0
-offset_bottom = 128.0
-scrollable = false
-
-[node name="Music" type="Control" parent="settingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="MusicTitle" type="Label" parent="settingsMenu/VBoxContainer/Music"]
-layout_mode = 2
-offset_left = 8.0
-offset_top = 64.0
-offset_right = 338.0
-offset_bottom = 177.0
-text = "Music"
-label_settings = SubResource("LabelSettings_8ln24")
-
-[node name="MusicValue" type="Label" parent="settingsMenu/VBoxContainer/Music"]
-layout_mode = 0
-offset_left = 352.0
-offset_top = 64.0
-offset_right = 561.0
-offset_bottom = 177.0
-text = "100"
-label_settings = SubResource("LabelSettings_8ln24")
-horizontal_alignment = 1
-
-[node name="MusicSlider" type="HSlider" parent="settingsMenu/VBoxContainer/Music"]
-layout_mode = 2
-offset_left = 640.0
-offset_top = 112.0
-offset_right = 1536.0
-offset_bottom = 128.0
-scrollable = false
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_8ln24")
+autoplay = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="settingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="controlButton" to="." method="_on_control_button_pressed"]

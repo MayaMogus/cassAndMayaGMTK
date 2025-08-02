@@ -1,0 +1,142 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8oilciq01851"]
+
+[ext_resource type="Script" uid="uid://bjyhu0or4ec1s" path="res://scripts/settings_menu.gd" id="1_wswnh"]
+[ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="2_labj1"]
+[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="3_lwwgp"]
+[ext_resource type="Texture2D" uid="uid://cwjrbfdqisn7u" path="res://assets/check.png" id="4_lwwgp"]
+[ext_resource type="Texture2D" uid="uid://dxoenopcm87nm" path="res://assets/UnCheck.png" id="5_bgjg7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bgjg7"]
+font = ExtResource("3_lwwgp")
+font_size = 131
+
+[sub_resource type="LabelSettings" id="LabelSettings_48ojb"]
+font = ExtResource("3_lwwgp")
+font_size = 76
+
+[node name="settingsMenu" type="Control"]
+z_index = 6
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_wswnh")
+
+[node name="settingsBackground" type="Sprite2D" parent="."]
+modulate = Color(0.152941, 0.133333, 0.254902, 1)
+position = Vector2(964, 543.75)
+scale = Vector2(55.75, 29.1061)
+texture = ExtResource("2_labj1")
+
+[node name="SettingsTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 64.0
+offset_right = 1536.0
+offset_bottom = 375.0
+text = "SETTINGS"
+label_settings = SubResource("LabelSettings_bgjg7")
+horizontal_alignment = 1
+
+[node name="backButton" type="Button" parent="."]
+z_index = 10
+offset_left = 808.0
+offset_top = 896.0
+offset_right = 1112.0
+offset_bottom = 987.0
+theme_override_fonts/font = ExtResource("3_lwwgp")
+theme_override_font_sizes/font_size = 56
+text = "BACK"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 448.0
+offset_right = 1672.0
+offset_bottom = 816.0
+theme_override_constants/separation = 128
+
+[node name="SoundFX" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SoundFXTitle" type="Label" parent="VBoxContainer/SoundFX"]
+layout_mode = 2
+offset_left = -8.0
+offset_top = -64.0
+offset_right = 322.0
+offset_bottom = 49.0
+text = "SoundFX :"
+label_settings = SubResource("LabelSettings_48ojb")
+
+[node name="SoundFXValue" type="Label" parent="VBoxContainer/SoundFX"]
+layout_mode = 0
+offset_left = 376.0
+offset_top = -64.0
+offset_right = 585.0
+offset_bottom = 49.0
+text = "100"
+label_settings = SubResource("LabelSettings_48ojb")
+horizontal_alignment = 1
+
+[node name="SoundFXSlider" type="HSlider" parent="VBoxContainer/SoundFX"]
+layout_mode = 2
+offset_left = 624.0
+offset_top = -16.0
+offset_right = 1520.0
+scrollable = false
+
+[node name="Music" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicTitle" type="Label" parent="VBoxContainer/Music"]
+layout_mode = 2
+offset_left = -8.0
+offset_top = -64.0
+offset_right = 322.0
+offset_bottom = 49.0
+text = "Music :"
+label_settings = SubResource("LabelSettings_48ojb")
+
+[node name="MusicValue" type="Label" parent="VBoxContainer/Music"]
+layout_mode = 0
+offset_left = 376.0
+offset_top = -64.0
+offset_right = 585.0
+offset_bottom = 49.0
+text = "100"
+label_settings = SubResource("LabelSettings_48ojb")
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/Music"]
+layout_mode = 2
+offset_left = 624.0
+offset_top = -16.0
+offset_right = 1520.0
+scrollable = false
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicTitle" type="Label" parent="VBoxContainer/Control"]
+offset_left = -8.0
+offset_top = -64.0
+offset_right = 322.0
+offset_bottom = 49.0
+text = "Display Timer :"
+label_settings = SubResource("LabelSettings_48ojb")
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/Control"]
+layout_mode = 0
+offset_left = 624.0
+offset_top = -72.0
+offset_right = 760.0
+offset_bottom = 64.0
+theme_override_icons/checked = ExtResource("4_lwwgp")
+theme_override_icons/unchecked = ExtResource("5_bgjg7")
+keep_pressed_outside = true
+
+[connection signal="pressed" from="backButton" to="." method="_on_back_button_pressed"]
+[connection signal="value_changed" from="VBoxContainer/SoundFX/SoundFXSlider" to="." method="_on_sound_fx_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/Music/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/Control/CheckBox" to="." method="_on_check_box_pressed"]
+[connection signal="toggled" from="VBoxContainer/Control/CheckBox" to="." method="_on_check_box_toggled"]

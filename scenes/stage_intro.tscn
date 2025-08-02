@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://boiv1ajrpeseq"]
+[gd_scene load_steps=30 format=4 uid="uid://jmpkngpk066c"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_47pyx"]
 [ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_gex7j"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://cdawquxd5ma64" path="res://assets/tileSet.png" id="6_ykt86"]
 [ext_resource type="PackedScene" uid="uid://6wq8gn1wba1w" path="res://scenes/checkpoint.tscn" id="8_gex7j"]
 [ext_resource type="PackedScene" uid="uid://belhfglajbrit" path="res://scenes/player.tscn" id="8_uckxj"]
-[ext_resource type="Texture2D" uid="uid://x0am3hcb8jq3" path="res://assets/background0.png" id="9_345p6"]
 [ext_resource type="Texture2D" uid="uid://d20cdcgfds5a0" path="res://assets/background1.png" id="10_1sh8d"]
 [ext_resource type="Texture2D" uid="uid://dq4ug7rct3qhf" path="res://assets/background3.png" id="11_bp1pq"]
 [ext_resource type="Texture2D" uid="uid://epibeck06ksa" path="res://assets/background2.png" id="12_oio86"]
@@ -351,7 +350,6 @@ z_index = -4
 scale = Vector2(3.605, 3.605)
 
 [node name="baseBackground" type="Sprite2D" parent="Backgrounds"]
-texture = ExtResource("9_345p6")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Backgrounds"]
 texture = ExtResource("10_1sh8d")

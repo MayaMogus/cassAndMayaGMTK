@@ -1,11 +1,15 @@
-[gd_scene load_steps=56 format=4 uid="uid://b703b1x0jtcg6"]
+[gd_scene load_steps=60 format=4 uid="uid://bf8bvmbhhp10k"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_am01f"]
 [ext_resource type="PackedScene" uid="uid://damw45et3uy6p" path="res://scenes/exit.tscn" id="2_gwol7"]
 [ext_resource type="Script" uid="uid://dqpu6stj8o5wm" path="res://scripts/tile_map_layer.gd" id="3_x4l7s"]
-[ext_resource type="PackedScene" uid="uid://b1cu3piji038m" path="res://scenes/spike_tile.tscn" id="4_rt8g0"]
+[ext_resource type="PackedScene" uid="uid://po1mtiwjspxq" path="res://scenes/spike_tile.tscn" id="4_rt8g0"]
 [ext_resource type="Texture2D" uid="uid://cdawquxd5ma64" path="res://assets/tileSet.png" id="5_614x5"]
 [ext_resource type="PackedScene" uid="uid://belhfglajbrit" path="res://scenes/player.tscn" id="6_vlnux"]
+[ext_resource type="Texture2D" uid="uid://x0am3hcb8jq3" path="res://assets/background0.png" id="7_614x5"]
+[ext_resource type="Texture2D" uid="uid://dq4ug7rct3qhf" path="res://assets/background3.png" id="8_vlnux"]
+[ext_resource type="Texture2D" uid="uid://d20cdcgfds5a0" path="res://assets/background1.png" id="9_cmb5w"]
+[ext_resource type="Texture2D" uid="uid://epibeck06ksa" path="res://assets/background2.png" id="10_3y3re"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs3e4"]
 size = Vector2(256, 192)
@@ -524,3 +528,41 @@ tile_set = SubResource("TileSet_nmwge")
 
 [node name="Player" parent="." instance=ExtResource("6_vlnux")]
 position = Vector2(-510, -156)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(556, 71)
+
+[node name="ParallaxLayer" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.035, 0.035)
+
+[node name="BackgroundWall" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer"]
+texture_repeat = 2
+scale = Vector2(2.575, 1.72)
+texture = ExtResource("7_614x5")
+region_rect = Rect2(0, 0, 1920, 1080)
+
+[node name="ParallaxLayer2" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.145, 0.145)
+
+[node name="BackgroundPillar" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer2"]
+texture_repeat = 2
+scale = Vector2(2.575, 1.72)
+texture = ExtResource("8_vlnux")
+
+[node name="ParallaxLayer3" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.38, 0.38)
+
+[node name="Background1" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer3"]
+texture_repeat = 2
+scale = Vector2(2.575, 1.72)
+texture = ExtResource("9_cmb5w")
+
+[node name="ParallaxLayer4" type="Parallax2D" parent="ParallaxBackground/Background"]
+scroll_scale = Vector2(0.57, 0.57)
+
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/Background/ParallaxLayer4"]
+texture_repeat = 2
+scale = Vector2(2.575, 1.72)
+texture = ExtResource("10_3y3re")

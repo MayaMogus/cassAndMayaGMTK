@@ -29,7 +29,9 @@ func _ready():
 
 func updateKey():
 	$Sprite2D.self_modulate = keyColors[keyIndex]
-
+	$GlowEffect.material.set_shader_parameter("color",  keyColors[keyIndex])
+	
+	
 func collectKey():
 	var gateController = get_parent().get_parent().get_node('Gates')
 	for child in gateController.get_children():
@@ -37,7 +39,8 @@ func collectKey():
 			child.call_deferred('disappear')
 	visible = false
 	$Area2D/CollisionShape2D.set_deferred("disabled", true)
-	
+	$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel * 0.9
+	$AudioStreamPlayer.play()
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	
 	if body is RigidBody2D:

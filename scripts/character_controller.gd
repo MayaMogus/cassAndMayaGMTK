@@ -44,6 +44,7 @@ var collected_keys = []
 var saved_keys = []
 
 var upside_down := false
+var timer:float
 
 @onready var respawn_position := global_position
 @onready var reset_position := global_position
@@ -52,11 +53,14 @@ var upside_down := false
 @onready var stand_texture := preload("res://assets/spriteStand.png")
 @onready var turn_texture := preload("res://assets/spriteTurn.png")
 
+@export var ropeAttachSound : AudioStream
+@export var splatSound : AudioStream
 var boost_pad_speed := Vector2.ZERO
 
 var paused := false
 
 var saved_velocity_paused : Vector2
+
 
 func _ready() -> void:
 	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
@@ -64,24 +68,22 @@ func _ready() -> void:
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
 	
-	$Sprite2D2.global_position = center_position
+	$Radius.global_position = center_position
+	timer = Settings.timer
+	$MusicPlayer.play()
+	$MusicPlayer.seek(MusicController.musicTimer - 0.0166)
 
 func _physics_process(delta: float) -> void:
 	
 	# pausing
 	if Input.is_action_just_pressed('pause'):
-		if paused:
-			freeze = false
-			paused = false
-			linear_velocity = saved_velocity_paused
-		else:
-			paused = true
-			freeze = true
-			saved_velocity_paused = linear_velocity
-	
+		if not paused:
+			pause()
 	if paused:
 		saved_velocity_paused = linear_velocity
 		return
+	
+
 	
 	# TODO: this sux major ass
 	# TODO: set false at top and replace elif with if
@@ -223,6 +225,7 @@ func _physics_process(delta: float) -> void:
 		if not (attached or attachment_point_candidates.is_empty()):
 			# attach rope
 			CreateRope(500)
+			playSound(ropeAttachSound, null)
 		elif attached:
 			# detach rope
 			DestroyRope()
@@ -272,15 +275,38 @@ func _physics_process(delta: float) -> void:
 			apply_central_force(force * stretched_vector)
 	
 	previous_velocity = linear_velocity
+	
+	
+	
+
 
 func _process(delta: float) -> void:
 	
 	# attachment point range visualizer
-	if not paused: $Sprite2D2.rotation += 0.25 * delta 
+	if not paused: 
+		$Radius.rotation += 0.25 * delta 
+		timer += delta 
+		
+	MusicController.musicTimer += delta
+	
+	$MusicPlayer.volume_linear = Settings.MusicLevel * 0.40 #volume is by defualy 40%
+	$Timer.visible = Settings.displayTimer
+	var intTimer = int(timer)
+	var minutes = floor(intTimer / 60) 
+	
+	var seconds = intTimer - minutes * 60
+	if seconds < 10:
+		seconds = str('0',seconds)
+	
+	$Timer.text = str(minutes, ':', seconds)
+	
+	
+	var color = $Radius.material.get_shader_parameter("dot_color")
 	if not attachment_point_candidates.is_empty():
-		$Sprite2D2.material.set_shader_parameter("dot_color", Color(0.3, .75, 0.3))
+		
+		$Radius.material.set_shader_parameter("dot_color", lerp(color, Color(0.3, .75, 0.3), delta*30))
 	else:
-		$Sprite2D2.material.set_shader_parameter("dot_color", Color(1,1,1))
+		$Radius.material.set_shader_parameter("dot_color", lerp(color, Color(1,1,1), delta*30))
 	
 	$Sprite2D.scale.y = lerp($Sprite2D.scale.y, 0.215, delta*10) # return sprite to normal size
 	if attached:
@@ -304,6 +330,8 @@ func _process(delta: float) -> void:
 	else:
 		$Sprite2D.rotation = 0
 		upside_down = false
+
+
 
 func CreateRope(length: float):
 	attached = true
@@ -351,9 +379,20 @@ func _on_spike_detector_body_entered(body: Node2D) -> void: # TODO: rename this
 	elif body.get_meta("is_checkpoint", false):
 		respawn_position = body.global_position 
 		saved_keys = collected_keys.duplicate()
-
+		body.get_parent().shake(false if global_position < body.global_position else true)
 func ResetLevel(full_reset: bool):
 	DestroyRope()
+	
+	paused = true
+	freeze = true
+	$Radius.visible = false
+	$Sprite2D.visible = false
+	playSound(splatSound, 1)
+	await get_tree().create_timer(.5).timeout
+	$Radius.visible = true
+	$Sprite2D.visible = true 
+	paused = false
+	freeze = false
 	if full_reset:
 		global_position = reset_position
 		respawn_position = reset_position
@@ -384,10 +423,28 @@ func ResetLevel(full_reset: bool):
 			if not saved_keys.has(gate.gateIndex):
 				gate.reappear()
 
-func playSound(sound:AudioStream):
+func playSound(sound:AudioStream, variance):
+	$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel
+	if variance != null:
+		var pitch_variance = randf_range(0.75, variance)
+		print(pitch_variance)
+		$AudioStreamPlayer.pitch_scale = pitch_variance
 	$AudioStreamPlayer.stream = sound
 	$AudioStreamPlayer.play()
 
 func _on_music_player_finished() -> void:
-	
+	MusicController.musicTimer = 0
 	$MusicPlayer.play()
+	
+func pause():
+	paused = true
+	freeze = true
+	saved_velocity_paused = linear_velocity
+	$"Pause Menu".visible = true
+	
+func unPause():
+	freeze = false
+	paused = false
+	linear_velocity = saved_velocity_paused
+	
+	$"Pause Menu".visible = false

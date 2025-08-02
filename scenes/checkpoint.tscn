@@ -1,11 +1,105 @@
-[gd_scene load_steps=3 format=3 uid="uid://6wq8gn1wba1w"]
+[gd_scene load_steps=17 format=3 uid="uid://6wq8gn1wba1w"]
 
-[ext_resource type="Texture2D" uid="uid://uqmxajbk8rfb" path="res://assets/checkpoint4.png" id="1_yyywg"]
+[ext_resource type="Texture2D" uid="uid://b7cv2v3qi2a1o" path="res://assets/animations/checkpoint/checkpoint2.png" id="1_ejce6"]
+[ext_resource type="Script" uid="uid://nss62sm1qn6n" path="res://scripts/checkpoint.gd" id="1_jjwhk"]
+[ext_resource type="Texture2D" uid="uid://uqmxajbk8rfb" path="res://assets/animations/checkpoint/checkpoint4.png" id="1_yyywg"]
+[ext_resource type="Texture2D" uid="uid://bj20wib0xses0" path="res://assets/animations/checkpoint/checkpoint3.png" id="2_jjwhk"]
+[ext_resource type="Texture2D" uid="uid://bla83btwa3irw" path="res://assets/animations/checkpoint/checkpoint5.png" id="4_5vg67"]
+[ext_resource type="Texture2D" uid="uid://cw6xjw7q4wno0" path="res://assets/animations/checkpoint/checkpoint6.png" id="5_ceatg"]
+[ext_resource type="Texture2D" uid="uid://w7gdt81afog0" path="res://assets/animations/checkpoint/checkpoint7.png" id="6_wxh5a"]
+[ext_resource type="Texture2D" uid="uid://bvgtd1u355kl7" path="res://assets/animations/checkpoint/checkpoint8.png" id="7_pbwmb"]
+[ext_resource type="Texture2D" uid="uid://fo75etsblxwn" path="res://assets/animations/checkpoint/checkpoint9.png" id="8_6qfwh"]
+[ext_resource type="Texture2D" uid="uid://ct2mjwiips22d" path="res://assets/animations/checkpoint/checkpoint10.png" id="9_3lops"]
+[ext_resource type="Texture2D" uid="uid://bactfiyqt83k4" path="res://assets/animations/checkpoint/checkpoint11.png" id="10_440ol"]
+[ext_resource type="Texture2D" uid="uid://l0n5gxnl2tkq" path="res://assets/animations/checkpoint/checkpoint12.png" id="11_t1ec7"]
+[ext_resource type="Texture2D" uid="uid://lxwy31fcvhqg" path="res://assets/animations/checkpoint/checkpoint13.png" id="12_aaln5"]
+[ext_resource type="Texture2D" uid="uid://dygvarqkxfaas" path="res://assets/animations/checkpoint/checkpoint1.png" id="13_fk6k2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yyywg"]
 size = Vector2(80, 112)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_vl3lj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ejce6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jjwhk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_yyywg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5vg67")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ceatg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wxh5a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_pbwmb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6qfwh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3lops")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_440ol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_t1ec7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_aaln5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_t1ec7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_440ol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3lops")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6qfwh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_pbwmb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_fk6k2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wxh5a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ceatg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5vg67")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_yyywg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jjwhk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_ejce6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 90.0
+}]
+
 [node name="Checkpoint" type="Node2D"]
+script = ExtResource("1_jjwhk")
 
 [node name="Checkpoint" type="StaticBody2D" parent="."]
 position = Vector2(-22.6, 56.4)
@@ -17,9 +111,10 @@ metadata/is_checkpoint = true
 position = Vector2(24, -56)
 shape = SubResource("RectangleShape2D_yyywg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Animation" type="AnimatedSprite2D" parent="."]
 position = Vector2(-16.7377, 58.2051)
 scale = Vector2(0.275, 0.275)
-texture = ExtResource("1_yyywg")
+sprite_frames = SubResource("SpriteFrames_vl3lj")
+frame_progress = 0.0491515
 centered = false
 offset = Vector2(-182.87, -408.755)

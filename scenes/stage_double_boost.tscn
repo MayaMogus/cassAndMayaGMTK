@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://cxkp57ap4bemf"]
+[gd_scene load_steps=60 format=4 uid="uid://1ky0opxojto0"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_usctx"]
 [ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="1_vrt2j"]

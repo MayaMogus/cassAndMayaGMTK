@@ -1,5 +1,9 @@
 extends Node
 
-var SoundFXLevel = 100
+var SoundFXLevel = 1
 
-var MusicLevel = 100
+var MusicLevel = 1
+
+var displayTimer : bool = true
+
+var timer : float = 0

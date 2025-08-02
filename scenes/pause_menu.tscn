@@ -3,18 +3,12 @@
 [ext_resource type="Script" uid="uid://cjoo7nh0yynhh" path="res://scripts/pause_menu.gd" id="1_myx47"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="1_n87rw"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="3_kukqi"]
+[ext_resource type="PackedScene" uid="uid://c8oilciq01851" path="res://scenes/settings_menu.tscn" id="4_5d2l8"]
+[ext_resource type="PackedScene" uid="uid://isubiktaxmm7" path="res://scenes/control_page.tscn" id="5_7l7mv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_myx47"]
 font = ExtResource("1_n87rw")
 font_size = 116
-
-[sub_resource type="LabelSettings" id="LabelSettings_5d2l8"]
-font = ExtResource("1_n87rw")
-font_size = 131
-
-[sub_resource type="LabelSettings" id="LabelSettings_7l7mv"]
-font = ExtResource("1_n87rw")
-font_size = 76
 
 [node name="Pause Menu" type="Control"]
 visible = false
@@ -44,105 +38,29 @@ horizontal_alignment = 1
 
 [node name="settingsButton" type="Button" parent="."]
 layout_mode = 2
-offset_left = 840.0
+offset_left = 808.0
 offset_top = 664.0
-offset_right = 1144.0
+offset_right = 1112.0
 offset_bottom = 755.0
 theme_override_fonts/font = ExtResource("1_n87rw")
 theme_override_font_sizes/font_size = 56
 text = "SETTINGS"
 
-[node name="settingsMenu" type="Control" parent="."]
+[node name="settingsMenu" parent="." instance=ExtResource("4_5d2l8")]
 visible = false
-z_index = 6
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
-[node name="settingsBackground" type="Sprite2D" parent="settingsMenu"]
-modulate = Color(0.152941, 0.133333, 0.254902, 1)
-position = Vector2(964, 543.75)
-scale = Vector2(55.75, 29.1061)
-texture = ExtResource("3_kukqi")
+[node name="ControlPage" parent="." instance=ExtResource("5_7l7mv")]
+visible = false
 
-[node name="SettingsTitle" type="Label" parent="settingsMenu"]
+[node name="controlButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 432.0
-offset_top = 64.0
-offset_right = 1536.0
-offset_bottom = 375.0
-text = "SETTINGS"
-label_settings = SubResource("LabelSettings_5d2l8")
-horizontal_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="settingsMenu"]
-layout_mode = 0
-offset_left = 256.0
-offset_top = 320.0
-offset_right = 1664.0
-offset_bottom = 960.0
-theme_override_constants/separation = 128
-
-[node name="SoundFX" type="Control" parent="settingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="SoundFXTitle" type="Label" parent="settingsMenu/VBoxContainer/SoundFX"]
-layout_mode = 2
-offset_left = 8.0
-offset_top = 64.0
-offset_right = 338.0
-offset_bottom = 177.0
-text = "SoundFX"
-label_settings = SubResource("LabelSettings_7l7mv")
-
-[node name="SoundFXValue" type="Label" parent="settingsMenu/VBoxContainer/SoundFX"]
-layout_mode = 0
-offset_left = 352.0
-offset_top = 64.0
-offset_right = 561.0
-offset_bottom = 177.0
-text = "100"
-label_settings = SubResource("LabelSettings_7l7mv")
-horizontal_alignment = 1
-
-[node name="SoundFXSlider" type="HSlider" parent="settingsMenu/VBoxContainer/SoundFX"]
-layout_mode = 2
-offset_left = 640.0
-offset_top = 112.0
-offset_right = 1536.0
-offset_bottom = 128.0
-scrollable = false
-
-[node name="Music" type="Control" parent="settingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="MusicTitle" type="Label" parent="settingsMenu/VBoxContainer/Music"]
-layout_mode = 2
-offset_left = 8.0
-offset_top = 64.0
-offset_right = 338.0
-offset_bottom = 177.0
-text = "Music"
-label_settings = SubResource("LabelSettings_7l7mv")
-
-[node name="MusicValue" type="Label" parent="settingsMenu/VBoxContainer/Music"]
-layout_mode = 0
-offset_left = 352.0
-offset_top = 64.0
-offset_right = 561.0
-offset_bottom = 177.0
-text = "100"
-label_settings = SubResource("LabelSettings_7l7mv")
-horizontal_alignment = 1
-
-[node name="MusicSlider" type="HSlider" parent="settingsMenu/VBoxContainer/Music"]
-layout_mode = 2
-offset_left = 640.0
-offset_top = 112.0
-offset_right = 1536.0
-offset_bottom = 128.0
-scrollable = false
+offset_left = 808.0
+offset_top = 784.0
+offset_right = 1112.0
+offset_bottom = 875.0
+theme_override_fonts/font = ExtResource("1_n87rw")
+theme_override_font_sizes/font_size = 56
+text = "CONTROLS"
 
 [connection signal="pressed" from="settingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="value_changed" from="settingsMenu/VBoxContainer/SoundFX/SoundFXSlider" to="." method="_on_sound_fx_slider_value_changed"]
-[connection signal="value_changed" from="settingsMenu/VBoxContainer/Music/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="controlButton" to="." method="_on_control_button_pressed"]
