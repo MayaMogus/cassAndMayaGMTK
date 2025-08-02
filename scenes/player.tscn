@@ -49,7 +49,6 @@ collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_dqkch")
 can_sleep = false
 lock_rotation = true
-continuous_cd = 2
 script = ExtResource("1_g2els")
 ropeAttachSound = ExtResource("2_smehm")
 splatSound = ExtResource("3_y4r1p")
@@ -69,6 +68,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttachmentDetector"]
+visible = false
 position = Vector2(0, -36)
 shape = SubResource("CircleShape2D_tuyoq")
 

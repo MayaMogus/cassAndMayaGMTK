@@ -153,7 +153,7 @@ size = Vector2(896, 448)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yghe5"]
 size = Vector2(128, 768)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ina5a"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mnlb6"]
 texture = ExtResource("10_u60j5")
 texture_region_size = Vector2i(64, 64)
 1:0/0 = 0
@@ -317,7 +317,7 @@ tile_size = Vector2i(64, 64)
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Corners"
 terrain_set_0/terrain_0/color = Color(1, 1, 1, 1)
-sources/2 = SubResource("TileSetAtlasSource_ina5a")
+sources/2 = SubResource("TileSetAtlasSource_mnlb6")
 
 [node name="blankStage" type="Node2D"]
 
