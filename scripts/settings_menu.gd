@@ -10,15 +10,15 @@ func _process(delta: float) -> void:
 
 func _on_sound_fx_slider_value_changed(value: float) -> void:
 	Settings.SoundFXLevel = value / 100
-
+	playSound()
 
 func _on_music_slider_value_changed(value: float) -> void:
 	Settings.MusicLevel = value / 100
-
+	
 
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	print(toggled_on)
-	
+	playSound()
 
 
 func _on_check_box_pressed() -> void:
@@ -30,7 +30,12 @@ func _on_check_box_pressed() -> void:
 		Settings.displayTimer = false
 		$VBoxContainer/Control/CheckBox.button_pressed = false
 	print(Settings.displayTimer)
-
+	playSound()
 
 func _on_back_button_pressed() -> void:
 	visible = false
+	playSound()
+	
+func playSound():
+	$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel
+	$AudioStreamPlayer.play()

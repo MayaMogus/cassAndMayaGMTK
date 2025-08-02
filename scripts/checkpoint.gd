@@ -5,8 +5,9 @@ var playing : bool = false
 func _ready() -> void:
 	$Animation.frame = 17
 func shake(reverse:bool):
-	print('AAAA')
-
+	
+	$AudioStreamPlayer.play()
+	$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel * 0.5
 	playing = true
 	if reverse:
 		$Animation.play_backwards("default")

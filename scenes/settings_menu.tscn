@@ -1,10 +1,21 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8oilciq01851"]
+[gd_scene load_steps=11 format=3 uid="uid://c8oilciq01851"]
 
 [ext_resource type="Script" uid="uid://bjyhu0or4ec1s" path="res://scripts/settings_menu.gd" id="1_wswnh"]
+[ext_resource type="Shader" uid="uid://cged0bkhqcnqk" path="res://assets/shaders/uiBackground.gdshader" id="2_bgjg7"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="2_labj1"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="3_lwwgp"]
 [ext_resource type="Texture2D" uid="uid://cwjrbfdqisn7u" path="res://assets/check.png" id="4_lwwgp"]
 [ext_resource type="Texture2D" uid="uid://dxoenopcm87nm" path="res://assets/UnCheck.png" id="5_bgjg7"]
+[ext_resource type="AudioStream" uid="uid://cd3o5ts3hlr41" path="res://assets/sounds/click1.ogg" id="7_48ojb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_48ojb"]
+shader = ExtResource("2_bgjg7")
+shader_parameter/square_color = Color(0.300659, 0.258646, 0.621527, 1)
+shader_parameter/background_color = Color(0.199267, 0.165445, 0.432329, 1)
+shader_parameter/square_size = 40.48
+shader_parameter/padding = 1.0
+shader_parameter/speedX = -40.0
+shader_parameter/speedY = -20.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_bgjg7"]
 font = ExtResource("3_lwwgp")
@@ -22,8 +33,9 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_wswnh")
 
-[node name="settingsBackground" type="Sprite2D" parent="."]
+[node name="background" type="Sprite2D" parent="."]
 modulate = Color(0.152941, 0.133333, 0.254902, 1)
+material = SubResource("ShaderMaterial_48ojb")
 position = Vector2(964, 543.75)
 scale = Vector2(55.75, 29.1061)
 texture = ExtResource("2_labj1")
@@ -40,6 +52,7 @@ horizontal_alignment = 1
 
 [node name="backButton" type="Button" parent="."]
 z_index = 10
+layout_mode = 0
 offset_left = 808.0
 offset_top = 896.0
 offset_right = 1112.0
@@ -118,6 +131,7 @@ scrollable = false
 layout_mode = 2
 
 [node name="MusicTitle" type="Label" parent="VBoxContainer/Control"]
+layout_mode = 0
 offset_left = -8.0
 offset_top = -64.0
 offset_right = 322.0
@@ -134,6 +148,9 @@ offset_bottom = 64.0
 theme_override_icons/checked = ExtResource("4_lwwgp")
 theme_override_icons/unchecked = ExtResource("5_bgjg7")
 keep_pressed_outside = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_48ojb")
 
 [connection signal="pressed" from="backButton" to="." method="_on_back_button_pressed"]
 [connection signal="value_changed" from="VBoxContainer/SoundFX/SoundFXSlider" to="." method="_on_sound_fx_slider_value_changed"]

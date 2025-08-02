@@ -11,6 +11,22 @@ var keyColors : Dictionary = {
 	keyTypes.Green : Color(.2, .6, 0.12),
 }
 
+var keySounds : Array = [
+	preload('res://assets/sounds/key-jingle-1.mp3'),
+	preload('res://assets/sounds/key-jingle-2.mp3'),
+	preload('res://assets/sounds/key-jingle-3.mp3'),
+	preload('res://assets/sounds/key-jingle-4.mp3'),
+	preload('res://assets/sounds/key-jingle-5.mp3'),
+	preload('res://assets/sounds/key-jingle-6.mp3'),
+	preload('res://assets/sounds/key-jingle-7.mp3'),
+	
+	
+]
+	
+	
+
+
+
 func _enter_tree():
 	if Engine.is_editor_hint():
 		set_process(true)
@@ -40,6 +56,7 @@ func collectKey():
 	visible = false
 	$Area2D/CollisionShape2D.set_deferred("disabled", true)
 	$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel * 0.9
+	$AudioStreamPlayer.stream = keySounds.pick_random()
 	$AudioStreamPlayer.play()
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	

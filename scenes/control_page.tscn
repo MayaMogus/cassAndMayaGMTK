@@ -1,8 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://isubiktaxmm7"]
+[gd_scene load_steps=9 format=3 uid="uid://isubiktaxmm7"]
 
 [ext_resource type="Script" uid="uid://c11kiupg5pkqa" path="res://scripts/control_page.gd" id="1_5b88r"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="1_exgyb"]
+[ext_resource type="Shader" uid="uid://cged0bkhqcnqk" path="res://assets/shaders/uiBackground.gdshader" id="2_k4di4"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="2_ojma0"]
+[ext_resource type="AudioStream" uid="uid://cd3o5ts3hlr41" path="res://assets/sounds/click1.ogg" id="5_rrd4y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrd4y"]
+shader = ExtResource("2_k4di4")
+shader_parameter/square_color = Color(0.300659, 0.258646, 0.621527, 1)
+shader_parameter/background_color = Color(0.199267, 0.165445, 0.432329, 1)
+shader_parameter/square_size = 40.48
+shader_parameter/padding = 1.0
+shader_parameter/speedX = -40.0
+shader_parameter/speedY = -20.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_5b88r"]
 resource_local_to_scene = true
@@ -14,17 +25,21 @@ resource_local_to_scene = true
 font = ExtResource("2_ojma0")
 font_size = 61
 
-[node name="ControlPage" type="Node2D"]
+[node name="ControlPage" type="Control"]
 z_index = 4
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_5b88r")
 
 [node name="background" type="Sprite2D" parent="."]
 modulate = Color(0.152941, 0.133333, 0.254902, 1)
+material = SubResource("ShaderMaterial_rrd4y")
 position = Vector2(964, 543.75)
 scale = Vector2(55.75, 29.1061)
 texture = ExtResource("1_exgyb")
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 offset_left = 680.0
 offset_top = 96.0
 offset_right = 1153.0
@@ -33,6 +48,7 @@ text = "CONTROLS"
 label_settings = SubResource("LabelSettings_5b88r")
 
 [node name="Label2" type="Label" parent="."]
+layout_mode = 0
 offset_left = 184.0
 offset_top = 320.0
 offset_right = 796.0
@@ -46,6 +62,7 @@ SETTINGS / PAUSE : "
 label_settings = SubResource("LabelSettings_k4di4")
 
 [node name="Label3" type="Label" parent="."]
+layout_mode = 0
 offset_left = 1160.0
 offset_top = 320.0
 offset_right = 1772.0
@@ -60,6 +77,7 @@ label_settings = SubResource("LabelSettings_k4di4")
 
 [node name="backButton" type="Button" parent="."]
 z_index = 2
+layout_mode = 0
 offset_left = 808.0
 offset_top = 904.0
 offset_right = 1112.0
@@ -67,5 +85,8 @@ offset_bottom = 995.0
 theme_override_fonts/font = ExtResource("2_ojma0")
 theme_override_font_sizes/font_size = 56
 text = "BACK"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_rrd4y")
 
 [connection signal="pressed" from="backButton" to="." method="_on_back_button_pressed"]

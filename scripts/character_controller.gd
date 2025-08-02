@@ -46,6 +46,8 @@ var saved_keys = []
 var upside_down := false
 var timer:float
 
+var lockedControls : bool = false
+
 @onready var respawn_position := global_position
 @onready var reset_position := global_position
 @onready var base_node := $".."
@@ -159,67 +161,68 @@ func _physics_process(delta: float) -> void:
 	else:
 		gravity_scale = 1 # jumping (holding jump)
 	
-	# jumping
-	if jumping:
-		if Input.is_action_pressed("jump") and jumping_timer < MAX_JUMP_TIME_SECONDS:
-			jumping_timer += delta
-		else:
-			jumping = false
-			jumping_timer = 0
-	
-	if Input.is_action_just_pressed("jump") and not grounded:
-		queued_jump = true
-	elif grounded and (
-		Input.is_action_just_pressed("jump") or 
-		queued_jump and Input.is_action_pressed("jump")
-	):
-		SetVelocity(linear_velocity.x, JUMP_VELOCITY) # jump
-		jumping = true
-		queued_jump = false
-		grounded = false
-		coyote_timer = 0
-	
-	# acceleration
-	var horizontal_direction := Input.get_axis("move_left", "move_right")
-	var vertical_direction := Input.get_axis("move_up", "move_down")
-	if horizontal_direction:
-		$Sprite2D.scale.x = 0.265 * sign(horizontal_direction) * (-1.0 if upside_down else 1.0)
-		$Sprite2D.texture = (
-			turn_texture if absf(
-				fmod(
-					$Sprite2D.rotation_degrees + 90,
-					180
-					)
-				) > 15
-			else stand_texture
-		)
+	if not lockedControls:
+		# jumping
+		if jumping:
+			if Input.is_action_pressed("jump") and jumping_timer < MAX_JUMP_TIME_SECONDS:
+				jumping_timer += delta
+			else:
+				jumping = false
+				jumping_timer = 0
 		
-		if sign(horizontal_direction) != sign(linear_velocity.x):
-			# slow down faster if trying to move in opposite direction
-			# but only if we're under our max speed or grounded
-			AddVelocity(horizontal_direction * ACCELERATION * (
-				2.0 if abs(linear_velocity.x) < SPEED else 1.0
-				) / (1.0 if is_on_floor else 2.0), 0) # less control when in air
-		elif abs(linear_velocity.x) < SPEED * abs(horizontal_direction):
-			# multiply by abs(horizontal_direction) to account for joystick controls
+		if Input.is_action_just_pressed("jump") and not grounded:
+			queued_jump = true
+		elif grounded and (
+			Input.is_action_just_pressed("jump") or 
+			queued_jump and Input.is_action_pressed("jump")
+		):
+			SetVelocity(linear_velocity.x, JUMP_VELOCITY) # jump
+			jumping = true
+			queued_jump = false
+			grounded = false
+			coyote_timer = 0
+		
+		# acceleration
+		var horizontal_direction := Input.get_axis("move_left", "move_right")
+		var vertical_direction := Input.get_axis("move_up", "move_down")
+		if horizontal_direction:
+			$Sprite2D.scale.x = 0.265 * sign(horizontal_direction) * (-1.0 if upside_down else 1.0)
+			$Sprite2D.texture = (
+				turn_texture if absf(
+					fmod(
+						$Sprite2D.rotation_degrees + 90,
+						180
+						)
+					) > 15
+				else stand_texture
+			)
 			
-			# give normal forward accel when under our max speed
-			AddVelocity(horizontal_direction * ACCELERATION / (
-				# less control when in air
-				1.0 if is_on_floor else 2.0
-				), 0)
-	elif linear_velocity.x != 0:
-		# deccelerate faster on the ground
-		AddVelocity(-sign(linear_velocity.x) * ACCELERATION / (2.0 if is_on_floor else 32.0), 0)
-		# handle offsets less than the acceleration amount
-		if abs(linear_velocity.x) < ACCELERATION and is_on_floor:
-			SetVelocity(0, linear_velocity.y)
-	
-		$Sprite2D.texture = stand_texture
-	
-	if vertical_direction and attached and not is_on_floor:
-		apply_central_force(Vector2(0, vertical_direction * ACCELERATION * 25))
-	
+			if sign(horizontal_direction) != sign(linear_velocity.x):
+				# slow down faster if trying to move in opposite direction
+				# but only if we're under our max speed or grounded
+				AddVelocity(horizontal_direction * ACCELERATION * (
+					2.0 if abs(linear_velocity.x) < SPEED else 1.0
+					) / (1.0 if is_on_floor else 2.0), 0) # less control when in air
+			elif abs(linear_velocity.x) < SPEED * abs(horizontal_direction):
+				# multiply by abs(horizontal_direction) to account for joystick controls
+				
+				# give normal forward accel when under our max speed
+				AddVelocity(horizontal_direction * ACCELERATION / (
+					# less control when in air
+					1.0 if is_on_floor else 2.0
+					), 0)
+		elif linear_velocity.x != 0:
+			# deccelerate faster on the ground
+			AddVelocity(-sign(linear_velocity.x) * ACCELERATION / (2.0 if is_on_floor else 32.0), 0)
+			# handle offsets less than the acceleration amount
+			if abs(linear_velocity.x) < ACCELERATION and is_on_floor:
+				SetVelocity(0, linear_velocity.y)
+		
+			$Sprite2D.texture = stand_texture
+		
+		if vertical_direction and attached and not is_on_floor:
+			apply_central_force(Vector2(0, vertical_direction * ACCELERATION * 25))
+		
 	# rope attachment
 	if Input.is_action_just_pressed("attach_rope"):
 		if not (attached or attachment_point_candidates.is_empty()):

@@ -1,28 +1,64 @@
-[gd_scene load_steps=8 format=3 uid="uid://b18y5lkie8gwh"]
+[gd_scene load_steps=19 format=3 uid="uid://b18y5lkie8gwh"]
 
 [ext_resource type="Script" uid="uid://d1l61ghk325kq" path="res://scripts/main_menu.gd" id="1_ekxnf"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="1_l6cm7"]
+[ext_resource type="Shader" uid="uid://dvay6elrsfoe5" path="res://assets/shaders/scrollingBG.gdshader" id="2_tbmy8"]
 [ext_resource type="PackedScene" uid="uid://c8oilciq01851" path="res://scenes/settings_menu.tscn" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://w23xxbihkix8" path="res://assets/mainMenuBackground.png" id="3_jk1qb"]
+[ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="3_tbmy8"]
 [ext_resource type="PackedScene" uid="uid://isubiktaxmm7" path="res://scenes/control_page.tscn" id="4_wu84c"]
 [ext_resource type="AudioStream" uid="uid://608dp67sawhy" path="res://assets/sounds/Cave Song.wav" id="5_8ln24"]
+[ext_resource type="AudioStream" uid="uid://cd3o5ts3hlr41" path="res://assets/sounds/click1.ogg" id="8_tbmy8"]
+[ext_resource type="Texture2D" uid="uid://dapuvlvd54byl" path="res://assets/animations/climbingTony/climbingTony2.png" id="9_flqon"]
+[ext_resource type="Texture2D" uid="uid://6dhv5w1q3f8y" path="res://assets/animations/climbingTony/climbingTony3.png" id="10_rcqid"]
+[ext_resource type="Texture2D" uid="uid://ciiwj30eyuo1o" path="res://assets/animations/climbingTony/climbingTony4.png" id="11_1ajci"]
+[ext_resource type="Texture2D" uid="uid://dtq6pxfd6gs86" path="res://assets/animations/climbingTony/climbingTony5.png" id="12_7b55j"]
+[ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="13_rcqid"]
+[ext_resource type="AudioStream" uid="uid://64txrs3ah8no" path="res://assets/sounds/fallingSoundCutscene.wav" id="15_7b55j"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_ekxnf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5dd4i"]
+shader = ExtResource("2_tbmy8")
+shader_parameter/speedX = 0.0
+shader_parameter/speedY = -0.025
 
 [sub_resource type="LabelSettings" id="LabelSettings_bqqt6"]
 font = ExtResource("1_l6cm7")
 font_size = 166
 font_color = Color(0.862854, 0.751033, 0.386998, 1)
 
-[node name="mainMenu" type="Node2D"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_5pajh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_flqon")
+}, {
+"duration": 2.0,
+"texture": ExtResource("10_rcqid")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_1ajci")
+}, {
+"duration": 2.0,
+"texture": ExtResource("12_7b55j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="mainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ekxnf")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-modulate = Color(0.152436, 0.0589577, 0.25292, 1)
-position = Vector2(960, 548)
-scale = Vector2(1920, 1080)
-mesh = SubResource("BoxMesh_ekxnf")
+[node name="background" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_5dd4i")
+position = Vector2(960, 540)
+texture = ExtResource("3_jk1qb")
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 offset_left = 448.0
 offset_top = 92.0
 offset_right = 1437.0
@@ -32,6 +68,7 @@ label_settings = SubResource("LabelSettings_bqqt6")
 metadata/_edit_use_anchors_ = true
 
 [node name="Button" type="Button" parent="."]
+layout_mode = 0
 offset_left = 856.0
 offset_top = 572.0
 offset_right = 1071.0
@@ -42,6 +79,7 @@ text = "PLAY"
 metadata/_edit_use_anchors_ = true
 
 [node name="settingsButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 808.0
 offset_top = 736.0
 offset_right = 1112.0
@@ -58,6 +96,7 @@ visible = false
 visible = false
 
 [node name="controlButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 808.0
 offset_top = 872.0
 offset_right = 1107.0
@@ -70,6 +109,31 @@ text = "CONTROLS"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_8ln24")
 autoplay = true
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_tbmy8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(960, 424)
+scale = Vector2(0.24, 0.24)
+sprite_frames = SubResource("SpriteFrames_5pajh")
+frame_progress = 0.399557
+
+[node name="FallingTony" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 416)
+rotation = 3.14159
+scale = Vector2(0.40625, 0.40625)
+texture = ExtResource("13_rcqid")
+
+[node name="blackFade" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0, 0, 0)
+position = Vector2(960, 539.75)
+scale = Vector2(60, 32.7424)
+texture = ExtResource("3_tbmy8")
+
+[node name="fallingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_7b55j")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="settingsButton" to="." method="_on_settings_button_pressed"]
