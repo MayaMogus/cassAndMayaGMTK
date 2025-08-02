@@ -4,6 +4,8 @@ class_name Player
 var space_state: PhysicsDirectSpaceState2D:
 	get: return get_world_2d().direct_space_state
 
+@export var ropeClick : AudioStream
+
 const SPEED := 850.0
 const ACCELERATION := 35.0
 const MAX_GROUND_SLOPE := 0.5
@@ -56,13 +58,17 @@ var paused : bool = false
 
 var savedMomentum : Vector2
 
+var timer : float = 0
+
 func _ready() -> void:
 	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
 	base_node.add_child.call_deferred(rope_visual)
 	respawnLocation = global_position
+	
 
+	
 func _physics_process(delta: float) -> void:
 	
 	if paused:
@@ -202,6 +208,7 @@ func _physics_process(delta: float) -> void:
 			
 			attached = true
 			CreateRope(500)
+			playSound(ropeClick)
 		elif attached:
 			# detach rope
 			attached = false
@@ -258,12 +265,28 @@ func _physics_process(delta: float) -> void:
 	
 func _process(_delta: float) -> void:
 	
-	$Sprite2D2.rotation += 0.25 * _delta 
+	$MusicPlayer.volume_linear = Settings.MusicLevel / 100
+	if not paused:
+		timer += _delta 
 	
+	var intTimer = int(timer)
+	var minutes = floor(intTimer / 60) 
+	
+	var seconds = intTimer - minutes * 60
+	if seconds < 10:
+		seconds = str('0',seconds)
+	
+	$Timer.text = str(minutes, ':', seconds)
+	
+	if not paused:
+		$Radius.rotation += 0.25 * _delta 
+	var color = $Radius.material.get_shader_parameter("dot_color")
 	if not attachment_point_candidates.is_empty():
-		$Sprite2D2.material.set_shader_parameter("dot_color", Color(0.3, .75, 0.3))
+		
+		$Radius.material.set_shader_parameter("dot_color", lerp(color, Color(0.3, .75, 0.3), _delta*30))
 	else:
-		$Sprite2D2.material.set_shader_parameter("dot_color", Color(1,1,1))
+		$Radius.material.set_shader_parameter("dot_color", lerp(color, Color(1,1,1), _delta*30))
+		
 	if attached:
 		var points = rope_points.duplicate()
 		points.append(center_position)
@@ -282,15 +305,18 @@ func _process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed('pause'):
-		if paused:
-			freeze = false
-			paused = false
-			linear_velocity = savedMomentum
-		else:
+		if not paused:
+			$"Pause Menu".visible = true
 			paused = true
 			freeze = true
 			savedMomentum = linear_velocity
-
+			
+func unPause():
+	
+	freeze = false
+	paused = false
+	linear_velocity = savedMomentum
+	$"Pause Menu".visible = false
 
 func CreateRope(length: float):
 	rope_remaining_length = length
@@ -347,7 +373,7 @@ func _on_spike_detector_body_entered(body: Node2D) -> void:
 	
 		die()
 	elif body.name == 'Checkpoint':
-
+	
 		respawnLocation = body.global_position 
 		savedKeys = collectedKeys.duplicate()
 		

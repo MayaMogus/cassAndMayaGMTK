@@ -36,7 +36,8 @@ var soundDelay :float= 1
 func  _physics_process(delta: float) -> void:
 	
 	soundDelay -= delta
-
+	if not Engine.is_editor_hint():
+		$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel / 100 * 0.55
 	
 	for rigidBody:RigidBody2D in bodies:
 		var distanceRatio = 1 #- (global_position.distance_to(rigidBody.global_position) / $Area2D/CollisionShape2D.scale.x * 8)

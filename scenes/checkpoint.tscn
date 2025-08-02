@@ -7,11 +7,6 @@ size = Vector2(80, 112)
 
 [node name="Checkpoint" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1.6, 14.4)
-scale = Vector2(0.275, 0.275)
-texture = ExtResource("1_yyywg")
-
 [node name="Checkpoint" type="StaticBody2D" parent="."]
 position = Vector2(-22.6, 56.4)
 collision_layer = 128
@@ -20,3 +15,10 @@ collision_mask = 8
 [node name="Checkpoint" type="CollisionShape2D" parent="Checkpoint"]
 position = Vector2(24, -56)
 shape = SubResource("RectangleShape2D_yyywg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-16.7377, 58.2051)
+scale = Vector2(0.275, 0.275)
+texture = ExtResource("1_yyywg")
+centered = false
+offset = Vector2(-182.87, -408.755)

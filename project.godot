@@ -19,11 +19,14 @@ config/icon="res://icon.svg"
 
 KeyGlobalController="*res://scripts/keyGlobalController.gd"
 StageLoader="*res://scripts/stageLoader.gd"
+Settings="*res://scripts/settings.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=2
+window/size/initial_position_type=5
 
 [editor]
 

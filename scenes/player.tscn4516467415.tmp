@@ -1,14 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://belhfglajbrit"]
+[gd_scene load_steps=12 format=3 uid="uid://belhfglajbrit"]
 
 [ext_resource type="Script" uid="uid://b2axbsfax4tdb" path="res://scripts/character_controller.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_qhqgy"]
-[ext_resource type="AudioStream" uid="uid://d0s5xld4betjv" path="res://assets/sounds/metalClick.ogg" id="2_smehm"]
 [ext_resource type="AudioStream" uid="uid://ci884mxq04sc2" path="res://assets/sounds/footstep_concrete_004.ogg" id="3_dqkch"]
 [ext_resource type="AudioStream" uid="uid://dnwyux2c1uadw" path="res://assets/sounds/gmtkBGMusic (2).wav" id="4_qlg0r"]
 [ext_resource type="Shader" uid="uid://cv2lu848oc18i" path="res://assets/shaders/border.gdshader" id="5_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="6_fjrip"]
-[ext_resource type="PackedScene" uid="uid://chf3balmgl2g" path="res://scenes/pause_menu.tscn" id="7_fjrip"]
-[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="9_ur7pv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dqkch"]
 friction = 0.0
@@ -17,7 +14,7 @@ friction = 0.0
 size = Vector2(38, 64)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
-radius = 320.0
+radius = 231.138
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tuyoq"]
 radius = 8.0
@@ -29,22 +26,17 @@ shader_parameter/dot_color = Color(1, 1, 1, 1)
 shader_parameter/radius = 0.971
 shader_parameter/thickness = 0.03
 shader_parameter/dot_count = 32
-shader_parameter/gap_ratio = 0.25
+shader_parameter/gap_ratio = 0.257
 shader_parameter/rotation = 0.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_smehm"]
-font = ExtResource("9_ur7pv")
-font_size = 176
 
 [node name="Player" type="RigidBody2D"]
 position = Vector2(0, -4)
-collision_layer = 66
+collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_dqkch")
 can_sleep = false
 lock_rotation = true
 continuous_cd = 2
 script = ExtResource("1_g2els")
-ropeClick = ExtResource("2_smehm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -32)
@@ -61,7 +53,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttachmentDetector"]
-position = Vector2(0, -28)
+position = Vector2(1, -36)
 shape = SubResource("CircleShape2D_tuyoq")
 
 [node name="Raycasts" type="Node2D" parent="."]
@@ -125,26 +117,14 @@ volume_db = 5.333
 stream = ExtResource("4_qlg0r")
 autoplay = true
 
-[node name="Radius" type="Sprite2D" parent="."]
+[node name="Sprite2D2" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_smehm")
-position = Vector2(-5.45697e-12, -28)
-scale = Vector2(20, 19.3939)
+position = Vector2(-2.3365e-05, -36)
+scale = Vector2(14.5, 14.0606)
 texture = ExtResource("6_fjrip")
 
-[node name="Pause Menu" parent="." instance=ExtResource("7_fjrip")]
-offset_left = -952.0
-offset_top = -564.0
-offset_right = -952.0
-offset_bottom = -564.0
-
-[node name="Timer" type="Label" parent="."]
-z_index = 6
-offset_left = -1360.0
-offset_top = -740.0
-offset_right = -1320.0
-offset_bottom = -717.0
-text = "1:00"
-label_settings = SubResource("LabelSettings_smehm")
+[node name="Line2D" type="Line2D" parent="."]
+texture_mode = 1
 
 [connection signal="body_entered" from="AttachmentDetector" to="." method="_on_attachment_detector_body_entered"]
 [connection signal="body_exited" from="AttachmentDetector" to="." method="_on_attachment_detector_body_exited"]
