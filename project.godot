@@ -21,6 +21,7 @@ KeyGlobalController="*res://scripts/keyGlobalController.gd"
 StageLoader="*res://scripts/stageLoader.gd"
 Settings="*res://scripts/settings.gd"
 MusicController="*res://scripts/musicController.gd"
+GameTimer="*res://scripts/game_timer.gd"
 
 [display]
 

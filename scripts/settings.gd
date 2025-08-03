@@ -14,6 +14,8 @@ var MusicLevel := 1.0:
 	set(value):
 		MusicLevel = value
 
-var displayTimer := true
+var displayStageTimer := true
+var displayGameTimer := false
+var displayDecimals := false
 
-var timer := 0.0
+var autoNextStage := false
