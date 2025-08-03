@@ -1,5 +1,7 @@
 extends Node
 
+signal SettingsUpdated
+
 var SoundFXEnabled := true
 var SoundFXLevel := 1.0:
 	get:

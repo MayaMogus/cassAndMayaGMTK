@@ -1,17 +1,19 @@
 extends Control
 
-@onready var game_timer := get_node("PausePanelMargins/PausePanel/InnerMargins/PanelContainer" + \
+@onready var game_timer := get_node("InnerMargins/PanelContainer" + \
 	"/TimerContainer/GameTimerContainer/GameTimer")
-@onready var stage_timer := get_node("PausePanelMargins/PausePanel/InnerMargins/PanelContainer" + \
+@onready var stage_timer := get_node("InnerMargins/PanelContainer" + \
 	"/TimerContainer/StageTimerContainer/StageTimer")
 
-@onready var timer_container := get_node("PausePanelMargins/PausePanel/InnerMargins/PanelContainer" + \
+@onready var timer_container := get_node("InnerMargins/PanelContainer" + \
 	"/TimerContainer")
 
 var buttons: Array[Node]
 
 func _ready() -> void:
-	buttons = get_node("PausePanelMargins/PausePanel/InnerMargins/PanelContainer" + \
+	Info.SetStageInfo(Info.current_stage, GameTimer.stage_timer_seconds, 0) # TODO: set deaths
+	
+	buttons = get_node("InnerMargins/PanelContainer" + \
 	"/ButtonMargins/ButtonContainer").get_children()
 	
 	# automatically set neighbors for all buttons, as well as their base_node property if it exists
@@ -34,36 +36,14 @@ func _ready() -> void:
 	
 	Settings.inMenu = true
 	GameTimer.PauseStageTimer()
+	GameTimer.PauseGameTimer()
 	
 	stage_timer.text = GameTimer.GetStageTime()
 
-func _process(delta: float) -> void:
-	# updates every frame since game timer doesn't pause
-	if Settings.displayGameTimer:
-		game_timer.text = GameTimer.GetGameTime()
-	
-	# updates every frame in case settings are changed
-	if not (Settings.displayGameTimer or Settings.displayStageTimer):
-		timer_container.hide()
-	else:
-		timer_container.show()
-		
-		if Settings.displayGameTimer:
-			timer_container.get_node("GameTimerContainer").show()
-		else:
-			timer_container.get_node("GameTimerContainer").hide()
-		
-		if Settings.displayStageTimer:
-			timer_container.get_node("StageTimerContainer").show()
-		else:
-			timer_container.get_node("StageTimerContainer").hide()
-
-func _on_resume_button_pressed() -> void:
-	ExitMenu()
+func _on_continue_button_pressed() -> void:
+	Info.LoadNextStage()
 
 func _on_main_menu_button_pressed() -> void:
-	GameTimer.PauseGameTimer()
-	
 	GameTimer.ResetGameTime()
 	GameTimer.ResetStageTime()
 	
@@ -73,13 +53,7 @@ func _on_main_menu_button_pressed() -> void:
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_back"):
-		ExitMenu()
-
-func ExitMenu():
-	Settings.inMenu = false
-	GameTimer.UnpauseStageTimer()
-	$"../Player".unPause()
-	queue_free()
+		_on_main_menu_button_pressed()
 
 func SetControl(enable: bool, select_button: Button = null) -> void:
 	if enable:

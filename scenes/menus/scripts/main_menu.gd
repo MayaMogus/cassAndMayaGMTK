@@ -26,7 +26,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("ui_back"):
+	if Input.is_action_just_pressed("ui_back"):
 		$ButtonsMargins/Buttons/QuitButton._pressed()
 
 func SetControl(enable: bool, select_button: Button = null) -> void:
