@@ -20,4 +20,14 @@ var displaySplits := false
 
 var autoNextStage := false
 
+<<<<<<< HEAD
 var runTimer :float=0
+=======
+var inMenu := true:
+	set(value):
+		if value:
+			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		inMenu = value
+>>>>>>> 8ca9aa55649b05340d79e8c8d636d4325737ac9f

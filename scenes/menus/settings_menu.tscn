@@ -61,16 +61,27 @@ theme_override_constants/margin_bottom = 64
 layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="ShowTimer" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings"]
+[node name="ShowStageTimer" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings"]
 layout_mode = 2
 theme_override_constants/separation = 64
 
+<<<<<<< HEAD
 [node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowTimer"]
+=======
+[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowStageTimer"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("2_s2d1y")
+theme_override_icons/unchecked = ExtResource("3_ojvp1")
+button_pressed = true
+
+[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowStageTimer"]
+>>>>>>> 8ca9aa55649b05340d79e8c8d636d4325737ac9f
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("1_hayap")
 theme_override_font_sizes/font_size = 56
+<<<<<<< HEAD
 text = "Timers :"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -91,11 +102,75 @@ popup/item_3/text = "Display None"
 popup/item_3/id = 3
 
 [node name="Sound" type="Control" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs"]
+=======
+text = "Show Stage Timer"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ShowGameTimer" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowGameTimer"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("2_s2d1y")
+theme_override_icons/unchecked = ExtResource("3_ojvp1")
+
+[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowGameTimer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("1_hayap")
+theme_override_font_sizes/font_size = 56
+text = "Show Game Timer"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ShowDecimals" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowDecimals"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("2_s2d1y")
+theme_override_icons/unchecked = ExtResource("3_ojvp1")
+
+[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowDecimals"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("1_hayap")
+theme_override_font_sizes/font_size = 56
+text = "Show Timer Decimals"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AutoNextStage" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/AutoNextStage"]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("2_s2d1y")
+theme_override_icons/unchecked = ExtResource("3_ojvp1")
+
+[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/AutoNextStage"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("1_hayap")
+theme_override_font_sizes/font_size = 56
+text = "Skip Stage Complete Screen"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Audio" type="Control" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs"]
+>>>>>>> 8ca9aa55649b05340d79e8c8d636d4325737ac9f
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound"]
+[node name="MarginContainer" type="MarginContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -107,27 +182,27 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 64
 
-[node name="Settings" type="VBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer"]
+[node name="Settings" type="VBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="FXVolume" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings"]
+[node name="FXVolume" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings"]
 layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/FXVolume"]
+[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/FXVolume"]
 layout_mode = 2
 theme_override_icons/checked = ExtResource("2_s2d1y")
 theme_override_icons/unchecked = ExtResource("3_ojvp1")
 button_pressed = true
 
-[node name="HSlider" type="HSlider" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/FXVolume"]
+[node name="HSlider" type="HSlider" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/FXVolume"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 100.0
 
-[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/FXVolume"]
+[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/FXVolume"]
 custom_minimum_size = Vector2(384, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -138,23 +213,23 @@ text = "FX Volume"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="MusicVolume" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings"]
+[node name="MusicVolume" type="HBoxContainer" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings"]
 layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/MusicVolume"]
+[node name="CheckBox" type="CheckBox" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/MusicVolume"]
 layout_mode = 2
 theme_override_icons/checked = ExtResource("2_s2d1y")
 theme_override_icons/unchecked = ExtResource("3_ojvp1")
 button_pressed = true
 
-[node name="HSlider" type="HSlider" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/MusicVolume"]
+[node name="HSlider" type="HSlider" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/MusicVolume"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 100.0
 
-[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/MusicVolume"]
+[node name="Label" type="Label" parent="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/MusicVolume"]
 custom_minimum_size = Vector2(384, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -177,9 +252,20 @@ theme_override_fonts/font = ExtResource("1_hayap")
 theme_override_font_sizes/font_size = 56
 text = "X"
 
+<<<<<<< HEAD
 [connection signal="item_selected" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowTimer/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/FXVolume/CheckBox" to="." method="_on_fx_volume_toggled"]
 [connection signal="drag_ended" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/FXVolume/HSlider" to="." method="_on_fx_volume_drag_ended"]
 [connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/MusicVolume/CheckBox" to="." method="_on_music_volume_toggled"]
 [connection signal="drag_ended" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Sound/MarginContainer/Settings/MusicVolume/HSlider" to="." method="_on_music_volume_drag_ended"]
+=======
+[connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowStageTimer/CheckBox" to="." method="_on_show_stage_timer_toggled"]
+[connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowGameTimer/CheckBox" to="." method="_on_show_game_timer_toggled"]
+[connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/ShowDecimals/CheckBox" to="." method="_on_show_decimals_toggled"]
+[connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/General/SettingsMargins/Settings/AutoNextStage/CheckBox" to="." method="_on_auto_next_stage_toggled"]
+[connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/FXVolume/CheckBox" to="." method="_on_fx_volume_toggled"]
+[connection signal="drag_ended" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/FXVolume/HSlider" to="." method="_on_fx_volume_drag_ended"]
+[connection signal="toggled" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/MusicVolume/CheckBox" to="." method="_on_music_volume_toggled"]
+[connection signal="drag_ended" from="SettingsPanelMargins/SettingsPanel/SettingsTabs/Audio/MarginContainer/Settings/MusicVolume/HSlider" to="." method="_on_music_volume_drag_ended"]
+>>>>>>> 8ca9aa55649b05340d79e8c8d636d4325737ac9f
 [connection signal="pressed" from="SettingsPanelMargins/SettingsPanel/CloseButton" to="." method="_on_close_button_pressed"]
