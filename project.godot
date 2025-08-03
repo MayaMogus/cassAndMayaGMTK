@@ -27,7 +27,7 @@ MusicController="*res://scripts/musicController.gd"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=2
-window/size/initial_position_type=5
+window/stretch/mode="viewport"
 
 [editor]
 
@@ -145,4 +145,5 @@ common/physics_ticks_per_second=240
 
 [rendering]
 
+textures/canvas_textures/default_texture_repeat=1
 environment/defaults/default_clear_color=Color(0.137255, 0.141176, 0.184314, 1)

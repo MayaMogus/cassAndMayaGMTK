@@ -36,7 +36,7 @@ const ROPE_BACKTRACK_TOLERANCE := 2.0
 var attached := false
 var attachment_point: Node2D
 var attachment_point_candidates: Dictionary[Node2D, Vector2]
-var rope_visual := Line2D.new()
+@onready var rope_visual := Line2D.new()
 var rope_points: PackedVector2Array = []
 var rope_remaining_length: float
 
@@ -65,9 +65,16 @@ var saved_velocity_paused : Vector2
 
 
 func _ready() -> void:
+	var rope_image := Image.load_from_file("res://assets/rope.png")
+	rope_image.rotate_90(CLOCKWISE)
+	rope_image.resize(rope_image.get_width() * 2, rope_image.get_height())
+	var rope_texture := ImageTexture.create_from_image(rope_image)
 	rope_visual.joint_mode = Line2D.LINE_JOINT_ROUND
 	rope_visual.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	rope_visual.end_cap_mode = Line2D.LINE_CAP_ROUND
+	rope_visual.texture = rope_texture
+	rope_visual.texture_mode = Line2D.LINE_TEXTURE_TILE
+	rope_visual.width = 15
 	base_node.add_child.call_deferred(rope_visual)
 	
 	$Radius.global_position = center_position
@@ -356,11 +363,10 @@ func CreateRope(length: float):
 	
 	rope_points.append(attachment_point.global_position)
 
-func DestroyRope():
+func DestroyRope(reset := false):
 	attached = false
 	rope_points.clear()
 	rope_visual.clear_points()
-	attached = false
 
 func SetVelocity(x: float, y: float):
 	apply_central_impulse((Vector2(x, y) - linear_velocity) * mass)
@@ -383,14 +389,15 @@ func _on_spike_detector_body_entered(body: Node2D) -> void: # TODO: rename this
 		respawn_position = body.global_position 
 		saved_keys = collected_keys.duplicate()
 		body.get_parent().shake(false if global_position < body.global_position else true)
-func ResetLevel(full_reset: bool):
+func ResetLevel(full_reset: bool, died := true):
 	DestroyRope()
 	
 	paused = true
 	freeze = true
 	$Radius.visible = false
 	$Sprite2D.visible = false
-	playSound(splatSound, 1)
+	if died:
+		playSound(splatSound, 1)
 	await get_tree().create_timer(.5).timeout
 	$Radius.visible = true
 	$Sprite2D.visible = true 
