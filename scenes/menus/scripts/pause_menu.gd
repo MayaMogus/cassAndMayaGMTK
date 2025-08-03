@@ -72,7 +72,7 @@ func _on_main_menu_button_pressed() -> void:
 	get_tree().change_scene_to_packed(preload("res://scenes/menus/main_menu.tscn"))
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("ui_back"):
+	if Input.is_action_just_pressed("ui_back"):
 		ExitMenu()
 
 func ExitMenu():

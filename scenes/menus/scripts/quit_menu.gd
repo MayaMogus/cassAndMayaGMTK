@@ -18,7 +18,7 @@ func _on_cancel_pressed() -> void:
 	ExitMenu()
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("ui_back"):
+	if Input.is_action_just_pressed("ui_back"):
 		ExitMenu()
 
 func ExitMenu():

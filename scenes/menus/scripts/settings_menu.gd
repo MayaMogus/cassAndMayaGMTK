@@ -1,7 +1,5 @@
 extends Control
 
-signal SettingsUpdated
-
 var click_sound := preload("res://assets/sounds/click1.ogg")
 
 @onready var base_node: Control = $".."
@@ -19,7 +17,7 @@ func _on_close_button_pressed() -> void:
 	ExitMenu()
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("ui_back"):
+	if Input.is_action_just_pressed("ui_back"):
 		ExitMenu()
 
 func ExitMenu():
@@ -69,5 +67,5 @@ func _on_music_volume_drag_ended(value_changed: bool) -> void:
 #==============================================================================#
 
 func SettingsChanged() -> void:
-	emit_signal("SettingsUpdated")
+	Settings.emit_signal("SettingsUpdated")
 	# TODO: play click_sound

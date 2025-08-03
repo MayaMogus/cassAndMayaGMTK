@@ -1,10 +1,20 @@
 extends Control
 
+@onready var game_timer := get_node("InnerMargins/PanelContainer" + \
+	"/TimerContainer/GameTimerContainer/GameTimer")
+@onready var stage_timer := get_node("InnerMargins/PanelContainer" + \
+	"/TimerContainer/StageTimerContainer/StageTimer")
+
+@onready var timer_container := get_node("InnerMargins/PanelContainer" + \
+	"/TimerContainer")
+
 var buttons: Array[Node]
 
 func _ready() -> void:
-	buttons = $ButtonsMargins/Buttons.get_children()
-	$Animations/AnimatedSprite2D.play('default')
+	Info.SetStageInfo(Info.current_stage, GameTimer.stage_timer_seconds, 0) # TODO: set deaths
+	
+	buttons = get_node("InnerMargins/PanelContainer" + \
+	"/ButtonMargins/ButtonContainer").get_children()
 	
 	# automatically set neighbors for all buttons, as well as their base_node property if it exists
 	for i in range(buttons.size()):
@@ -23,11 +33,27 @@ func _ready() -> void:
 	
 	# focus on the first button
 	buttons[0].grab_focus()
+	
+	Settings.inMenu = true
+	GameTimer.PauseStageTimer()
+	GameTimer.PauseGameTimer()
+	
+	stage_timer.text = GameTimer.GetStageTime()
 
+func _on_continue_button_pressed() -> void:
+	Info.LoadNextStage()
+
+func _on_main_menu_button_pressed() -> void:
+	GameTimer.ResetGameTime()
+	GameTimer.ResetStageTime()
+	
+	KeyGlobalController.savedKeys.clear()
+	
+	get_tree().change_scene_to_packed(preload("res://scenes/menus/main_menu.tscn"))
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_back"):
-		$ButtonsMargins/Buttons/QuitButton._pressed()
+		_on_main_menu_button_pressed()
 
 func SetControl(enable: bool, select_button: Button = null) -> void:
 	if enable:
@@ -38,31 +64,3 @@ func SetControl(enable: bool, select_button: Button = null) -> void:
 	else:
 		for button: Button in buttons:
 			button.focus_mode = Control.FOCUS_NONE
-	
-func startCutscene():
-	$ButtonsMargins.visible = false
-	$TitleMargins/Title.visible = false
-	await get_tree().create_timer(2).timeout
-	$Animations/AnimatedSprite2D.visible = false
-	$Background.material.set_shader_parameter("speedY", 0.5)
-	$Animations/FallingTony.visible = true
-	$fallingSound.volume_linear = Settings.SoundFXLevel
-	$fallingSound.play()
-	
-func goToIntro():
-	await get_tree().create_timer(2).timeout
-	StageLoader.loadNextStage()
-	MusicController.musicTimer = $Music.get_playback_position()
-	
-func _process(delta: float) -> void:
-	$Music.volume_linear = Settings.MusicLevel
-
-	if $Animations/FallingTony.visible == true:
-		
-		$Animations/FallingTony.global_position.y += delta * 500
-	if $Animations/FallingTony.global_position.y > 1200:
-		$BlackFade.self_modulate.a = lerp($BlackFade.self_modulate.a, 1.0, delta * 5)
-		
-	if $BlackFade.self_modulate.a >= .8:
-		
-		goToIntro()

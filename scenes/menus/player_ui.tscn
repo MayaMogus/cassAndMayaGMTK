@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bpavrdxy3crnh"]
 
-[ext_resource type="Script" uid="uid://ppy70vcfdcst" path="res://scenes/menus/player_ui_timers.gd" id="1_h1f1v"]
+[ext_resource type="Script" uid="uid://ppy70vcfdcst" path="res://scenes/menus/scripts/player_ui_timers.gd" id="1_h1f1v"]
 
 [node name="PlayerUI" type="Control"]
 layout_mode = 3
