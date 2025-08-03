@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0f7fxy00wcpl"]
+[gd_scene load_steps=7 format=3 uid="uid://d0f7fxy00wcpl"]
 
 [ext_resource type="Script" uid="uid://bfe5fongkno1v" path="res://scripts/victory_scene.gd" id="1_sl7wn"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="2_fefd3"]
+[ext_resource type="Texture2D" uid="uid://b6j71ni851cdw" path="res://assets/victoryScreen.png" id="3_lkccn"]
+[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="4_dwl3t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7f4wk"]
+font = ExtResource("4_dwl3t")
+font_size = 76
+
+[sub_resource type="LabelSettings" id="LabelSettings_3xacc"]
+font = ExtResource("4_dwl3t")
+font_size = 40
 
 [node name="Victory_Scene" type="Control"]
 layout_mode = 3
@@ -12,7 +22,75 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_sl7wn")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(960, 540)
+[node name="FadeWhite" type="TextureRect" parent="."]
+z_index = 7
+layout_mode = 0
+offset_left = 6.10352e-05
+offset_top = 0.00012207
+offset_right = 32.0001
+offset_bottom = 33.0001
 scale = Vector2(60, 32.7273)
 texture = ExtResource("2_fefd3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_lkccn")
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.223529, 0.223529, 0.223529, 0.701961)
+layout_mode = 0
+offset_left = 448.0
+offset_top = 576.0
+offset_right = 1472.0
+offset_bottom = 1064.0
+texture = ExtResource("2_fefd3")
+
+[node name="YouWin" type="Label" parent="."]
+layout_mode = 0
+offset_left = 792.0
+offset_top = 576.0
+offset_right = 1114.0
+offset_bottom = 689.0
+text = "YOU WIN!"
+label_settings = SubResource("LabelSettings_7f4wk")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 704.0
+offset_right = 1408.0
+offset_bottom = 896.0
+horizontal_scroll_mode = 3
+
+[node name="Splits" type="Label" parent="ScrollContainer"]
+layout_mode = 2
+text = "[INTRO] : 0:00 - 4 Deaths
+[INTRO] : 0:00 - 4 Deaths
+[INTRO] : 0:00 - 4 Deaths
+[INTRO] : 0:00 - 4 Deaths
+[INTRO] : 0:00 - 4 Deaths
+[INTRO] : 0:00 - 4 Deaths"
+label_settings = SubResource("LabelSettings_3xacc")
+horizontal_alignment = 1
+
+[node name="Time" type="Label" parent="."]
+offset_left = 528.0
+offset_top = 920.0
+offset_right = 872.0
+offset_bottom = 1033.0
+text = "8:00"
+label_settings = SubResource("LabelSettings_7f4wk")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 904.0
+offset_top = 928.0
+offset_right = 1409.0
+offset_bottom = 1019.0
+theme_override_fonts/font = ExtResource("4_dwl3t")
+theme_override_font_sizes/font_size = 56
+text = "GO BACK TO MENU"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

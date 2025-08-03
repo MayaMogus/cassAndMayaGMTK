@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bpavrdxy3crnh"]
 
-[ext_resource type="Script" uid="uid://ppy70vcfdcst" path="res://scenes/menus/player_ui_timers.gd" id="1_h1f1v"]
+[ext_resource type="Script" path="res://scenes/menus/player_ui_timers.gd" id="1_h1f1v"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="2_rjbtt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_681r6"]
