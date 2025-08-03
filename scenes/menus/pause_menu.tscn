@@ -1,4 +1,10 @@
-[gd_scene format=3 uid="uid://c16mlhsoyeyid"]
+[gd_scene load_steps=6 format=3 uid="uid://c16mlhsoyeyid"]
+
+[ext_resource type="Script" uid="uid://c3ijeimjgrtj1" path="res://scenes/menus/scripts/pause_menu.gd" id="1_7unhi"]
+[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="2_gsnt3"]
+[ext_resource type="PackedScene" uid="uid://6ao3xt3b6vd1" path="res://scenes/menus/menu_button.tscn" id="3_gh0u6"]
+[ext_resource type="PackedScene" uid="uid://qou785xe3ayh" path="res://scenes/menus/settings_menu.tscn" id="4_eyfc8"]
+[ext_resource type="PackedScene" uid="uid://v2xot6apylu2" path="res://scenes/menus/controls_menu.tscn" id="5_xiui8"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -7,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7unhi")
 
 [node name="PausePanelMargins" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -22,3 +29,97 @@ theme_override_constants/margin_bottom = 64
 
 [node name="PausePanel" type="PanelContainer" parent="PausePanelMargins"]
 layout_mode = 2
+
+[node name="InnerMargins" type="MarginContainer" parent="PausePanelMargins/PausePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="PanelContainer" type="VBoxContainer" parent="PausePanelMargins/PausePanel/InnerMargins"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 120
+text = "GAME PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerContainer" type="HBoxContainer" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 256
+alignment = 1
+
+[node name="GameTimerContainer" type="VBoxContainer" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/TimerContainer"]
+layout_mode = 2
+
+[node name="GameTimerLabel" type="Label" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/TimerContainer/GameTimerContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 56
+text = "GAME TIME:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameTimer" type="Label" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/TimerContainer/GameTimerContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 56
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StageTimerContainer" type="VBoxContainer" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/TimerContainer"]
+layout_mode = 2
+
+[node name="StageTimerLabel" type="Label" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/TimerContainer/StageTimerContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 56
+text = "STAGE TIME:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StageTimer" type="Label" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/TimerContainer/StageTimerContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 56
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonMargins" type="MarginContainer" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/margin_left = 512
+theme_override_constants/margin_right = 512
+
+[node name="ButtonContainer" type="VBoxContainer" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 56
+text = "RESUME"
+
+[node name="SettingsButton" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins/ButtonContainer" instance=ExtResource("3_gh0u6")]
+layout_mode = 2
+text = "SETTINGS"
+menu_scene = ExtResource("4_eyfc8")
+
+[node name="ControlsButton" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins/ButtonContainer" instance=ExtResource("3_gh0u6")]
+layout_mode = 2
+text = "CONTROLS"
+menu_scene = ExtResource("5_xiui8")
+
+[node name="MainMenuButton" type="Button" parent="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gsnt3")
+theme_override_font_sizes/font_size = 56
+text = "EXIT TO MAIN MENU"
+
+[connection signal="pressed" from="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins/ButtonContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PausePanelMargins/PausePanel/InnerMargins/PanelContainer/ButtonMargins/ButtonContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
