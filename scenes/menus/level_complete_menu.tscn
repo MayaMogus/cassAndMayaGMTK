@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://h7bkvlpybu50"]
 
-[ext_resource type="Script" path="res://scenes/menus/scripts/level_complete_menu.gd" id="1_mh3yv"]
+[ext_resource type="Script" uid="uid://dekhn1veecq4e" path="res://scenes/menus/scripts/level_complete_menu.gd" id="1_mh3yv"]
 [ext_resource type="Shader" uid="uid://dvay6elrsfoe5" path="res://assets/shaders/scrollingBG.gdshader" id="1_sa7od"]
 [ext_resource type="Texture2D" uid="uid://w23xxbihkix8" path="res://assets/mainMenuBackground.png" id="2_nbmxe"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="3_scoj3"]

@@ -69,4 +69,7 @@ func _process(delta: float) -> void:
 
 
 func _on_play_button_pressed() -> void:
-	pass # Replace with function body.
+	if Info.current_stage == 0:
+		startCutscene()
+	else:
+		Info.LoadNextStage()

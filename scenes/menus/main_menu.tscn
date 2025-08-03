@@ -159,3 +159,5 @@ autoplay = true
 
 [node name="fallingSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_a3hrp")
+
+[connection signal="pressed" from="ButtonsMargins/Buttons/PlayButton" to="." method="_on_play_button_pressed"]

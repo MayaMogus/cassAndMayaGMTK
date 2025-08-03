@@ -444,11 +444,11 @@ func pause():
 	paused = true
 	freeze = true
 	saved_velocity_paused = linear_velocity
-	$UI.add_child(preload("res://scenes/menus/pause_menu.tscn").instantiate())
-	$UI/TimerContainer.hide()
+	$PlayerUI.add_child(preload("res://scenes/menus/pause_menu.tscn").instantiate())
+	$PlayerUI/UIMargins/Timers.hide()
 	
 func unPause():
 	freeze = false
 	paused = false
 	linear_velocity = saved_velocity_paused
-	$UI/TimerContainer.show()
+	$PlayerUI/UIMargins/Timers.show()
