@@ -85,17 +85,6 @@ label_settings = SubResource("LabelSettings_287l7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlackFade" type="TextureRect" parent="."]
-self_modulate = Color(0, 0, 0, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(60, 32.7424)
-texture = ExtResource("5_3w8rc")
-
 [node name="Animations" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -115,6 +104,17 @@ position = Vector2(960, 416)
 rotation = 3.14159
 scale = Vector2(0.40625, 0.40625)
 texture = ExtResource("10_nkawv")
+
+[node name="BlackFade" type="TextureRect" parent="."]
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+offset_left = 944.0
+offset_top = 523.0
+offset_right = 976.0
+offset_bottom = 556.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_3w8rc")
 
 [node name="ButtonsMargins" type="MarginContainer" parent="."]
 layout_mode = 2

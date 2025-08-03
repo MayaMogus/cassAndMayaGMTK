@@ -7,17 +7,13 @@ var SoundFXLevel := 1.0:
 	set(value):
 		SoundFXLevel = value
 
-signal MusicStateChanged
-var MusicEnabled := true:
-	set(value):
-		emit_signal("MusicStateChanged", value)
-		MusicEnabled = value
+var MusicEnabled := true
 var MusicLevel := 1.0:
 	get:
 		return MusicLevel if MusicEnabled else 0.0
 	set(value):
 		MusicLevel = value
 
-var displayTimer : bool = true
+var displayTimer := true
 
-var timer : float = 0
+var timer := 0.0
