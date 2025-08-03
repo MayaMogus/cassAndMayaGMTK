@@ -437,7 +437,6 @@ func playSound(sound:AudioStream, variance):
 	$AudioStreamPlayer.volume_linear = Settings.SoundFXLevel
 	if variance != null:
 		var pitch_variance = randf_range(0.75, variance)
-		print(pitch_variance)
 		$AudioStreamPlayer.pitch_scale = pitch_variance
 	$AudioStreamPlayer.stream = sound
 	$AudioStreamPlayer.play()

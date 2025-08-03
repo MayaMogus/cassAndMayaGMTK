@@ -16,7 +16,6 @@ func _process(delta: float) -> void:
 			$Player.saved_velocity_paused = $Player.linear_velocity
 		
 			if Input.is_action_just_pressed("attach_rope"):
-				print('WEEE')
 				$Player.unPause()
 				$Player.CreateRope(500)
 				$Player.lockedControls = false

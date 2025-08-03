@@ -16,7 +16,6 @@ func shake(reverse:bool):
 			
 func _process(delta: float) -> void:
 	if playing:
-		print('??')
 		timer -= delta
 		if timer < 0:
 			if $Animation.frame == 17:

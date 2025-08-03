@@ -48,42 +48,72 @@ animations = [{
 
 [node name="mainMenu" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ekxnf")
 
-[node name="background" type="Sprite2D" parent="."]
+[node name="background" type="TextureRect" parent="."]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_5dd4i")
-position = Vector2(960, 540)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_jk1qb")
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 448.0
-offset_top = 92.0
-offset_right = 1437.0
-offset_bottom = 337.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -494.5
+offset_right = 494.5
+offset_bottom = 245.0
+grow_horizontal = 2
 text = "PITON TONY"
 label_settings = SubResource("LabelSettings_bqqt6")
+vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 856.0
-offset_top = 572.0
-offset_right = 1071.0
-offset_bottom = 707.0
+[node name="Buttons" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -238.425
+offset_top = 108.845
+offset_right = 238.425
+offset_bottom = 433.845
+grow_horizontal = 2
+grow_vertical = 2
+vertical = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="Buttons"]
+layout_mode = 2
+focus_next = NodePath("../controlButton")
+focus_previous = NodePath("../settingsButton")
 theme_override_fonts/font = ExtResource("1_l6cm7")
 theme_override_font_sizes/font_size = 86
 text = "PLAY"
 metadata/_edit_use_anchors_ = true
 
-[node name="settingsButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 808.0
-offset_top = 736.0
-offset_right = 1112.0
-offset_bottom = 827.0
+[node name="controlButton" type="Button" parent="Buttons"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 56
+text = "CONTROLS"
+
+[node name="settingsButton" type="Button" parent="Buttons"]
+layout_mode = 2
 mouse_filter = 1
 theme_override_fonts/font = ExtResource("1_l6cm7")
 theme_override_font_sizes/font_size = 56
@@ -94,17 +124,6 @@ visible = false
 
 [node name="ControlPage" parent="." instance=ExtResource("4_wu84c")]
 visible = false
-
-[node name="controlButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 808.0
-offset_top = 872.0
-offset_right = 1107.0
-offset_bottom = 963.0
-mouse_filter = 1
-theme_override_fonts/font = ExtResource("1_l6cm7")
-theme_override_font_sizes/font_size = 56
-text = "CONTROLS"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_8ln24")
@@ -128,13 +147,13 @@ texture = ExtResource("13_rcqid")
 
 [node name="blackFade" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 0)
-position = Vector2(960, 539.75)
+position = Vector2(987, 540)
 scale = Vector2(60, 32.7424)
 texture = ExtResource("3_tbmy8")
 
 [node name="fallingSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_7b55j")
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="settingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="controlButton" to="." method="_on_control_button_pressed"]
+[connection signal="pressed" from="Buttons/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Buttons/controlButton" to="." method="_on_control_button_pressed"]
+[connection signal="pressed" from="Buttons/settingsButton" to="." method="_on_settings_button_pressed"]

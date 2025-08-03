@@ -17,19 +17,16 @@ func _on_music_slider_value_changed(value: float) -> void:
 	
 
 func _on_check_box_toggled(toggled_on: bool) -> void:
-	print(toggled_on)
 	playSound()
 
 
 func _on_check_box_pressed() -> void:
-	print(Settings.displayTimer)
 	if Settings.displayTimer == false:
 		Settings.displayTimer = true
 		$VBoxContainer/Control/CheckBox.button_pressed = true
 	else:
 		Settings.displayTimer = false
 		$VBoxContainer/Control/CheckBox.button_pressed = false
-	print(Settings.displayTimer)
 	playSound()
 
 func _on_back_button_pressed() -> void:

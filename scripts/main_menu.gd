@@ -21,11 +21,11 @@ func _on_control_button_pressed() -> void:
 func _process(delta: float) -> void:
 	$AudioStreamPlayer.volume_linear = Settings.MusicLevel
 	if $ControlPage.visible == true or $settingsMenu.visible == true:
-		$settingsButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		$controlButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		$Buttons/settingsButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		$Buttons/controlButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	else:
-		$settingsButton.mouse_filter = Control.MOUSE_FILTER_STOP
-		$controlButton.mouse_filter = Control.MOUSE_FILTER_STOP
+		$Buttons/settingsButton.mouse_filter = Control.MOUSE_FILTER_STOP
+		$Buttons/controlButton.mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	if $FallingTony.visible == true:
 		
@@ -34,7 +34,6 @@ func _process(delta: float) -> void:
 		$blackFade.self_modulate.a = lerp($blackFade.self_modulate.a, 1.0, delta * 5)
 		
 	if $blackFade.self_modulate.a >= .8:
-		print('AAAAAA')
 		goToIntro()
 		
 func playSound():
