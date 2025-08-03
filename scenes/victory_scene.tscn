@@ -76,6 +76,7 @@ label_settings = SubResource("LabelSettings_3xacc")
 horizontal_alignment = 1
 
 [node name="Time" type="Label" parent="."]
+layout_mode = 0
 offset_left = 528.0
 offset_top = 920.0
 offset_right = 872.0
