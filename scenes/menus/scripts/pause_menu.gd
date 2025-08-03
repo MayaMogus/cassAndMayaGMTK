@@ -11,7 +11,8 @@ extends Control
 var buttons: Array[Node]
 
 func _ready() -> void:
-	buttons = $ButtonsMargins/Buttons.get_children()
+	buttons = get_node("PausePanelMargins/PausePanel/InnerMargins/PanelContainer" + \
+	"/ButtonMargins/ButtonContainer").get_children()
 	
 	# automatically set neighbors for all buttons, as well as their base_node property if it exists
 	for i in range(buttons.size()):
@@ -77,6 +78,15 @@ func _input(event: InputEvent) -> void:
 func ExitMenu():
 	Settings.inMenu = false
 	GameTimer.UnpauseStageTimer()
+	$"../Player".unPause()
 	queue_free()
 
-#------------------------------------------------------------------------------#
+func SetControl(enable: bool, select_button: Button = null) -> void:
+	if enable:
+		for button: Button in buttons:
+			button.focus_mode = Control.FOCUS_ALL
+		if select_button:
+			select_button.grab_focus()
+	else:
+		for button: Button in buttons:
+			button.focus_mode = Control.FOCUS_NONE

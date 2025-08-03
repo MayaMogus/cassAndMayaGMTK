@@ -17,11 +17,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-KeyGlobalController="*res://scripts/keyGlobalController.gd"
-StageLoader="*res://scripts/stageLoader.gd"
-Settings="*res://scripts/settings.gd"
-MusicController="*res://scripts/musicController.gd"
-GameTimer="*res://scripts/game_timer.gd"
+KeyGlobalController="*res://scripts/global/keyGlobalController.gd"
+StageLoader="*res://scripts/global/stageLoader.gd"
+Settings="*res://scripts/global/settings.gd"
+MusicController="*res://scripts/global/musicController.gd"
+GameTimer="*res://scripts/global/game_timer.gd"
+Info="*res://scripts/global/info.gd"
 
 [display]
 

@@ -1,9 +1,8 @@
-[gd_scene load_steps=64 format=4 uid="uid://1ky0opxojto0"]
+[gd_scene load_steps=63 format=4 uid="uid://1ky0opxojto0"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_usctx"]
 [ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="1_vrt2j"]
 [ext_resource type="PackedScene" uid="uid://bj5bb7fut2tjb" path="res://scenes/spike_row.tscn" id="2_kx1yv"]
-[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="4_e77qm"]
 [ext_resource type="PackedScene" uid="uid://d4l21mu40wmpr" path="res://scenes/key.tscn" id="6_e4xaw"]
 [ext_resource type="PackedScene" uid="uid://dc8aoldh4c1iq" path="res://scenes/gate.tscn" id="7_tgiw8"]
 [ext_resource type="Texture2D" uid="uid://cbm72t6ispg0q" path="res://assets/tileSetSnow.png" id="8_k3p0l"]
@@ -716,7 +715,6 @@ collider_width = 608.0
 collider_height = 128.0
 
 [node name="ropeController" type="Node2D" parent="."]
-script = ExtResource("4_e77qm")
 
 [node name="Keys" type="Node2D" parent="."]
 

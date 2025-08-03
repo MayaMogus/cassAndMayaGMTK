@@ -36,7 +36,7 @@ const ROPE_BACKTRACK_TOLERANCE := 2.0
 var attached := false
 var attachment_point: Node2D
 var attachment_point_candidates: Dictionary[Node2D, Vector2]
-@onready var rope_visual := Line2D.new()
+var rope_visual := Line2D.new()
 var rope_points: PackedVector2Array = []
 var rope_remaining_length: float
 
@@ -78,7 +78,7 @@ func _ready() -> void:
 	base_node.add_child.call_deferred(rope_visual)
 	
 	$Radius.global_position = center_position
-	timer = Settings.timer
+	#timer = Settings.timer
 	$MusicPlayer.play()
 	$MusicPlayer.seek(MusicController.musicTimer - 0.0166)
 
@@ -91,8 +91,6 @@ func _physics_process(delta: float) -> void:
 	if paused:
 		saved_velocity_paused = linear_velocity
 		return
-	
-
 	
 	# TODO: this sux major ass
 	# TODO: set false at top and replace elif with if
@@ -300,16 +298,12 @@ func _process(delta: float) -> void:
 	MusicController.musicTimer += delta
 	
 	$MusicPlayer.volume_linear = Settings.MusicLevel * 0.40 #volume is by defualy 40%
-	$Timer.visible = Settings.displayTimer
 	var intTimer = int(timer)
 	var minutes = floor(intTimer / 60) 
 	
 	var seconds = intTimer - minutes * 60
 	if seconds < 10:
 		seconds = str('0',seconds)
-	
-	$Timer.text = str(minutes, ':', seconds)
-	
 	
 	var color = $Radius.material.get_shader_parameter("dot_color")
 	if not attachment_point_candidates.is_empty():
@@ -389,6 +383,7 @@ func _on_spike_detector_body_entered(body: Node2D) -> void: # TODO: rename this
 		respawn_position = body.global_position 
 		saved_keys = collected_keys.duplicate()
 		body.get_parent().shake(false if global_position < body.global_position else true)
+
 func ResetLevel(full_reset: bool, died := true):
 	DestroyRope()
 	
@@ -398,7 +393,7 @@ func ResetLevel(full_reset: bool, died := true):
 	$Sprite2D.visible = false
 	if died:
 		playSound(splatSound, 1)
-	await get_tree().create_timer(.5).timeout
+		await get_tree().create_timer(.5).timeout
 	$Radius.visible = true
 	$Sprite2D.visible = true 
 	paused = false
@@ -449,11 +444,11 @@ func pause():
 	paused = true
 	freeze = true
 	saved_velocity_paused = linear_velocity
-	$"Pause Menu".visible = true
+	$UI.add_child(preload("res://scenes/menus/pause_menu.tscn").instantiate())
+	$UI/TimerContainer.hide()
 	
 func unPause():
 	freeze = false
 	paused = false
 	linear_velocity = saved_velocity_paused
-	
-	$"Pause Menu".visible = false
+	$UI/TimerContainer.show()

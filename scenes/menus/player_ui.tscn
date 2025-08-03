@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpavrdxy3crnh"]
+
+[ext_resource type="Script" uid="uid://ppy70vcfdcst" path="res://scenes/menus/player_ui_timers.gd" id="1_h1f1v"]
+
+[node name="PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UIMargins" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Timers" type="Control" parent="UIMargins"]
+layout_mode = 2
+script = ExtResource("1_h1f1v")
+
+[node name="TimerContainer" type="VBoxContainer" parent="UIMargins/Timers"]
+layout_mode = 1
+offset_right = 3.0
+offset_bottom = 12.0
+
+[node name="GameTimerContainer" type="VBoxContainer" parent="UIMargins/Timers/TimerContainer"]
+layout_mode = 2
+
+[node name="TimerSeparator" type="HSeparator" parent="UIMargins/Timers/TimerContainer"]
+visible = false
+layout_mode = 2
+
+[node name="StageTimerContainer" type="VBoxContainer" parent="UIMargins/Timers/TimerContainer"]
+layout_mode = 2
+
+[node name="Splits" type="Control" parent="UIMargins"]
+visible = false
+layout_mode = 2
+
+[node name="SplitsContainer" type="VBoxContainer" parent="UIMargins/Splits"]
+layout_mode = 2
+offset_left = -64.0
+offset_top = -64.0
+offset_right = -24.0
+offset_bottom = -24.0

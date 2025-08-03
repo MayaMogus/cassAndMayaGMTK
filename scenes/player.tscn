@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://belhfglajbrit"]
+[gd_scene load_steps=16 format=4 uid="uid://belhfglajbrit"]
 
 [ext_resource type="Script" uid="uid://b2axbsfax4tdb" path="res://scripts/character_controller.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="2_qhqgy"]
@@ -7,8 +7,7 @@
 [ext_resource type="Shader" uid="uid://cv2lu848oc18i" path="res://assets/shaders/border.gdshader" id="5_tuyoq"]
 [ext_resource type="AudioStream" uid="uid://608dp67sawhy" path="res://assets/sounds/Cave Song.wav" id="5_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="6_fjrip"]
-[ext_resource type="PackedScene" uid="uid://chf3balmgl2g" path="res://scenes/pause_menu.tscn" id="7_fjrip"]
-[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="9_ur7pv"]
+[ext_resource type="PackedScene" uid="uid://bpavrdxy3crnh" path="res://scenes/menus/player_ui.tscn" id="8_smehm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dqkch"]
 friction = 0.0
@@ -39,10 +38,6 @@ shader_parameter/thickness = 0.03
 shader_parameter/dot_count = 32
 shader_parameter/gap_ratio = 0.257
 shader_parameter/rotation = 0.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_smehm"]
-font = ExtResource("9_ur7pv")
-font_size = 131
 
 [node name="Player" type="RigidBody2D"]
 collision_layer = 2
@@ -138,20 +133,7 @@ position = Vector2(0, -36)
 scale = Vector2(20, 20)
 texture = ExtResource("6_fjrip")
 
-[node name="Pause Menu" parent="." instance=ExtResource("7_fjrip")]
-offset_left = -912.0
-offset_top = -560.0
-offset_right = -912.0
-offset_bottom = -560.0
-
-[node name="Timer" type="Label" parent="."]
-z_index = 10
-offset_left = -1208.0
-offset_top = -680.0
-offset_right = -1168.0
-offset_bottom = -657.0
-text = "-:--"
-label_settings = SubResource("LabelSettings_smehm")
+[node name="PlayerUI" parent="." instance=ExtResource("8_smehm")]
 
 [connection signal="body_entered" from="AttachmentDetector" to="." method="_on_attachment_detector_body_entered"]
 [connection signal="body_exited" from="AttachmentDetector" to="." method="_on_attachment_detector_body_exited"]

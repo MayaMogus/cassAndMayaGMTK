@@ -147,7 +147,7 @@ layout_mode = 2
 text = "CONTROLS"
 menu_scene = ExtResource("13_3w8rc")
 
-[node name="MenuButton" parent="ButtonsMargins/Buttons" instance=ExtResource("5_bre17")]
+[node name="QuitButton" parent="ButtonsMargins/Buttons" instance=ExtResource("5_bre17")]
 layout_mode = 2
 text = "QUIT"
 menu_scene = ExtResource("13_bh4e2")

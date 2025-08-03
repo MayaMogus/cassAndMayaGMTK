@@ -32,24 +32,22 @@ func ResetStageTime() -> void:
 
 func GetGameTime() -> String:
 	var minutes := floorf(game_timer_seconds / 60.0)
-	var seconds := roundf(fmod(game_timer_seconds, 60.0)) if not Settings.showDecimals \
-		else roundf(fmod(game_timer_seconds, 60.0) * 1000.0) / 1000.0 # round to nearest thousandth
+	var seconds := fmod(game_timer_seconds, 60.0)
 	
-	var time := str(minutes)
+	var time := str(minutes).pad_decimals(0)
 	# account for leading zero in numbers less than 10 (e.g. 1:05)
 	time += ":" if seconds >= 10 else ":0"
-	time += str(seconds)
+	time += str(seconds).pad_decimals(3 if Settings.displayDecimals else 0)
 	
 	return time
 
 func GetStageTime() -> String:
 	var minutes := floorf(stage_timer_seconds / 60.0)
-	var seconds := roundf(fmod(stage_timer_seconds, 60.0)) if not Settings.showDecimals \
-		else roundf(fmod(stage_timer_seconds, 60.0) * 1000.0) / 1000.0 # round to nearest thousandth
+	var seconds := fmod(stage_timer_seconds, 60.0)
 	
-	var time := str(minutes)
+	var time := str(minutes).pad_decimals(0)
 	# account for leading zero in numbers less than 10 (e.g. 1:05)
 	time += ":" if seconds >= 10 else ":0"
-	time += str(seconds)
+	time += str(seconds).pad_decimals(3 if Settings.displayDecimals else 0)
 	
 	return time

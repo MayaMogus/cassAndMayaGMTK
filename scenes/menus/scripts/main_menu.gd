@@ -23,6 +23,11 @@ func _ready() -> void:
 	# focus on the first button
 	buttons[0].grab_focus()
 
+
+func _input(event: InputEvent) -> void:
+	if event.is_action("ui_back"):
+		$ButtonsMargins/Buttons/QuitButton._pressed()
+
 func SetControl(enable: bool, select_button: Button = null) -> void:
 	if enable:
 		for button: Button in buttons:
