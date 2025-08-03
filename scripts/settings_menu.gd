@@ -5,7 +5,7 @@ func _process(delta: float) -> void:
 	$VBoxContainer/Music/MusicValue.text = str(Settings.MusicLevel * 100)
 	$VBoxContainer/SoundFX/SoundFXSlider.value = (Settings.SoundFXLevel * 100)
 	$VBoxContainer/Music/MusicSlider.value = (Settings.MusicLevel * 100)
-	$VBoxContainer/Control/CheckBox.button_pressed = Settings.displayTimer
+	#$VBoxContainer/Control/CheckBox.button_pressed = Settings.displayTimer
 
 
 func _on_sound_fx_slider_value_changed(value: float) -> void:

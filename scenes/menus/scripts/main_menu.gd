@@ -4,7 +4,7 @@ var buttons: Array[Node]
 
 func _ready() -> void:
 	buttons = $ButtonsMargins/Buttons.get_children()
-	
+	$Animations/AnimatedSprite2D.play("default")
 	# automatically set neighbors for all buttons, as well as their base_node property if it exists
 	for i in range(buttons.size()):
 		var current_button: Button = buttons[i]
@@ -32,3 +32,41 @@ func SetControl(enable: bool, select_button: Button = null) -> void:
 	else:
 		for button: Button in buttons:
 			button.focus_mode = Control.FOCUS_NONE
+
+func _on_play_button_pressed() -> void:
+	startCutscene()
+	
+func startCutscene():
+	
+	
+	$ButtonsMargins/Buttons.visible = false
+	$TitleMargins/Title.visible = false
+	await get_tree().create_timer(2).timeout
+	$Animations/AnimatedSprite2D.visible = false
+	$Background.material.set_shader_parameter("speedY", 0.5)
+	$Animations/AnimatedSprite2D.visible = false
+	$Animations/FallingTony.visible = true
+	$fallingSound.play()
+	
+func goToIntro(): 
+	await get_tree().create_timer(2).timeout
+	StageLoader.loadNextStage()
+	MusicController.musicTimer = $fallingSound.get_playback_position()
+	
+func _process(delta: float) -> void:
+	$fallingSound.volume_linear = Settings.SoundFXLevel
+	$Music.volume_linear = Settings.MusicLevel
+	if $Animations/FallingTony.visible == true:
+		
+		$Animations/FallingTony.global_position.y += delta * 500
+	if $Animations/FallingTony.global_position.y > 1200:
+		$BlackFade.self_modulate.a = lerp($BlackFade.self_modulate.a, 1.0, delta * 5)
+		
+	if $BlackFade.self_modulate.a >= .8:
+		
+		goToIntro()
+
+
+
+func _on_music_finished() -> void:
+	$Music.play()

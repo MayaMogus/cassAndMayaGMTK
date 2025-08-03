@@ -45,6 +45,7 @@ var saved_keys = []
 
 var upside_down := false
 var timer:float
+var stageTimer:float
 
 var lockedControls : bool = false
 
@@ -78,7 +79,7 @@ func _ready() -> void:
 	base_node.add_child.call_deferred(rope_visual)
 	
 	$Radius.global_position = center_position
-	timer = Settings.timer
+	timer = Settings.runTimer
 	$MusicPlayer.play()
 	$MusicPlayer.seek(MusicController.musicTimer - 0.0166)
 
@@ -296,20 +297,60 @@ func _process(delta: float) -> void:
 	if not paused: 
 		$Radius.rotation += 0.25 * delta 
 		timer += delta 
-		
+		stageTimer += delta
 	MusicController.musicTimer += delta
 	
 	$MusicPlayer.volume_linear = Settings.MusicLevel * 0.40 #volume is by defualy 40%
-	$Timer.visible = Settings.displayTimer
+	
+	if Settings.displayRunTimer or Settings.displaySplits:
+		$Timer.visible = true
+	else:
+		$Timer.visible = false
+		
+	if Settings.displayStageTimer and not Settings.displaySplits:
+		$StageTimer.visible = true
+	else:
+		$StageTimer.visible = false
+		
+	if Settings.displaySplits:
+		$Splits.visible = true
+	else:
+		$Splits.visible = false
+	
 	var intTimer = int(timer)
 	var minutes = floor(intTimer / 60) 
 	
 	var seconds = intTimer - minutes * 60
+	
+	var intStageTimer = int(stageTimer)
+	var stageMinutes = int(floor(stageTimer / 60))
+	var stageSeconds = int(stageTimer - stageMinutes * 60)
+	
+	var currentStage = StageLoader.currentStage - 1
+	
+	
+
 	if seconds < 10:
 		seconds = str('0',seconds)
+		
+	if stageSeconds < 10:
+		
+		stageSeconds = str('0',stageSeconds)
+		
+	StageLoader.stageSplits[currentStage]['time'] = str(stageMinutes, ':', stageSeconds)
 	
 	$Timer.text = str(minutes, ':', seconds)
+	$StageTimer.text = StageLoader.stageSplits[currentStage]['time']
 	
+	var splitsText:String
+	
+	
+	for i in StageLoader.stageSplits.size():
+		
+		splitsText += str('[', StageLoader.stageSplits[i]['name'], '] : ', StageLoader.stageSplits[i]['time'], '\n')
+	
+
+	$Splits.text = splitsText
 	
 	var color = $Radius.material.get_shader_parameter("dot_color")
 	if not attachment_point_candidates.is_empty():
