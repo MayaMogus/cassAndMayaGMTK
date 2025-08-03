@@ -239,7 +239,7 @@ func _physics_process(delta: float) -> void:
 			DestroyRope()
 			
 	if Input.is_action_just_pressed("reset"):
-		ResetLevel(false)
+		ResetLevel(false, false)
 	
 	
 	if attached:

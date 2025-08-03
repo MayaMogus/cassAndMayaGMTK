@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b18y5lkie8gwh"]
+[gd_scene load_steps=20 format=3 uid="uid://b18y5lkie8gwh"]
 
 [ext_resource type="Script" uid="uid://uafk0wfp637u" path="res://scenes/menus/scripts/main_menu.gd" id="1_bre17"]
 [ext_resource type="Shader" uid="uid://dvay6elrsfoe5" path="res://assets/shaders/scrollingBG.gdshader" id="1_euy4r"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://c55gjatiq1www" path="res://assets/spriteStand.png" id="10_nkawv"]
 [ext_resource type="PackedScene" uid="uid://v2xot6apylu2" path="res://scenes/menus/controls_menu.tscn" id="13_3w8rc"]
 [ext_resource type="PackedScene" uid="uid://0lu4ori328nx" path="res://scenes/menus/quit_menu.tscn" id="13_bh4e2"]
+[ext_resource type="AudioStream" uid="uid://608dp67sawhy" path="res://assets/sounds/Cave Song.wav" id="15_vr0hv"]
+[ext_resource type="AudioStream" uid="uid://64txrs3ah8no" path="res://assets/sounds/fallingSoundCutscene.wav" id="16_a3hrp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w32d4"]
 shader = ExtResource("1_euy4r")
@@ -150,3 +152,10 @@ menu_scene = ExtResource("13_3w8rc")
 layout_mode = 2
 text = "QUIT"
 menu_scene = ExtResource("13_bh4e2")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_vr0hv")
+autoplay = true
+
+[node name="fallingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_a3hrp")

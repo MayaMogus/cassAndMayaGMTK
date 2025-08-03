@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpavrdxy3crnh"]
+[gd_scene load_steps=5 format=3 uid="uid://bpavrdxy3crnh"]
 
 [ext_resource type="Script" uid="uid://ppy70vcfdcst" path="res://scenes/menus/player_ui_timers.gd" id="1_h1f1v"]
+[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="2_rjbtt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_681r6"]
+font = ExtResource("2_rjbtt")
+font_size = 101
+
+[sub_resource type="LabelSettings" id="LabelSettings_5hfbq"]
+font = ExtResource("2_rjbtt")
+font_size = 61
 
 [node name="PlayerUI" type="Control"]
 layout_mode = 3
@@ -34,6 +43,11 @@ offset_bottom = 12.0
 [node name="GameTimerContainer" type="VBoxContainer" parent="UIMargins/Timers/TimerContainer"]
 layout_mode = 2
 
+[node name="Label" type="Label" parent="UIMargins/Timers/TimerContainer/GameTimerContainer"]
+layout_mode = 2
+text = "0:00"
+label_settings = SubResource("LabelSettings_681r6")
+
 [node name="TimerSeparator" type="HSeparator" parent="UIMargins/Timers/TimerContainer"]
 visible = false
 layout_mode = 2
@@ -41,13 +55,20 @@ layout_mode = 2
 [node name="StageTimerContainer" type="VBoxContainer" parent="UIMargins/Timers/TimerContainer"]
 layout_mode = 2
 
+[node name="Label" type="Label" parent="UIMargins/Timers/TimerContainer/StageTimerContainer"]
+layout_mode = 2
+text = "0:00"
+label_settings = SubResource("LabelSettings_5hfbq")
+
 [node name="Splits" type="Control" parent="UIMargins"]
-visible = false
 layout_mode = 2
 
 [node name="SplitsContainer" type="VBoxContainer" parent="UIMargins/Splits"]
+layout_mode = 1
+offset_left = 3.0
+offset_top = 322.0
+offset_right = 43.0
+offset_bottom = 362.0
+
+[node name="Label" type="Label" parent="UIMargins/Splits/SplitsContainer"]
 layout_mode = 2
-offset_left = -64.0
-offset_top = -64.0
-offset_right = -24.0
-offset_bottom = -24.0

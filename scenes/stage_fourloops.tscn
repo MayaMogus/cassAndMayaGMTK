@@ -1,8 +1,7 @@
-[gd_scene load_steps=60 format=4 uid="uid://c35bjpykj42h5"]
+[gd_scene load_steps=59 format=4 uid="uid://c35bjpykj42h5"]
 
 [ext_resource type="PackedScene" uid="uid://d3s555kd7r8t5" path="res://scenes/pivot.tscn" id="1_otp3m"]
 [ext_resource type="PackedScene" uid="uid://vn1t4xsatlfa" path="res://scenes/boost_pad.tscn" id="2_uw4iu"]
-[ext_resource type="Script" uid="uid://dmx7x7k2lpjkb" path="res://scripts/rope_controller.gd" id="3_dfbvc"]
 [ext_resource type="PackedScene" uid="uid://d4l21mu40wmpr" path="res://scenes/key.tscn" id="4_n15rv"]
 [ext_resource type="PackedScene" uid="uid://dc8aoldh4c1iq" path="res://scenes/gate.tscn" id="5_4m0dm"]
 [ext_resource type="PackedScene" uid="uid://damw45et3uy6p" path="res://scenes/exit.tscn" id="6_wbt77"]
@@ -364,7 +363,6 @@ collider_width = 672.0
 collider_height = 192.0
 
 [node name="ropeController" type="Node2D" parent="."]
-script = ExtResource("3_dfbvc")
 
 [node name="Keys" type="Node2D" parent="."]
 

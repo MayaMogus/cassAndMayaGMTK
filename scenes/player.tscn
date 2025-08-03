@@ -73,41 +73,49 @@ shape = SubResource("CircleShape2D_tuyoq")
 [node name="FloorLeft" type="RayCast2D" parent="Raycasts"]
 position = Vector2(-18, -1)
 target_position = Vector2(0, 3)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="FloorRight" type="RayCast2D" parent="Raycasts"]
 position = Vector2(18, -1)
 target_position = Vector2(0, 3)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="WallLeftBottom" type="RayCast2D" parent="Raycasts"]
 position = Vector2(18, -1)
 target_position = Vector2(3, 0)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="WallLeftMiddle" type="RayCast2D" parent="Raycasts"]
 position = Vector2(18, -32)
 target_position = Vector2(3, 0)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="WallLeftTop" type="RayCast2D" parent="Raycasts"]
 position = Vector2(18, -63)
 target_position = Vector2(3, 0)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="WallRightBottom" type="RayCast2D" parent="Raycasts"]
 position = Vector2(-18, -1)
 target_position = Vector2(-3, 0)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="WallRightMiddle" type="RayCast2D" parent="Raycasts"]
 position = Vector2(-18, -32)
 target_position = Vector2(-3, 0)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="WallRightTop" type="RayCast2D" parent="Raycasts"]
 position = Vector2(-18, -63)
 target_position = Vector2(-3, 0)
+collision_mask = 5
 hit_from_inside = true
 
 [node name="Camera2D" type="Camera2D" parent="."]

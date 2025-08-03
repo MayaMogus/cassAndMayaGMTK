@@ -1,11 +1,16 @@
 extends Control
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	$TimerContainer/GameTimerContainer/Label.text = GameTimer.GetGameTime()
+	$TimerContainer/StageTimerContainer/Label.text = GameTimer.GetStageTime()
+	
+	var splitsText :String=''
+	var index := 0
+	for stageInfo in Info.stage_info:
+		splitsText += str(Info.stage_names[index], ':', stageInfo.current_time, '\n')
+		index += 1
+	$"../Splits/SplitsContainer/Label".text

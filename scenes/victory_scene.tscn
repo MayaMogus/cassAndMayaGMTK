@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0f7fxy00wcpl"]
+
+[ext_resource type="Script" uid="uid://bfe5fongkno1v" path="res://scripts/victory_scene.gd" id="1_sl7wn"]
+[ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="2_fefd3"]
+
+[node name="Victory_Scene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sl7wn")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+scale = Vector2(60, 32.7273)
+texture = ExtResource("2_fefd3")
