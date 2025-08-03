@@ -19,3 +19,11 @@ var displayGameTimer := false
 var displayDecimals := false
 
 var autoNextStage := false
+
+var inMenu := true:
+	set(value):
+		if value:
+			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		inMenu = value

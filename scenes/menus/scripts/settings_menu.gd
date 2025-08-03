@@ -6,7 +6,7 @@ var source_button: Button
 func _ready() -> void:
 	base_node.SetControl(false)
 	get_node("SettingsPanelMargins/SettingsPanel/SettingsTabs/" + \
-		"General/SettingsMargins/Settings/ShowTimer/CheckBox").grab_focus()
+		"General/SettingsMargins/Settings/ShowStageTimer/CheckBox").grab_focus()
 
 func SetSourceButton(button: Button) -> void:
 	source_button = button
