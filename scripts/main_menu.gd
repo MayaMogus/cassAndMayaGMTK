@@ -2,6 +2,8 @@ extends Control
 
 func _ready() -> void:
 	$AnimatedSprite2D.play("default")
+	$Buttons/Button.grab_focus()
+	
 func _on_button_pressed() -> void:
 	startCutscene()
 
@@ -42,9 +44,9 @@ func playSound():
 	
 func startCutscene():
 	
-	$settingsButton.visible = false
-	$controlButton.visible = false
-	$Button.visible = false
+	$Buttons/settingsButton.visible = false
+	$Buttons/controlButton.visible = false
+	$Buttons/Button.visible = false
 	$Label.visible = false
 	await get_tree().create_timer(2).timeout
 	$AnimatedSprite2D.visible = false

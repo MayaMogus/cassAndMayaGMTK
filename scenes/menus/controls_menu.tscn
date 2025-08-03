@@ -1,0 +1,469 @@
+[gd_scene load_steps=25 format=3 uid="uid://v2xot6apylu2"]
+
+[ext_resource type="Script" uid="uid://d2513hupq8b8v" path="res://scenes/menus/scripts/controls_menu.gd" id="1_66d4r"]
+[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="1_ba3pm"]
+[ext_resource type="Texture2D" uid="uid://bgc60y4aa8l0u" path="res://assets/input_prompts/controller/Double/steamdeck_dpad_up_outline.png" id="2_bhk2m"]
+[ext_resource type="Texture2D" uid="uid://usuwtmhsf4h6" path="res://assets/input_prompts/controller/Double/steamdeck_stick_l_up.png" id="3_66d4r"]
+[ext_resource type="Texture2D" uid="uid://foyu4ofnux1j" path="res://assets/input_prompts/controller/Double/steamdeck_dpad_left_outline.png" id="4_uxdq6"]
+[ext_resource type="Texture2D" uid="uid://ceja0lwoghcwf" path="res://assets/input_prompts/controller/Double/steamdeck_stick_l_left.png" id="5_0wwjr"]
+[ext_resource type="Texture2D" uid="uid://syqtyobqxoxr" path="res://assets/input_prompts/controller/Double/steamdeck_dpad_down_outline.png" id="6_615wr"]
+[ext_resource type="Texture2D" uid="uid://cloesf34p08au" path="res://assets/input_prompts/controller/Double/steamdeck_stick_l_down.png" id="7_amoe7"]
+[ext_resource type="Texture2D" uid="uid://bixgfks1e52jm" path="res://assets/input_prompts/controller/Double/steamdeck_dpad_right_outline.png" id="8_umg4j"]
+[ext_resource type="Texture2D" uid="uid://cfwovwkeos2dn" path="res://assets/input_prompts/controller/Double/steamdeck_stick_l_right.png" id="9_8iw6c"]
+[ext_resource type="Texture2D" uid="uid://dwuh33ef5fvmk" path="res://assets/input_prompts/controller/Double/steamdeck_button_a_outline.png" id="10_y26ba"]
+[ext_resource type="Texture2D" uid="uid://cd28cavbuih6d" path="res://assets/input_prompts/controller/Double/steamdeck_button_b_outline.png" id="11_8ao65"]
+[ext_resource type="Texture2D" uid="uid://cneqiln6l1hjd" path="res://assets/input_prompts/controller/Double/steamdeck_button_x_outline.png" id="12_fpm5e"]
+[ext_resource type="Texture2D" uid="uid://clj8i0cm7lmoc" path="res://assets/input_prompts/controller/Double/steamdeck_button_y_outline.png" id="13_nqqti"]
+[ext_resource type="Texture2D" uid="uid://c8fq2onry6eeu" path="res://assets/input_prompts/controller/Double/steamdeck_button_view_outline.png" id="14_j0h1x"]
+[ext_resource type="Texture2D" uid="uid://bcxhxvls6rhx3" path="res://assets/input_prompts/controller/Double/steamdeck_button_options_outline.png" id="15_sq72v"]
+[ext_resource type="Texture2D" uid="uid://c6g4sbul02p5e" path="res://assets/input_prompts/keyboard/Double/keyboard_w_outline.png" id="17_8ao65"]
+[ext_resource type="Texture2D" uid="uid://ca4w4uhqnimff" path="res://assets/input_prompts/keyboard/Double/keyboard_a_outline.png" id="18_fpm5e"]
+[ext_resource type="Texture2D" uid="uid://lqha0xlbdnnw" path="res://assets/input_prompts/keyboard/Double/keyboard_s_outline.png" id="19_nqqti"]
+[ext_resource type="Texture2D" uid="uid://bchlgommxusu6" path="res://assets/input_prompts/keyboard/Double/keyboard_d_outline.png" id="20_j0h1x"]
+[ext_resource type="Texture2D" uid="uid://bn1hkog1iwfa5" path="res://assets/input_prompts/keyboard/Double/keyboard_space_icon_outline.png" id="21_sq72v"]
+[ext_resource type="Texture2D" uid="uid://b1ddwbg2vvhdv" path="res://assets/input_prompts/keyboard/Double/keyboard_e_outline.png" id="22_8equa"]
+[ext_resource type="Texture2D" uid="uid://cq1e6tynohb8y" path="res://assets/input_prompts/keyboard/Double/keyboard_r_outline.png" id="23_eho38"]
+[ext_resource type="Texture2D" uid="uid://cr6px4obyoyuq" path="res://assets/input_prompts/keyboard/Double/keyboard_escape_outline.png" id="24_l8ahv"]
+
+[node name="ControlsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_66d4r")
+
+[node name="ControlsPanelMargins" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="ControlsPanel" type="Control" parent="ControlsPanelMargins"]
+layout_mode = 2
+
+[node name="ControlsTabs" type="TabContainer" parent="ControlsPanelMargins/ControlsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/side_margin = 0
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 56
+current_tab = 0
+
+[node name="Controller" type="Control" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer"]
+layout_mode = 2
+follow_focus = true
+draw_focus_border = true
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Up" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Up"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Up"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Up"]
+layout_mode = 2
+texture = ExtResource("2_bhk2m")
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Up"]
+layout_mode = 2
+texture = ExtResource("3_66d4r")
+
+[node name="Left" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Left"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Left"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Left"]
+layout_mode = 2
+texture = ExtResource("4_uxdq6")
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Left"]
+layout_mode = 2
+texture = ExtResource("5_0wwjr")
+
+[node name="Down" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Down"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Down"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Down"]
+layout_mode = 2
+texture = ExtResource("6_615wr")
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Down"]
+layout_mode = 2
+texture = ExtResource("7_amoe7")
+
+[node name="Right" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Right"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Right"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Right"]
+layout_mode = 2
+texture = ExtResource("8_umg4j")
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Right"]
+layout_mode = 2
+texture = ExtResource("9_8iw6c")
+
+[node name="Jump" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Jump"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Jump"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Jump"]
+layout_mode = 2
+texture = ExtResource("2_bhk2m")
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Jump"]
+layout_mode = 2
+texture = ExtResource("10_y26ba")
+
+[node name="TextureRect3" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Jump"]
+layout_mode = 2
+texture = ExtResource("11_8ao65")
+
+[node name="AttachRope" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/AttachRope"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Attach Rope"
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/AttachRope"]
+layout_mode = 2
+texture = ExtResource("12_fpm5e")
+
+[node name="TextureRect3" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/AttachRope"]
+layout_mode = 2
+texture = ExtResource("13_nqqti")
+
+[node name="Respawn" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Respawn"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Respawn"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Respawn"]
+layout_mode = 2
+texture = ExtResource("14_j0h1x")
+
+[node name="Restart" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Restart"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Restart"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Restart"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Restart/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("14_j0h1x")
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Restart/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "(Hold)"
+
+[node name="Pause" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Pause"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Pause"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Controller/MarginContainer/ScrollContainer/List/Pause"]
+layout_mode = 2
+texture = ExtResource("15_sq72v")
+
+[node name="Keyboard" type="Control" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer"]
+layout_mode = 2
+follow_focus = true
+draw_focus_border = true
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Up" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Up"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Up"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Up"]
+layout_mode = 2
+texture = ExtResource("17_8ao65")
+
+[node name="Left" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Left"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Left"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Left"]
+layout_mode = 2
+texture = ExtResource("18_fpm5e")
+
+[node name="Down" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Down"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Down"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Down"]
+layout_mode = 2
+texture = ExtResource("19_nqqti")
+
+[node name="Right" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Right"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Move Right"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Right"]
+layout_mode = 2
+texture = ExtResource("20_j0h1x")
+
+[node name="Jump" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Jump"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Jump"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Jump"]
+layout_mode = 2
+texture = ExtResource("17_8ao65")
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Jump"]
+layout_mode = 2
+texture = ExtResource("21_sq72v")
+
+[node name="AttachRope" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/AttachRope"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Attach Rope"
+
+[node name="TextureRect2" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/AttachRope"]
+layout_mode = 2
+texture = ExtResource("22_8equa")
+
+[node name="Respawn" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Respawn"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Respawn"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Respawn"]
+layout_mode = 2
+texture = ExtResource("23_eho38")
+
+[node name="Restart" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Restart"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Restart"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Restart"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Restart/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("23_eho38")
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Restart/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "(Hold)"
+
+[node name="Pause" type="HBoxContainer" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List"]
+layout_mode = 2
+focus_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Pause"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 65
+text = "Pause"
+
+[node name="TextureRect" type="TextureRect" parent="ControlsPanelMargins/ControlsPanel/ControlsTabs/Keyboard/MarginContainer/ScrollContainer/List/Pause"]
+layout_mode = 2
+texture = ExtResource("24_l8ahv")
+
+[node name="CloseButton" type="Button" parent="ControlsPanelMargins/ControlsPanel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -97.0
+offset_bottom = 91.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_ba3pm")
+theme_override_font_sizes/font_size = 56
+text = "X"
+
+[connection signal="pressed" from="ControlsPanelMargins/ControlsPanel/CloseButton" to="." method="_on_close_button_pressed"]

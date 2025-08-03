@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://6ao3xt3b6vd1"]
+
+[ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="1_qhhd3"]
+
+[sub_resource type="GDScript" id="GDScript_g4qq0"]
+resource_name = "load_scene"
+script/source = "extends Button
+
+@export var menu_scene: PackedScene
+
+# node to attach the loaded scene to, set by the the parent menu
+var base_node: Control
+
+func _ready() -> void:
+	# rename unnamed buttons
+	if name == \"MenuButton\":
+		name = text.to_pascal_case() + \"Button\"
+
+func _pressed() -> void:
+	if not menu_scene:
+		push_warning(
+			\"WARNING: No scene selected for button {0}! ({1})\".format([name, base_node.name])
+		)
+		return
+	
+	if not base_node:
+		push_warning(
+			\"WARNING: Base node not set for button {0}! ({1})\".format([name, base_node.name])
+		)
+		return
+	
+	var menu_node := menu_scene.instantiate()
+	if menu_node.has_method(\"SetSourceButton\"):
+		menu_node.SetSourceButton(self)
+	base_node.add_child(menu_node)
+
+# this is a function so we can check if it exists
+func SetBaseNode(node: Control) -> void:
+	base_node = node
+"
+
+[node name="MenuButton" type="Button"]
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_qhhd3")
+theme_override_font_sizes/font_size = 56
+script = SubResource("GDScript_g4qq0")
