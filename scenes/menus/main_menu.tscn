@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://b18y5lkie8gwh"]
+[gd_scene load_steps=21 format=3 uid="uid://b18y5lkie8gwh"]
 
 [ext_resource type="Script" uid="uid://uafk0wfp637u" path="res://scenes/menus/scripts/main_menu.gd" id="1_bre17"]
 [ext_resource type="Shader" uid="uid://dvay6elrsfoe5" path="res://assets/shaders/scrollingBG.gdshader" id="1_euy4r"]
 [ext_resource type="Texture2D" uid="uid://w23xxbihkix8" path="res://assets/mainMenuBackground.png" id="2_bre17"]
 [ext_resource type="FontFile" uid="uid://c6o2q18e80rdv" path="res://assets/FugazOne-Regular.ttf" id="3_88kup"]
 [ext_resource type="Texture2D" uid="uid://cc3j7bnv1vux3" path="res://assets/blank.png" id="5_3w8rc"]
+[ext_resource type="Texture2D" uid="uid://cu2myu6swt7yh" path="res://assets/pitonLogo.png" id="5_a3hrp"]
 [ext_resource type="PackedScene" uid="uid://6ao3xt3b6vd1" path="res://scenes/menus/menu_button.tscn" id="5_bre17"]
 [ext_resource type="PackedScene" uid="uid://qou785xe3ayh" path="res://scenes/menus/settings_menu.tscn" id="6_88kup"]
 [ext_resource type="Texture2D" uid="uid://dapuvlvd54byl" path="res://assets/animations/climbingTony/climbingTony2.png" id="6_uxao6"]
@@ -82,10 +83,15 @@ theme_override_constants/margin_top = 64
 
 [node name="Title" type="Label" parent="TitleMargins"]
 layout_mode = 2
-text = "PITON TONY"
+text = "  ITON TONY"
 label_settings = SubResource("LabelSettings_287l7")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PitonLogo" type="Sprite2D" parent="TitleMargins"]
+position = Vector2(40.5, 182)
+scale = Vector2(0.65625, 0.644531)
+texture = ExtResource("5_a3hrp")
 
 [node name="Animations" type="CenterContainer" parent="."]
 layout_mode = 1
