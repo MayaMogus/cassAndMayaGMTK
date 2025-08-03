@@ -22,12 +22,23 @@ func ExitMenu():
 	base_node.SetControl(true, source_button)
 	queue_free()
 
+#==============================================================================#
+
+func _on_show_stage_timer_toggled(toggled_on: bool) -> void:
+	Settings.displayStageTimer = toggled_on
+
+func _on_show_game_timer_toggled(toggled_on: bool) -> void:
+	Settings.displayGameTimer = toggled_on
+
 #------------------------------------------------------------------------------#
 
-func _on_show_timer_toggled(toggled_on: bool) -> void:
-	Settings.displayTimer = toggled_on
+func _on_show_decimals_toggled(toggled_on: bool) -> void:
+	Settings.displayDecimals = toggled_on
 
-#------------------------------------------------------------------------------#
+func _on_auto_next_stage_toggled(toggled_on: bool) -> void:
+	Settings.autoNextStage = toggled_on
+
+#==============================================================================#
 
 func _on_fx_volume_toggled(toggled_on: bool) -> void:
 	Settings.SoundFXEnabled = toggled_on
@@ -42,3 +53,5 @@ func _on_music_volume_toggled(toggled_on: bool) -> void:
 
 func _on_music_volume_drag_ended(value_changed: bool) -> void:
 	Settings.MusicLevel = value_changed
+
+#==============================================================================#
