@@ -1,11 +1,21 @@
 extends Node
 
+var stages: Dictionary[String, PackedScene] = {
+	"Intro": preload("res://scenes/stage_intro.tscn"),
+	"Stalactite": preload("res://scenes/stage_stalactite.tscn"),
+	"DoubleBoost": preload("res://scenes/stage_double_boost.tscn"),
+	"FourLoops": preload("res://scenes/stage_fourloops.tscn"),
+	"Maze": preload("res://scenes/stage_maze.tscn"),
+	"Needle": preload("res://scenes/stage_needle.tscn"),
+}
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var stage_names: Array[String] = [
+	"Intro",
+	"Stalactite",
+	"DoubleBoost",
+	"FourLoops",
+	"Maze",
+	"Needle",
+]
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+var last_stage: String
