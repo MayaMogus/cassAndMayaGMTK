@@ -107,11 +107,10 @@ texture = ExtResource("10_nkawv")
 
 [node name="BlackFade" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 0)
-layout_mode = 2
-offset_left = 944.0
-offset_top = 523.0
-offset_right = 976.0
-offset_bottom = 556.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_3w8rc")
